@@ -1,0 +1,294 @@
+
+<style>
+#ls{--bg:#f4f4fb;--sf:#fff;--sf2:#edeef8;--bd:#d8d9ee;--ac:#7c3aed;--tx:#1a1a30;--mu:#6b6b8a;--ok:#16a34a;--ok2:rgba(22,163,74,.1);--er:#dc2626;--er2:rgba(220,38,38,.1);font-family:'Segoe UI',-apple-system,sans-serif;color:var(--tx);background:var(--bg)}
+#ls *{box-sizing:border-box;margin:0;padding:0}
+#ls header{background:#1a1a30;border-bottom:2px solid var(--ac);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:12px 12px 0 0}
+#ls .logo{font-size:.9rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd}
+#ls .logo em{color:#fff;font-style:normal}
+#ls .pw{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+#ls .ps{display:flex;align-items:center;gap:3px;cursor:pointer;padding:3px 7px;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:.5px;color:#9090b8;transition:background .2s}
+#ls .ps:hover{background:rgba(255,255,255,.1)}
+#ls .ps .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0}
+#ls .ps.active{color:#c4b5fd}
+#ls .ps.active .dot{background:#c4b5fd}
+#ls .ps.done{color:#6ee7b7}
+#ls .ps.done .dot{background:#6ee7b7}
+#ls main{max-width:820px;margin:0 auto;padding:32px 20px 48px}
+#ls .page{display:none}
+#ls .page.active{display:block;animation:fu .3s ease}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+#ls .tag{display:inline-block;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ac);background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.25);padding:3px 12px;border-radius:20px;margin-bottom:12px}
+#ls h1{font-size:1.7rem;font-weight:800;line-height:1.2;margin-bottom:8px;color:var(--tx)}
+#ls .sub{color:var(--mu);font-size:.92rem;margin-bottom:28px;line-height:1.6;max-width:580px}
+#ls .card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:20px 24px;margin-bottom:18px}
+#ls .clb{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:16px}
+#ls .gb{background:linear-gradient(135deg,#1a1a30,#1a2535);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:20px 24px;margin-bottom:18px;color:#e8e8f8}
+#ls .gb h3{color:#c4b5fd;font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+#ls table{width:100%;border-collapse:collapse;font-size:.88rem}
+#ls th{background:rgba(196,181,253,.15);color:#c4b5fd;padding:9px 12px;text-align:left;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase}
+#ls td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.1);line-height:1.5;color:#e8e8f8}
+#ls tr:last-child td{border-bottom:none}
+#ls .hl{color:var(--ac);font-weight:700}
+#ls .ex{background:var(--sf2);border-left:3px solid var(--ac);border-radius:0 7px 7px 0;padding:9px 14px;margin:6px 0;font-size:.9rem;line-height:1.6;font-style:italic;color:var(--tx)}
+#ls .disc{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd);align-items:flex-start;line-height:1.6;font-size:.9rem}
+#ls .disc:last-child{border-bottom:none}
+#ls .di{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+#ls .qr{display:flex;gap:12px;margin-bottom:18px;align-items:flex-start;line-height:1.7;font-size:.9rem}
+#ls .qr:last-child{margin-bottom:0}
+#ls .qn{width:26px;height:26px;min-width:26px;background:var(--ac);color:#fff;border-radius:50%;font-size:.75rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+#ls .blank{display:inline-block;min-width:80px;border:none;border-bottom:2px solid var(--ac);background:transparent;color:var(--tx);font-size:.9rem;padding:1px 5px;text-align:center;outline:none;font-family:inherit}
+#ls .blank.ok{border-color:var(--ok);color:var(--ok)}
+#ls .blank.err{border-color:var(--er);color:var(--er)}
+#ls input.li,#ls textarea.li{width:100%;background:var(--sf2);border:2px solid var(--bd);color:var(--tx);padding:9px 14px;border-radius:9px;font-size:.88rem;font-family:inherit;outline:none;line-height:1.6;margin-top:7px}
+#ls textarea.li{resize:vertical;min-height:50px}
+#ls input.li:focus,#ls textarea.li:focus{border-color:var(--ac)}
+#ls select.sel{background:var(--sf2);border:2px solid var(--bd);color:var(--tx);padding:7px 11px;border-radius:8px;font-size:.88rem;cursor:pointer;width:100%;outline:none;font-family:inherit}
+#ls select.sel:focus{border-color:var(--ac)}
+#ls select.sel.ok{border-color:var(--ok)}
+#ls select.sel.err{border-color:var(--er)}
+#ls .mr{display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:center;margin-bottom:10px}
+#ls .ml{font-weight:600;font-size:.88rem}
+#ls .opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:7px;margin-left:38px}
+#ls .opt{padding:5px 18px;border:2px solid var(--bd);border-radius:20px;cursor:pointer;font-size:.84rem;font-weight:600;background:var(--sf);color:var(--tx);transition:all .18s;user-select:none}
+#ls .opt:hover{border-color:var(--ac);color:var(--ac)}
+#ls .opt.ok{border-color:var(--ok);background:var(--ok2);color:var(--ok);pointer-events:none}
+#ls .opt.err{border-color:var(--er);background:var(--er2);color:var(--er);pointer-events:none}
+#ls .opt.disabled{pointer-events:none;opacity:.45}
+#ls .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 22px;border-radius:9px;font-size:.86rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .18s}
+#ls .bg{background:var(--ac);color:#fff}
+#ls .bg:hover{background:#6d28d9}
+#ls .bo{background:transparent;border:2px solid var(--bd);color:var(--tx)}
+#ls .bo:hover{border-color:var(--mu)}
+#ls .fb{padding:10px 16px;border-radius:9px;font-size:.86rem;margin-top:14px;line-height:1.6;display:none}
+#ls .fb.show{display:block}
+#ls .fb.good{background:var(--ok2);border:1px solid var(--ok);color:var(--ok)}
+#ls .fb.bad{background:var(--er2);border:1px solid var(--er);color:var(--er)}
+#ls .fb.neu{background:var(--sf2);border:1px solid var(--bd);color:var(--tx)}
+#ls .fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px;margin-top:14px}
+#ls .fc{background:var(--sf2);border:1px solid var(--bd);border-radius:11px;padding:16px;cursor:pointer;transition:all .2s}
+#ls .fc:hover{border-color:var(--ac);transform:translateY(-2px)}
+#ls .fc .fe{font-size:1.7rem;margin-bottom:6px}
+#ls .fc .fn{font-weight:700;font-size:.84rem;margin-bottom:2px}
+#ls .fc .fy{font-size:.74rem;color:var(--mu);margin-bottom:8px}
+#ls .fc .fh{font-size:.78rem;color:var(--mu);max-height:0;overflow:hidden;transition:max-height .3s;line-height:1.5}
+#ls .fc.open .fh{max-height:200px}
+#ls .fc .ft{font-size:.72rem;color:var(--ac);margin-top:7px}
+#ls .nav{display:flex;justify-content:space-between;align-items:center;margin-top:36px;padding-top:20px;border-top:1px solid var(--bd)}
+#ls .pc{font-size:.8rem;color:var(--mu)}
+@media(max-width:540px){#ls h1{font-size:1.3rem}#ls main{padding:20px 14px 36px}#ls .mr{grid-template-columns:1fr}#ls .fg{grid-template-columns:1fr 1fr}}
+</style>
+
+<div id="ls">
+<header>
+  <div class="logo">🎬 <em>Films</em></div>
+  <div class="pw" id="pb"></div>
+</header>
+<main>
+
+<div class="page active" id="p1">
+  <div class="tag">Warm-Up</div>
+  <h1>Lights, Camera, Action! 🎬</h1>
+  <p class="sub">Let's talk about films. Discuss these questions with a partner.</p>
+  <div class="card">
+    <div class="clb">A — Discussion</div>
+    <div class="disc"><span class="di">💬</span><span>When was the last time you watched a film? Where — at the cinema, at home, or online?</span></div>
+    <div class="disc"><span class="di">🎭</span><span>What is your favourite genre? Action, comedy, drama, horror, romance, or something else?</span></div>
+    <div class="disc"><span class="di">⭐</span><span>Think of a film you have seen recently. Would you recommend it? Why or why not?</span></div>
+    <div class="disc"><span class="di">🍿</span><span>Do you prefer going to the cinema or watching at home? What are the advantages of each?</span></div>
+  </div>
+  <div class="card">
+    <div class="clb">B — Match the genre to its description</div>
+    <div class="mr"><span class="ml">1. Action</span><select class="sel" id="g1" data-a="c"><option value="">— choose —</option><option value="a">A film that makes you laugh</option><option value="b">A film set in the future or in space</option><option value="c">A film with fighting, chases, and heroes</option><option value="d">A film that frightens you</option><option value="e">A film based on a real person's life</option><option value="f">A film with songs and dancing</option></select></div>
+    <div class="mr"><span class="ml">2. Comedy</span><select class="sel" id="g2" data-a="a"><option value="">— choose —</option><option value="a">A film that makes you laugh</option><option value="b">A film set in the future or in space</option><option value="c">A film with fighting, chases, and heroes</option><option value="d">A film that frightens you</option><option value="e">A film based on a real person's life</option><option value="f">A film with songs and dancing</option></select></div>
+    <div class="mr"><span class="ml">3. Sci-Fi</span><select class="sel" id="g3" data-a="b"><option value="">— choose —</option><option value="a">A film that makes you laugh</option><option value="b">A film set in the future or in space</option><option value="c">A film with fighting, chases, and heroes</option><option value="d">A film that frightens you</option><option value="e">A film based on a real person's life</option><option value="f">A film with songs and dancing</option></select></div>
+    <div class="mr"><span class="ml">4. Horror</span><select class="sel" id="g4" data-a="d"><option value="">— choose —</option><option value="a">A film that makes you laugh</option><option value="b">A film set in the future or in space</option><option value="c">A film with fighting, chases, and heroes</option><option value="d">A film that frightens you</option><option value="e">A film based on a real person's life</option><option value="f">A film with songs and dancing</option></select></div>
+    <div class="mr"><span class="ml">5. Biopic</span><select class="sel" id="g5" data-a="e"><option value="">— choose —</option><option value="a">A film that makes you laugh</option><option value="b">A film set in the future or in space</option><option value="c">A film with fighting, chases, and heroes</option><option value="d">A film that frightens you</option><option value="e">A film based on a real person's life</option><option value="f">A film with songs and dancing</option></select></div>
+    <div class="mr"><span class="ml">6. Musical</span><select class="sel" id="g6" data-a="f"><option value="">— choose —</option><option value="a">A film that makes you laugh</option><option value="b">A film set in the future or in space</option><option value="c">A film with fighting, chases, and heroes</option><option value="d">A film that frightens you</option><option value="e">A film based on a real person's life</option><option value="f">A film with songs and dancing</option></select></div>
+    <div style="margin-top:18px"><button class="btn bg" onclick="chkG()">Check Answers</button></div>
+    <div class="fb" id="fbg"></div>
+  </div>
+  <div class="nav"><div></div><span class="pc">1 / 7</span><button class="btn bg" onclick="go(2)">Next →</button></div>
+</div>
+
+<div class="page" id="p2">
+  <div class="tag">Revision</div>
+  <h1>Box Office Records 🏆</h1>
+  <p class="sub">Complete these film facts. Use the adjective in brackets to make the correct comparative or superlative form.</p>
+  <div class="gb" style="padding:16px 20px">
+    <h3>Quick reminder</h3>
+    <table><tr><th>Type</th><th>Comparative</th><th>Superlative</th></tr>
+    <tr><td>Short <em>(fast)</em></td><td>fast<span class="hl">er</span> than</td><td><span class="hl">the</span> fast<span class="hl">est</span></td></tr>
+    <tr><td>Long <em>(popular)</em></td><td><span class="hl">more</span> popular than</td><td><span class="hl">the most</span> popular</td></tr>
+    <tr><td>Irregular <em>(good/bad)</em></td><td><span class="hl">better / worse</span> than</td><td><span class="hl">the best / the worst</span></td></tr></table>
+  </div>
+  <div class="card">
+    <div class="clb">A — Complete the sentences</div>
+    <div class="qr"><div class="qn">1</div><div><em>Oppenheimer</em> (2023) is <input class="blank" id="r1" data-a="longer"> <span style="color:var(--ac);font-weight:700">(long)</span> than <em>Barbie</em>. Oppenheimer runs for 3 hours; Barbie is under 2 hours.</div></div>
+    <div class="qr"><div class="qn">2</div><div><em>Inside Out 2</em> (2024) was <input class="blank" id="r2" data-a="the most successful" style="min-width:150px"> <span style="color:var(--ac);font-weight:700">(successful)</span> animated film of the year, making over $1.6 billion worldwide.</div></div>
+    <div class="qr"><div class="qn">3</div><div>According to critics, <em>Oppenheimer</em> was <input class="blank" id="r3" data-a="better"> <span style="color:var(--ac);font-weight:700">(good)</span> than any other film at the 2024 Oscars — it won seven awards.</div></div>
+    <div class="qr"><div class="qn">4</div><div><em>Avengers: Endgame</em> is still <input class="blank" id="r4" data-a="the longest" style="min-width:110px"> <span style="color:var(--ac);font-weight:700">(long)</span> Marvel film ever made, at over 3 hours.</div></div>
+    <div class="qr"><div class="qn">5</div><div>Some critics said <em>Deadpool & Wolverine</em> was <input class="blank" id="r5" data-a="funnier"> <span style="color:var(--ac);font-weight:700">(funny)</span> than the previous Deadpool films.</div></div>
+    <div class="qr"><div class="qn">6</div><div><em>Wicked</em> (2024) is <input class="blank" id="r6" data-a="the highest-rated" style="min-width:130px"> <span style="color:var(--ac);font-weight:700">(highly rated)</span> musical film on review sites in recent years.</div></div>
+    <div style="margin-top:20px"><button class="btn bg" onclick="chkR()">Check Answers</button></div>
+    <div class="fb" id="fbr"></div>
+  </div>
+  <div class="card">
+    <div class="clb">B — Your turn</div>
+    <p style="font-size:.88rem;color:var(--mu);margin-bottom:10px;line-height:1.6">Think of two films. Write one comparative and one superlative sentence. Share with your partner.</p>
+    <div class="ex">"<em>Dune: Part Two</em> is more exciting than the first Dune film."</div>
+    <div class="ex">"<em>Avatar</em> is the most visually stunning film I have ever seen."</div>
+  </div>
+  <div class="nav"><button class="btn bo" onclick="go(1)">← Back</button><span class="pc">2 / 7</span><button class="btn bg" onclick="go(3)">Next →</button></div>
+</div>
+
+<div class="page" id="p3">
+  <div class="tag">Grammar</div>
+  <h1>Defining Relative Clauses 📖</h1>
+  <p class="sub">Read the sentences. Pay attention to the words in <span class="hl">purple</span>.</p>
+  <div class="card">
+    <div class="clb">A — Read and notice</div>
+    <div class="ex"><em>Wicked</em> is a musical <span class="hl">that</span> tells the story of two witches.</div>
+    <div class="ex">Cynthia Erivo is the actress <span class="hl">who</span> plays Elphaba in <em>Wicked</em>.</div>
+    <div class="ex">Hollywood is the place <span class="hl">where</span> most big films are made.</div>
+    <div class="ex">2023 was the year <span class="hl">when</span> <em>Barbie</em> and <em>Oppenheimer</em> were released on the same day.</div>
+    <div class="ex">Timothée Chalamet is an actor <span class="hl">whose</span> performance made <em>Dune</em> famous.</div>
+    <p style="margin-top:14px;font-size:.86rem;color:var(--mu);line-height:1.6">The words in purple connect two ideas. They tell us <em>exactly which</em> person, thing, or place we mean.</p>
+  </div>
+  <div class="gb">
+    <h3>📌 The Rules</h3>
+    <table><thead><tr><th>Word</th><th>Use it for</th><th>Example</th></tr></thead><tbody>
+    <tr><td><span class="hl">who</span></td><td>people</td><td>the director <span class="hl">who</span> made Oppenheimer</td></tr>
+    <tr><td><span class="hl">which</span></td><td>things & animals</td><td>a film <span class="hl">which</span> won many awards</td></tr>
+    <tr><td><span class="hl">that</span></td><td>people or things (informal)</td><td>a story <span class="hl">that</span> everyone loves</td></tr>
+    <tr><td><span class="hl">where</span></td><td>places</td><td>the cinema <span class="hl">where</span> I saw Dune</td></tr>
+    <tr><td><span class="hl">when</span></td><td>times</td><td>the moment <span class="hl">when</span> everything changes</td></tr>
+    <tr><td><span class="hl">whose</span></td><td>possession (people)</td><td>an actress <span class="hl">whose</span> films I love</td></tr>
+    </tbody></table>
+  </div>
+  <div class="gb">
+    <h3>⚠️ Important points</h3>
+    <p style="font-size:.88rem;line-height:1.8">A <strong>defining</strong> relative clause gives essential information. Without it, we don't know which person or thing is meant.<br><br>✅ "The film <span class="hl">that</span> won the Oscar was <em>Oppenheimer</em>." — we need this clause to know which film.<br><br>❌ Do <strong>not</strong> use commas in defining relative clauses.</p>
+  </div>
+  <div class="card">
+    <div class="clb">C — Check your understanding</div>
+    <div class="disc"><span class="di">💡</span><span>Complete: "The pronoun <em>who</em> is used for ____. The pronoun <em>where</em> is used for ____."</span></div>
+    <div class="disc"><span class="di">💡</span><span>Which two pronouns can be used for things?</span></div>
+    <div class="disc"><span class="di">💡</span><span>What is different about <em>whose</em>? How is it different from <em>who</em>?</span></div>
+  </div>
+  <div class="nav"><button class="btn bo" onclick="go(2)">← Back</button><span class="pc">3 / 7</span><button class="btn bg" onclick="go(4)">Next →</button></div>
+</div>
+
+<div class="page" id="p4">
+  <div class="tag">Practice 1</div>
+  <h1>Choose the Right Word 🎯</h1>
+  <p class="sub">Click the correct relative pronoun to complete each sentence.</p>
+  <div class="card">
+    <div class="clb">Choose: who / which / that / where / when / whose</div>
+    <div class="qr" id="mc1"><div class="qn">1</div><div>Margot Robbie is the actress <em>___</em> played Barbie in the 2023 film.<div class="opts"><span class="opt" onclick="po(this,'mc1','who')">who</span><span class="opt" onclick="po(this,'mc1','which')">which</span><span class="opt" onclick="po(this,'mc1','where')">where</span></div></div></div>
+    <div class="qr" id="mc2"><div class="qn">2</div><div><em>Dune: Part Two</em> is a sci-fi film <em>___</em> is set on a desert planet called Arrakis.<div class="opts"><span class="opt" onclick="po(this,'mc2','who')">who</span><span class="opt" onclick="po(this,'mc2','which')">which</span><span class="opt" onclick="po(this,'mc2','when')">when</span></div></div></div>
+    <div class="qr" id="mc3"><div class="qn">3</div><div>The Oscars is the ceremony <em>___</em> the best films of the year are celebrated.<div class="opts"><span class="opt" onclick="po(this,'mc3','who')">who</span><span class="opt" onclick="po(this,'mc3','where')">where</span><span class="opt" onclick="po(this,'mc3','whose')">whose</span></div></div></div>
+    <div class="qr" id="mc4"><div class="qn">4</div><div>Christopher Nolan is the director <em>___</em> films always have unexpected endings.<div class="opts"><span class="opt" onclick="po(this,'mc4','which')">which</span><span class="opt" onclick="po(this,'mc4','whose')">whose</span><span class="opt" onclick="po(this,'mc4','where')">where</span></div></div></div>
+    <div class="qr" id="mc5"><div class="qn">5</div><div>2024 was the year <em>___</em> <em>Inside Out 2</em> broke animated film records at the box office.<div class="opts"><span class="opt" onclick="po(this,'mc5','when')">when</span><span class="opt" onclick="po(this,'mc5','which')">which</span><span class="opt" onclick="po(this,'mc5','where')">where</span></div></div></div>
+    <div class="qr" id="mc6"><div class="qn">6</div><div><em>Gladiator II</em> is a film <em>___</em> takes place in ancient Rome.<div class="opts"><span class="opt" onclick="po(this,'mc6','that')">that</span><span class="opt" onclick="po(this,'mc6','who')">who</span><span class="opt" onclick="po(this,'mc6','whose')">whose</span></div></div></div>
+    <div class="qr" id="mc7"><div class="qn">7</div><div>Ariana Grande is the singer <em>___</em> stars as Glinda in <em>Wicked</em> (2024).<div class="opts"><span class="opt" onclick="po(this,'mc7','which')">which</span><span class="opt" onclick="po(this,'mc7','who')">who</span><span class="opt" onclick="po(this,'mc7','when')">when</span></div></div></div>
+    <div class="qr" id="mc8"><div class="qn">8</div><div>Cannes is the festival <em>___</em> directors from around the world show their best films.<div class="opts"><span class="opt" onclick="po(this,'mc8','which')">which</span><span class="opt" onclick="po(this,'mc8','who')">who</span><span class="opt" onclick="po(this,'mc8','where')">where</span></div></div></div>
+  </div>
+  <div class="nav"><button class="btn bo" onclick="go(3)">← Back</button><span class="pc">4 / 7</span><button class="btn bg" onclick="go(5)">Next →</button></div>
+</div>
+
+<div class="page" id="p5">
+  <div class="tag">Practice 2</div>
+  <h1>Make One Sentence ✍️</h1>
+  <p class="sub">Join the two sentences into one using a relative clause. Write your answer, then click Show Answers.</p>
+  <div class="card">
+    <div class="clb">Combine using who / which / where / when / whose / that</div>
+    <div class="qr"><div class="qn">1</div><div style="width:100%"><em>Timothée Chalamet is an actor. His role in Dune made him world-famous.</em><input class="li" type="text" id="c1" placeholder="Write your answer here…"></div></div>
+    <div class="qr" style="margin-top:4px"><div class="qn">2</div><div style="width:100%"><em>Netflix is a streaming platform. You can watch thousands of films on it.</em><input class="li" type="text" id="c2" placeholder="Write your answer here…"></div></div>
+    <div class="qr" style="margin-top:4px"><div class="qn">3</div><div style="width:100%"><em>2023 was a special year for cinema. Barbie and Oppenheimer were released at exactly the same time.</em><input class="li" type="text" id="c3" placeholder="Write your answer here…"></div></div>
+    <div class="qr" style="margin-top:4px"><div class="qn">4</div><div style="width:100%"><em>The Oscars is a ceremony. It takes place in Los Angeles every spring.</em><input class="li" type="text" id="c4" placeholder="Write your answer here…"></div></div>
+    <div class="qr" style="margin-top:4px"><div class="qn">5</div><div style="width:100%"><em>Zendaya is an actress. She starred in both Dune and Challengers.</em><input class="li" type="text" id="c5" placeholder="Write your answer here…"></div></div>
+    <div style="margin-top:20px"><button class="btn bg" onclick="shC()">Show Answers</button></div>
+    <div class="fb" id="fbc"></div>
+  </div>
+  <div class="nav"><button class="btn bo" onclick="go(4)">← Back</button><span class="pc">5 / 7</span><button class="btn bg" onclick="go(6)">Next →</button></div>
+</div>
+
+<div class="page" id="p6">
+  <div class="tag">Practice 3</div>
+  <h1>What Film Is It? 🎞️</h1>
+  <p class="sub">Fill in the gaps with the correct relative pronoun, then match each description to a film title.</p>
+  <div class="card">
+    <div class="clb">A — Fill in the gaps</div>
+    <div class="qr"><div class="qn">1</div><div>This is an animated film <input class="blank" id="f1" data-a="that|which"> that follows the new emotions of a teenage girl, including a powerful new one called Anxiety.</div></div>
+    <div class="qr"><div class="qn">2</div><div>This is the story of a scientist <input class="blank" id="f2" data-a="who|that"> who created the most powerful weapon in history — and changed the world forever.</div></div>
+    <div class="qr"><div class="qn">3</div><div>This is a sci-fi universe <input class="blank" id="f3" data-a="where"> where two warriors fight to control a precious resource called spice.</div></div>
+    <div class="qr"><div class="qn">4</div><div>This is a sci-fi film about an astronaut <input class="blank" id="f4" data-a="who|that"> who wakes up alone in space with no memory of his mission — and must figure out how to save Earth.</div></div>
+    <div class="qr"><div class="qn">5</div><div>This is a biopic about a pop star <input class="blank" id="f5" data-a="whose"> whose music and iconic dance moves made him the most famous entertainer in the world.</div></div>
+    <div style="margin-top:18px"><button class="btn bg" onclick="chkF()">Check</button></div>
+    <div class="fb" id="fbf"></div>
+  </div>
+  <div class="card">
+    <div class="clb">B — Match each description to a film</div>
+    <div class="mr"><span class="ml">Description 1</span><select class="sel" id="m1" data-a="io2"><option value="">— choose —</option><option value="opp">Oppenheimer (2023)</option><option value="phm">Project Hail Mary (2025)</option><option value="mj">Michael (2025)</option><option value="dune">Dune: Part Two (2024)</option><option value="io2">Inside Out 2 (2024)</option></select></div>
+    <div class="mr"><span class="ml">Description 2</span><select class="sel" id="m2" data-a="opp"><option value="">— choose —</option><option value="opp">Oppenheimer (2023)</option><option value="phm">Project Hail Mary (2025)</option><option value="mj">Michael (2025)</option><option value="dune">Dune: Part Two (2024)</option><option value="io2">Inside Out 2 (2024)</option></select></div>
+    <div class="mr"><span class="ml">Description 3</span><select class="sel" id="m3" data-a="dune"><option value="">— choose —</option><option value="opp">Oppenheimer (2023)</option><option value="phm">Project Hail Mary (2025)</option><option value="mj">Michael (2025)</option><option value="dune">Dune: Part Two (2024)</option><option value="io2">Inside Out 2 (2024)</option></select></div>
+    <div class="mr"><span class="ml">Description 4</span><select class="sel" id="m4" data-a="phm"><option value="">— choose —</option><option value="opp">Oppenheimer (2023)</option><option value="phm">Project Hail Mary (2025)</option><option value="mj">Michael (2025)</option><option value="dune">Dune: Part Two (2024)</option><option value="io2">Inside Out 2 (2024)</option></select></div>
+    <div class="mr"><span class="ml">Description 5</span><select class="sel" id="m5" data-a="mj"><option value="">— choose —</option><option value="opp">Oppenheimer (2023)</option><option value="phm">Project Hail Mary (2025)</option><option value="mj">Michael (2025)</option><option value="dune">Dune: Part Two (2024)</option><option value="io2">Inside Out 2 (2024)</option></select></div>
+    <div style="margin-top:18px"><button class="btn bg" onclick="chkM()">Check Answers</button></div>
+    <div class="fb" id="fbm"></div>
+  </div>
+  <div class="nav"><button class="btn bo" onclick="go(5)">← Back</button><span class="pc">6 / 7</span><button class="btn bg" onclick="go(7)">Next →</button></div>
+</div>
+
+<div class="page" id="p7">
+  <div class="tag">Speaking</div>
+  <h1>Film Detectives 🕵️</h1>
+  <p class="sub">Work with a partner. Use relative clauses to describe a film — your partner guesses the title!</p>
+  <div class="card">
+    <div class="clb">A — Describe & Guess</div>
+    <p style="font-size:.88rem;line-height:1.6;margin-bottom:14px">Choose a film below (or your own). Describe it using <strong>at least two relative clauses</strong>. Do <strong>not</strong> say the title.</p>
+    <div class="gb" style="margin-bottom:14px">
+      <h3>💡 Useful language</h3>
+      <div class="ex">"It's a film <span class="hl">that</span> is set in / tells the story of…"</div>
+      <div class="ex">"The main character is a person <span class="hl">who</span>…"</div>
+      <div class="ex">"It's set in a place <span class="hl">where</span>…"</div>
+      <div class="ex">"It features a character <span class="hl">whose</span>…"</div>
+    </div>
+    <div class="fg" id="fg"></div>
+  </div>
+  <div class="card">
+    <div class="clb">B — Discussion</div>
+    <div class="disc"><span class="di">🎬</span><span>Tell your partner about a director <strong>whose</strong> work you really admire. Why do you like their films?</span></div>
+    <div class="disc"><span class="di">🍿</span><span>Describe a place <strong>where</strong> you love watching films. What makes it special?</span></div>
+    <div class="disc"><span class="di">⭐</span><span>Think of a film <strong>that</strong> made you feel a strong emotion. What was it about?</span></div>
+    <div class="disc"><span class="di">🏆</span><span>Who is the actor or actress <strong>who</strong> you think is the most talented right now? Why?</span></div>
+    <div class="disc"><span class="di">📅</span><span>Is there a film <strong>that</strong> you have been wanting to see? Tell your partner about it.</span></div>
+  </div>
+  <div class="card">
+    <div class="clb">C — Write your film description</div>
+    <p style="font-size:.86rem;color:var(--mu);margin-bottom:12px;line-height:1.6">Write 3–4 sentences about your favourite film. Use at least <strong>three</strong> different relative pronouns.</p>
+    <textarea class="li" style="min-height:90px" placeholder="It's a film that … The main character is someone who … It takes place in a city where … It came out in a year when …"></textarea>
+  </div>
+  <div class="nav"><button class="btn bo" onclick="go(6)">← Back</button><span class="pc">7 / 7</span><div></div></div>
+</div>
+
+</main>
+</div>
+
+<script>
+const ls=document.getElementById('ls');
+const PL=['Warm-Up','Revision','Grammar','Practice 1','Practice 2','Practice 3','Speaking'];
+let cur=1;
+function bp(){const b=ls.querySelector('#pb');b.innerHTML='';PL.forEach((l,i)=>{const n=i+1,s=document.createElement('div');s.className='ps'+(n===cur?' active':n<cur?' done':'');s.innerHTML=`<div class="dot"></div><span>${l}</span>`;s.onclick=()=>go(n);b.appendChild(s)});}
+function go(n){ls.querySelector('#p'+cur).classList.remove('active');cur=n;ls.querySelector('#p'+n).classList.add('active');bp();ls.querySelector('header').scrollIntoView({behavior:'smooth'});}
+function chkG(){const ids=['g1','g2','g3','g4','g5','g6'];let ok=0;ids.forEach(id=>{const e=ls.querySelector('#'+id);e.classList.remove('ok','err');if(!e.value)return;if(e.value===e.dataset.a){e.classList.add('ok');ok++;}else e.classList.add('err');});const f=ls.querySelector('#fbg');f.className='fb show '+(ok===6?'good':'bad');f.textContent=ok===6?'✅ Perfect! All six correct.':ok+'/6 correct — check the ones in red and try again.';}
+function chkR(){const m={r1:'longer',r2:'the most successful',r3:'better',r4:'the longest',r5:'funnier',r6:'the highest-rated'};let ok=0;Object.entries(m).forEach(([id,a])=>{const e=ls.querySelector('#'+id);e.classList.remove('ok','err');const v=e.value.trim().toLowerCase();if(v===a){e.classList.add('ok');ok++;}else if(v)e.classList.add('err');});const f=ls.querySelector('#fbr');f.className='fb show '+(ok===6?'good':'bad');f.textContent=ok===6?'✅ Excellent! All six correct.':ok+'/6 correct — try again for the ones in red.';}
+const mca={mc1:'who',mc2:'which',mc3:'where',mc4:'whose',mc5:'when',mc6:'that',mc7:'who',mc8:'where'};
+function po(el,qid,ch){const c=mca[qid];const opts=el.closest('.qr').querySelectorAll('.opt');opts.forEach(o=>o.classList.add('disabled'));if(ch===c){el.classList.add('ok');}else{el.classList.add('err');opts.forEach(o=>{if(o.textContent.trim()===c)o.classList.add('ok');});}}
+function shC(){const ans=['Timothée Chalamet is an actor whose role in Dune made him world-famous.','Netflix is a streaming platform where you can watch thousands of films.','2023 was a special year for cinema when Barbie and Oppenheimer were released at exactly the same time.','The Oscars is a ceremony that/which takes place in Los Angeles every spring.','Zendaya is an actress who starred in both Dune and Challengers.'];let h='<strong>✅ Model answers:</strong><br><br>';ans.forEach((a,i)=>h+=`<strong>${i+1}.</strong> ${a}<br>`);const f=ls.querySelector('#fbc');f.innerHTML=h;f.className='fb show neu';}
+function chkF(){const it=[{id:'f1',a:['that','which']},{id:'f2',a:['who','that']},{id:'f3',a:['where']},{id:'f4',a:['who','that']},{id:'f5',a:['whose']}];let ok=0;it.forEach(x=>{const e=ls.querySelector('#'+x.id);e.classList.remove('ok','err');const v=e.value.trim().toLowerCase();if(x.a.includes(v)){e.classList.add('ok');ok++;}else if(v)e.classList.add('err');});const f=ls.querySelector('#fbf');f.className='fb show '+(ok===5?'good':'bad');f.textContent=ok===5?'✅ All five correct! Well done.':ok+'/5 correct — check the ones in red.';}
+function chkM(){const ids=['m1','m2','m3','m4','m5'];let ok=0;ids.forEach(id=>{const e=ls.querySelector('#'+id);e.classList.remove('ok','err');if(!e.value)return;if(e.value===e.dataset.a){e.classList.add('ok');ok++;}else e.classList.add('err');});const f=ls.querySelector('#fbm');f.className='fb show '+(ok===5?'good':'bad');f.textContent=ok===5?'✅ Perfect match! Great work.':ok+'/5 correct — try again.';}
+const films=[{e:'🏜️',n:'Dune: Part Two',y:'2024',h:'Sci-fi epic on the desert planet Arrakis. Stars Timothée Chalamet and Zendaya.'},{e:'💣',n:'Oppenheimer',y:'2023',h:'Biopic about the physicist who created the atomic bomb. Directed by Christopher Nolan. Won 7 Oscars.'},{e:'👗',n:'Barbie',y:'2023',h:'A Barbie leaves her perfect world and discovers the real one. Stars Margot Robbie.'},{e:'🎭',n:'Wicked',y:'2024',h:'Musical about two witches with opposite personalities. Stars Cynthia Erivo and Ariana Grande.'},{e:'😂',n:'Deadpool & Wolverine',y:'2024',h:'Superhero comedy. The first R-rated Marvel Studios film. Ryan Reynolds and Hugh Jackman.'},{e:'😊',n:'Inside Out 2',y:'2024',h:'Animated film. A new emotion called Anxiety arrives in a teenage girl\'s mind.'},{e:'⚔️',n:'Gladiator II',y:'2024',h:'Action epic in ancient Rome. A young man fights to avenge his family.'},{e:'🎵',n:'Michael',y:'2025',h:'Biopic about Michael Jackson — his rise to global fame and iconic performances.'},{e:'🚀',n:'Project Hail Mary',y:'2025',h:'A lone astronaut wakes up in space with no memory — and must save two civilisations.'},{e:'🌊',n:'Moana 2',y:'2024',h:'Animated sequel. Moana sets out on a new voyage across the ocean with a new crew.'}];
+function bfc(){const g=ls.querySelector('#fg');films.forEach(f=>{const c=document.createElement('div');c.className='fc';c.innerHTML=`<div class="fe">${f.e}</div><div class="fn">${f.n}</div><div class="fy">${f.y}</div><div class="fh">${f.h}</div><div class="ft">▼ Show hint</div>`;c.querySelector('.ft').addEventListener('click',function(e){e.stopPropagation();const card=this.closest('.fc');card.classList.toggle('open');this.textContent=card.classList.contains('open')?'▲ Hide hint':'▼ Show hint';});g.appendChild(c);});}
+bp();bfc();
+</script>
