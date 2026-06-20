@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Films & Relative Clauses – Homework</title>
+<style>
+:root {
+  --bg: #f4f4fb;
+  --sf: #ffffff;
+  --sf2: #edeef8;
+  --bd: #d8d9ee;
+  --ac: #7c3aed;
+  --ac2: rgba(124,58,237,.1);
+  --tx: #1a1a30;
+  --mu: #6b6b8a;
+  --ok: #16a34a;
+  --ok2: rgba(22,163,74,.1);
+  --er: #dc2626;
+  --er2: rgba(220,38,38,.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh}
+header{background:#1a1a30;border-bottom:3px solid var(--ac);padding:18px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:.85rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd}
+.logo em{color:#fff;font-style:normal}
+.hw-badge{background:var(--ac);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+.wrap{max-width:780px;margin:0 auto;padding:36px 20px 64px}
+.intro{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:24px 28px;margin-bottom:32px}
+.intro h1{font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.intro p{color:var(--mu);font-size:.9rem;line-height:1.7;margin-bottom:18px}
+.name-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.name-row label{font-weight:700;font-size:.88rem;white-space:nowrap}
+.name-row input{flex:1;min-width:200px;background:var(--sf2);border:2px solid var(--bd);color:var(--tx);padding:8px 14px;border-radius:9px;font-size:.9rem;font-family:inherit;outline:none}
+.name-row input:focus{border-color:var(--ac)}
+.section{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:24px 28px;margin-bottom:24px}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+.sec-num{width:36px;height:36px;min-width:36px;background:var(--ac);color:#fff;border-radius:50%;font-size:.95rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.sec-title{font-size:1.1rem;font-weight:800;margin-bottom:3px}
+.sec-sub{font-size:.83rem;color:var(--mu);line-height:1.5}
+.qrow{display:flex;gap:12px;margin-bottom:18px;align-items:flex-start;line-height:1.7;font-size:.9rem}
+.qrow:last-of-type{margin-bottom:0}
+.qn{width:26px;height:26px;min-width:26px;background:var(--sf2);border:2px solid var(--bd);color:var(--tx);border-radius:50%;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:3px;flex-shrink:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;margin-left:38px}
+.opt{padding:5px 18px;border:2px solid var(--bd);border-radius:20px;cursor:pointer;font-size:.84rem;font-weight:600;background:var(--sf);color:var(--tx);transition:all .15s;user-select:none}
+.opt:hover{border-color:var(--ac);color:var(--ac)}
+.opt.ok{border-color:var(--ok);background:var(--ok2);color:var(--ok);pointer-events:none}
+.opt.err{border-color:var(--er);background:var(--er2);color:var(--er);pointer-events:none}
+.opt.reveal{border-color:var(--ok);background:var(--ok2);color:var(--ok);pointer-events:none}
+.opt.disabled{pointer-events:none;opacity:.45}
+.film-text{background:linear-gradient(135deg,#1a1a30,#1a2535);border:1px solid rgba(124,58,237,.3);border-radius:12px;padding:20px 24px;margin-bottom:20px;color:#e8e8f8;font-size:.9rem;line-height:2}
+.film-text .ttl{color:#c4b5fd;font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.dd{display:inline-block;position:relative;margin:0 2px}
+.dd select{appearance:none;-webkit-appearance:none;background:rgba(255,255,255,.12);border:2px solid rgba(196,181,253,.5);color:#e8e8f8;padding:1px 28px 1px 10px;border-radius:7px;font-size:.88rem;font-family:inherit;outline:none;cursor:pointer;min-width:80px;vertical-align:middle}
+.dd select:focus{border-color:#c4b5fd}
+.dd select.ok{border-color:#6ee7b7;background:rgba(110,231,183,.15);color:#6ee7b7}
+.dd select.err{border-color:#f87171;background:rgba(248,113,113,.15);color:#f87171}
+.dd::after{content:'▾';position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#c4b5fd;pointer-events:none;font-size:.8rem}
+.blank{display:inline-block;min-width:90px;border:none;border-bottom:2px solid var(--ac);background:transparent;color:var(--tx);font-size:.9rem;padding:1px 6px;text-align:center;outline:none;font-family:inherit;transition:border-color .2s}
+.blank:focus{border-color:#6d28d9}
+.blank.ok{border-color:var(--ok);color:var(--ok)}
+.blank.err{border-color:var(--er);color:var(--er)}
+textarea.open{width:100%;background:var(--sf2);border:2px solid var(--bd);color:var(--tx);padding:12px 16px;border-radius:10px;font-size:.9rem;font-family:inherit;outline:none;resize:vertical;min-height:110px;line-height:1.7;margin-top:4px}
+textarea.open:focus{border-color:var(--ac)}
+.hint-box{background:var(--sf2);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.84rem;color:var(--mu);line-height:1.6;margin-bottom:18px}
+.hint-box strong{color:var(--ac)}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 22px;border-radius:9px;font-size:.86rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .18s}
+.btn-ac{background:var(--ac);color:#fff}
+.btn-ac:hover{background:#6d28d9}
+.btn-send{background:#1a1a30;color:#fff;width:100%;justify-content:center;padding:14px;font-size:.95rem;border-radius:12px;margin-top:8px}
+.btn-send:hover{background:#2d2d52}
+.btn-send:disabled{opacity:.5;cursor:not-allowed}
+.fb{padding:10px 16px;border-radius:9px;font-size:.86rem;margin-top:14px;line-height:1.6;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--ok2);border:1px solid var(--ok);color:var(--ok)}
+.fb.bad{background:var(--er2);border:1px solid var(--er);color:var(--er)}
+.score{font-weight:800;font-size:1.05rem}
+.send-section{background:var(--sf);border:2px solid var(--ac);border-radius:14px;padding:24px 28px;margin-top:32px;text-align:center}
+.send-section h2{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.send-section p{font-size:.86rem;color:var(--mu);margin-bottom:18px;line-height:1.6}
+.send-note{font-size:.78rem;color:var(--mu);margin-top:10px;line-height:1.5}
+@media(max-width:520px){
+  .opts{margin-left:0}
+  .section{padding:18px 16px}
+  .intro{padding:18px 16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🎬 <em>Films</em> · Homework</div>
+  <div class="hw-badge">Relative Clauses</div>
+</header>
+
+<div class="wrap">
+
+  <!-- INTRO + NAME -->
+  <div class="intro">
+    <h1>Grammar Homework</h1>
+    <p>Complete all four exercises. You can check your answers before sending. When you are finished, click <strong>Send to Teacher</strong> at the bottom.</p>
+    <div class="name-row">
+      <label for="sname">Your name:</label>
+      <input type="text" id="sname" placeholder="Type your full name here…" autocomplete="name">
+    </div>
+  </div>
+
+  <!-- EXERCISE 1 — MULTIPLE CHOICE -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">1</div>
+      <div>
+        <div class="sec-title">Multiple Choice</div>
+        <div class="sec-sub">Choose the correct relative pronoun. Click on the best option.</div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q1">
+      <div class="qn">1</div>
+      <div>Netflix is a platform <em>___</em> has millions of subscribers worldwide.
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q1','which')">which</span>
+          <span class="opt" onclick="mc(this,'q1','who')">who</span>
+          <span class="opt" onclick="mc(this,'q1','whose')">whose</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q2">
+      <div class="qn">2</div>
+      <div>Timothée Chalamet is an actor <em>___</em> became famous after <i>Dune</i>.
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q2','which')">which</span>
+          <span class="opt" onclick="mc(this,'q2','who')">who</span>
+          <span class="opt" onclick="mc(this,'q2','where')">where</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q3">
+      <div class="qn">3</div>
+      <div>The Oscars is a ceremony <em>___</em> the best films of the year are celebrated.
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q3','when')">when</span>
+          <span class="opt" onclick="mc(this,'q3','whose')">whose</span>
+          <span class="opt" onclick="mc(this,'q3','where')">where</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q4">
+      <div class="qn">4</div>
+      <div>2024 was the year <em>___</em> <i>Inside Out 2</i> broke animated box office records.
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q4','when')">when</span>
+          <span class="opt" onclick="mc(this,'q4','which')">which</span>
+          <span class="opt" onclick="mc(this,'q4','where')">where</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q5">
+      <div class="qn">5</div>
+      <div>Christopher Nolan is a director <em>___</em> films always have surprising endings.
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q5','who')">who</span>
+          <span class="opt" onclick="mc(this,'q5','whose')">whose</span>
+          <span class="opt" onclick="mc(this,'q5','which')">which</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q6">
+      <div class="qn">6</div>
+      <div><i>Gladiator II</i> is a film <em>___</em> takes place in ancient Rome.
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q6','that')">that</span>
+          <span class="opt" onclick="mc(this,'q6','who')">who</span>
+          <span class="opt" onclick="mc(this,'q6','where')">where</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:22px">
+      <button class="btn btn-ac" onclick="chk1()">Check Exercise 1</button>
+    </div>
+    <div class="fb" id="fb1"></div>
+  </div>
+
+  <!-- EXERCISE 2 — TEXT + GAPS -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">2</div>
+      <div>
+        <div class="sec-title">Read and Choose</div>
+        <div class="sec-sub">Read the text about <i>Wicked</i>. Choose the correct relative pronoun from the dropdown in each gap.</div>
+      </div>
+    </div>
+
+    <div class="film-text">
+      <div class="ttl">📖 About the film: Wicked (2024)</div>
+      <p>
+        <i>Wicked</i> is a musical
+        <span class="dd"><select id="t1" data-a="that"><option value="">—</option><option>who</option><option>that</option><option>whose</option></select></span>
+        tells the story of two witches
+        <span class="dd"><select id="t2" data-a="who"><option value="">—</option><option>who</option><option>which</option><option>where</option></select></span>
+        meet at a magic school called Shiz University. The film stars Cynthia Erivo, an actress
+        <span class="dd"><select id="t3" data-a="whose"><option value="">—</option><option>whose</option><option>who's</option><option>which</option></select></span>
+        powerful voice has amazed audiences worldwide. She plays Elphaba, a young woman
+        <span class="dd"><select id="t4" data-a="who"><option value="">—</option><option>when</option><option>who</option><option>where</option></select></span>
+        is misunderstood because she is different. The film is set in the Land of Oz, a magical place
+        <span class="dd"><select id="t5" data-a="where"><option value="">—</option><option>where</option><option>when</option><option>that</option></select></span>
+        anything is possible. 2024 was the year
+        <span class="dd"><select id="t6" data-a="when"><option value="">—</option><option>which</option><option>when</option><option>whose</option></select></span>
+        <i>Wicked</i> became one of the most talked-about films in the world.
+      </p>
+    </div>
+
+    <div style="margin-top:4px">
+      <button class="btn btn-ac" onclick="chk2()">Check Exercise 2</button>
+    </div>
+    <div class="fb" id="fb2"></div>
+  </div>
+
+  <!-- EXERCISE 3 — WRITE THE CORRECT WORD -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">3</div>
+      <div>
+        <div class="sec-title">Fill in the Gap</div>
+        <div class="sec-sub">Write the correct relative pronoun in each gap: <strong>who, which, that, where, when, whose</strong>.</div>
+      </div>
+    </div>
+
+    <div class="qrow">
+      <div class="qn">1</div>
+      <div>Zendaya is the actress <input class="blank" id="w1" data-a="who"> starred in both <i>Dune</i> and <i>Challengers</i>.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">2</div>
+      <div>Cannes is the film festival <input class="blank" id="w2" data-a="where"> directors from around the world show their best work.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">3</div>
+      <div><i>Oppenheimer</i> is a biopic <input class="blank" id="w3" data-a="that|which"> tells the story of the scientist <input class="blank" id="w3b" data-a="who"> created the atomic bomb.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">4</div>
+      <div>2023 was the year <input class="blank" id="w4" data-a="when"> <i>Barbie</i> and <i>Oppenheimer</i> were both released on the same day.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">5</div>
+      <div>Ryan Reynolds is an actor <input class="blank" id="w5" data-a="whose"> most famous role is Deadpool.</div>
+    </div>
+
+    <div style="margin-top:22px">
+      <button class="btn btn-ac" onclick="chk3()">Check Exercise 3</button>
+    </div>
+    <div class="fb" id="fb3"></div>
+  </div>
+
+  <!-- EXERCISE 4 — OPEN QUESTION -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">4</div>
+      <div>
+        <div class="sec-title">Your Turn</div>
+        <div class="sec-sub">Write 3–4 sentences about a film you like or a film you have seen recently.</div>
+      </div>
+    </div>
+
+    <div class="hint-box">
+      Use at least <strong>three different</strong> relative pronouns (who, which, that, where, when, whose) in your answer.
+      <br>For example: <em>"It's a film <strong>that</strong> … The main character is someone <strong>who</strong> … It is set in a place <strong>where</strong> …"</em>
+    </div>
+
+    <textarea class="open" id="open4" placeholder="Write your answer here. Name the film, describe the story, the characters, and say why you liked it. Try to use relative pronouns as much as possible."></textarea>
+    <div class="fb" id="fb4" style="margin-top:10px"></div>
+  </div>
+
+  <!-- SEND TO TEACHER -->
+  <div class="send-section">
+    <h2>✅ All done? Send your work!</h2>
+    <p>Make sure you have entered your name and completed all four exercises. Then click the button below to send your answers to your teacher.</p>
+    <button class="btn btn-send" onclick="send()">📧 Send to Teacher</button>
+    <p class="send-note">This will open your email app with all your answers already filled in. Just press Send.</p>
+  </div>
+
+</div>
+
+<script>
+// ── Score tracking ──
+let score1=null, score2=null, score3=null;
+
+// ── Exercise 1 — Multiple choice ──
+const mc_ans = { q1:'which', q2:'who', q3:'where', q4:'when', q5:'whose', q6:'that' };
+function mc(el, qid, choice) {
+  const correct = mc_ans[qid];
+  const opts = el.closest('.qrow').querySelectorAll('.opt');
+  opts.forEach(o => o.classList.add('disabled'));
+  if (choice === correct) {
+    el.classList.add('ok');
+  } else {
+    el.classList.add('err');
+    opts.forEach(o => { if (o.textContent.trim() === correct) o.classList.add('reveal'); });
+  }
+}
+function chk1() {
+  let total = 0, answered = 0;
+  Object.keys(mc_ans).forEach(qid => {
+    const row = document.getElementById(qid);
+    const chosen = row.querySelector('.opt.ok, .opt.err');
+    if (chosen) { answered++; if (chosen.classList.contains('ok')) total++; }
+  });
+  const fb = document.getElementById('fb1');
+  if (answered === 0) { fb.className='fb show bad'; fb.textContent='Please answer at least one question first.'; return; }
+  score1 = {ok: total, total: 6};
+  fb.className = 'fb show ' + (total === 6 ? 'good' : 'bad');
+  fb.innerHTML = total === 6
+    ? '✅ <span class="score">6 / 6</span> — Perfect! Well done.'
+    : `<span class="score">${total} / 6</span> — Keep going! The correct answers are shown in green.`;
+}
+
+// ── Exercise 2 — Text dropdowns ──
+function chk2() {
+  const ids = ['t1','t2','t3','t4','t5','t6'];
+  let ok = 0, answered = 0;
+  ids.forEach(id => {
+    const el = document.querySelector('#'+id);
+    el.classList.remove('ok','err');
+    if (!el.value) return;
+    answered++;
+    if (el.value === el.dataset.a) { el.classList.add('ok'); ok++; }
+    else el.classList.add('err');
+  });
+  const fb = document.getElementById('fb2');
+  if (answered === 0) { fb.className='fb show bad'; fb.textContent='Please complete at least one gap first.'; return; }
+  score2 = {ok, total: 6};
+  fb.className = 'fb show ' + (ok === 6 ? 'good' : 'bad');
+  fb.innerHTML = ok === 6
+    ? '✅ <span class="score">6 / 6</span> — Excellent! All correct.'
+    : `<span class="score">${ok} / 6</span> — Check the red gaps and try again.`;
+}
+
+// ── Exercise 3 — Typed fill-in ──
+const blanks3 = [
+  {id:'w1', ans:['who']},
+  {id:'w2', ans:['where']},
+  {id:'w3', ans:['that','which']},
+  {id:'w3b', ans:['who']},
+  {id:'w4', ans:['when']},
+  {id:'w5', ans:['whose']},
+];
+function chk3() {
+  let ok = 0, answered = 0;
+  blanks3.forEach(b => {
+    const el = document.getElementById(b.id);
+    el.classList.remove('ok','err');
+    const v = el.value.trim().toLowerCase();
+    if (!v) return;
+    answered++;
+    if (b.ans.includes(v)) { el.classList.add('ok'); ok++; }
+    else el.classList.add('err');
+  });
+  const total = blanks3.length;
+  const fb = document.getElementById('fb3');
+  if (answered === 0) { fb.className='fb show bad'; fb.textContent='Please fill in at least one gap first.'; return; }
+  score3 = {ok, total};
+  fb.className = 'fb show ' + (ok === total ? 'good' : 'bad');
+  fb.innerHTML = ok === total
+    ? `✅ <span class="score">${ok} / ${total}</span> — Great work! All correct.`
+    : `<span class="score">${ok} / ${total}</span> — Some gaps need attention. Check the ones in red.`;
+}
+
+// ── Exercise 4 — open validation ──
+document.getElementById('open4').addEventListener('blur', function() {
+  const val = this.value.trim();
+  const fb = document.getElementById('fb4');
+  if (!val) { fb.className=''; return; }
+  const pronouns = ['who','which','that','where','when','whose'];
+  const found = pronouns.filter(p => { const re = new RegExp('\\b'+p+'\\b','i'); return re.test(val); });
+  if (found.length >= 3) {
+    fb.className='fb show good';
+    fb.innerHTML = `✅ Great — you used: <strong>${found.join(', ')}</strong>.`;
+  } else if (found.length > 0) {
+    fb.className='fb show bad';
+    fb.innerHTML = `You used ${found.length} relative pronoun(s) (<strong>${found.join(', ')}</strong>). Try to use at least 3 different ones.`;
+  } else {
+    fb.className='fb show bad';
+    fb.textContent = "Don't forget to use relative pronouns (who, which, that, where, when, whose) in your answer.";
+  }
+});
+
+// ── Send to Teacher ──
+function getEx1Detail() {
+  const questions = {
+    q1: 'Netflix is a platform ___ has millions of subscribers worldwide.',
+    q2: 'Timothée Chalamet is an actor ___ became famous after Dune.',
+    q3: 'The Oscars is a ceremony ___ the best films are celebrated.',
+    q4: '2024 was the year ___ Inside Out 2 broke animated box office records.',
+    q5: 'Christopher Nolan is a director ___ films always have surprising endings.',
+    q6: 'Gladiator II is a film ___ takes place in ancient Rome.'
+  };
+  let lines = '';
+  Object.keys(mc_ans).forEach((qid, i) => {
+    const chosen = document.querySelector('#'+qid+' .opt.ok, #'+qid+' .opt.err');
+    const val = chosen ? chosen.textContent.trim() : '(no answer)';
+    const correct = chosen ? (chosen.classList.contains('ok') ? '✓' : `✗  (correct: ${mc_ans[qid]})`) : '–';
+    lines += `  ${i+1}. ${val}  ${correct}\n`;
+  });
+  return lines;
+}
+function getEx2Detail() {
+  const ids = ['t1','t2','t3','t4','t5','t6'];
+  return ids.map((id, i) => {
+    const el = document.getElementById(id);
+    const val = el.value || '(no answer)';
+    const correct = el.value ? (el.value === el.dataset.a ? '✓' : `✗  (correct: ${el.dataset.a})`) : '–';
+    return `  Gap ${i+1}: ${val}  ${correct}`;
+  }).join('\n');
+}
+function getEx3Detail() {
+  const labels = ['Gap 1','Gap 2','Gap 3a','Gap 3b','Gap 4','Gap 5'];
+  return blanks3.map((b, i) => {
+    const el = document.getElementById(b.id);
+    const val = el.value.trim() || '(blank)';
+    const correct = el.value.trim() ? (b.ans.includes(el.value.trim().toLowerCase()) ? '✓' : `✗  (correct: ${b.ans.join('/')})`) : '–';
+    return `  ${labels[i]}: ${val}  ${correct}`;
+  }).join('\n');
+}
+function send() {
+  const name = document.getElementById('sname').value.trim();
+  if (!name) { alert('Please enter your name before sending.'); document.getElementById('sname').focus(); return; }
+  const open4 = document.getElementById('open4').value.trim();
+  const pronouns = ['who','which','that','where','when','whose'];
+  const found = pronouns.filter(p => { const re = new RegExp('\\b'+p+'\\b','i'); return re.test(open4); });
+  const s1 = score1 ? `${score1.ok} / ${score1.total}` : 'not checked';
+  const s2 = score2 ? `${score2.ok} / ${score2.total}` : 'not checked';
+  const s3 = score3 ? `${score3.ok} / ${score3.total}` : 'not checked';
+  const ex4note = open4 ? (found.length >= 3 ? `Written ✓ (pronouns used: ${found.join(', ')})` : `Written — ${found.length} pronoun(s) used (${found.join(', ') || 'none'})`) : 'not answered';
+  const subject = encodeURIComponent(`Homework – Defining Relative Clauses – ${name}`);
+  const body = encodeURIComponent(
+`Student: ${name}
+Topic: Films & Defining Relative Clauses
+Date: ${new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'})}
+──────────────────────────────────────
+
+RESULTS SUMMARY
+  Exercise 1 (Multiple Choice):  ${s1}
+  Exercise 2 (Text Gaps):        ${s2}
+  Exercise 3 (Fill in the Gap):  ${s3}
+  Exercise 4 (Open Question):    ${ex4note}
+
+──────────────────────────────────────
+
+EXERCISE 1 — Multiple Choice  [${s1}]
+${getEx1Detail()}
+EXERCISE 2 — Text Gaps: Wicked  [${s2}]
+${getEx2Detail()}
+
+EXERCISE 3 — Fill in the Gap  [${s3}]
+${getEx3Detail()}
+
+EXERCISE 4 — Open Question
+${open4 || '(no answer)'}
+`
+  );
+  window.location.href = `mailto:dariia.mlnk@gmail.com?subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
