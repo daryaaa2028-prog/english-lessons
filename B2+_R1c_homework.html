@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exaggeration – Homework</title>
+<style>
+:root{--bg:#f4f4fb;--sf:#fff;--sf2:#edeef8;--bd:#d8d9ee;--ac:#7c3aed;--tx:#1a1a30;--mu:#6b6b8a;--ok:#16a34a;--ok2:rgba(22,163,74,.1);--er:#dc2626;--er2:rgba(220,38,38,.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font-family:'Segoe UI',-apple-system,sans-serif;min-height:100vh}
+header{background:#1a1a30;border-bottom:3px solid var(--ac);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.logo{font-size:.85rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#c4b5fd}
+.logo em{color:#fff;font-style:normal}
+.hw-badge{background:var(--ac);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+.wrap{max-width:780px;margin:0 auto;padding:36px 20px 64px}
+
+/* intro */
+.intro{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:24px 28px;margin-bottom:24px}
+.intro h1{font-size:1.5rem;font-weight:800;margin-bottom:6px}
+.intro p{color:var(--mu);font-size:.9rem;line-height:1.7;margin-bottom:18px}
+.name-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.name-row label{font-weight:700;font-size:.88rem;white-space:nowrap}
+.name-row input{flex:1;min-width:200px;background:var(--sf2);border:2px solid var(--bd);color:var(--tx);padding:8px 14px;border-radius:9px;font-size:.9rem;font-family:inherit;outline:none}
+.name-row input:focus{border-color:var(--ac)}
+
+/* technique cards */
+.ref-title{font-size:.68rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--mu);margin-bottom:14px}
+.tc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.tc{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:18px 20px;border-left-width:4px;border-left-style:solid}
+.tc-1{border-left-color:#e55c2f}
+.tc-2{border-left-color:#7c3aed}
+.tc-3{border-left-color:#2563eb}
+.tc-4{border-left-color:#16a34a}
+.tc-num{font-size:.65rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px}
+.tc-1 .tc-num{color:#e55c2f}
+.tc-2 .tc-num{color:#7c3aed}
+.tc-3 .tc-num{color:#2563eb}
+.tc-4 .tc-num{color:#16a34a}
+.tc h3{font-size:.98rem;font-weight:800;margin-bottom:7px;color:var(--tx)}
+.tc p{font-size:.81rem;color:var(--mu);line-height:1.55;margin-bottom:10px}
+.tc-ex{font-size:.79rem;color:var(--mu);line-height:1.6}
+.tc-ex div{display:flex;gap:6px;padding:2px 0}
+.tc-ex div::before{content:'→';flex-shrink:0;opacity:.45}
+.tc-ex em{font-style:italic}
+.tc-ex strong{color:var(--tx);font-weight:700}
+
+/* sections */
+.section{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:24px 28px;margin-bottom:24px}
+.sec-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+.sec-num{width:36px;height:36px;min-width:36px;background:var(--ac);color:#fff;border-radius:50%;font-size:.95rem;font-weight:800;display:flex;align-items:center;justify-content:center}
+.sec-title{font-size:1.1rem;font-weight:800;margin-bottom:3px}
+.sec-sub{font-size:.83rem;color:var(--mu);line-height:1.5}
+.qrow{display:flex;gap:12px;margin-bottom:18px;align-items:flex-start;line-height:1.7;font-size:.9rem}
+.qrow:last-of-type{margin-bottom:0}
+.qn{width:26px;height:26px;min-width:26px;background:var(--sf2);border:2px solid var(--bd);color:var(--tx);border-radius:50%;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:3px;flex-shrink:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px;margin-left:38px}
+.opt{padding:5px 15px;border:2px solid var(--bd);border-radius:20px;cursor:pointer;font-size:.82rem;font-weight:600;background:var(--sf);color:var(--tx);transition:all .15s;user-select:none;line-height:1.4}
+.opt:hover{border-color:var(--ac);color:var(--ac)}
+.opt.ok{border-color:var(--ok);background:var(--ok2);color:var(--ok);pointer-events:none}
+.opt.err{border-color:var(--er);background:var(--er2);color:var(--er);pointer-events:none}
+.opt.reveal{border-color:var(--ok);background:var(--ok2);color:var(--ok);pointer-events:none}
+.opt.disabled{pointer-events:none;opacity:.45}
+
+/* fill-in */
+.blank{display:inline-block;border:none;border-bottom:2px solid var(--ac);background:transparent;color:var(--tx);font-size:.9rem;padding:1px 6px;text-align:center;outline:none;font-family:inherit;transition:border-color .2s;min-width:145px}
+.blank:focus{border-color:#6d28d9}
+.blank.ok{border-color:var(--ok);color:var(--ok)}
+.blank.err{border-color:var(--er);color:var(--er)}
+.wb{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:14px 18px;margin-bottom:20px;font-size:.85rem;line-height:1.9;color:var(--tx)}
+.wb strong{color:var(--ac)}
+.wb-label{font-size:.65rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
+
+/* open */
+textarea.open{width:100%;background:var(--sf2);border:2px solid var(--bd);color:var(--tx);padding:12px 16px;border-radius:10px;font-size:.9rem;font-family:inherit;outline:none;resize:vertical;min-height:120px;line-height:1.7;margin-top:4px}
+textarea.open:focus{border-color:var(--ac)}
+.hint-box{background:var(--sf2);border-left:3px solid var(--ac);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.84rem;color:var(--mu);line-height:1.7;margin-bottom:18px}
+.hint-box strong{color:var(--ac)}
+
+/* buttons & feedback */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 22px;border-radius:9px;font-size:.86rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .18s}
+.btn-ac{background:var(--ac);color:#fff}
+.btn-ac:hover{background:#6d28d9}
+.btn-send{background:#1a1a30;color:#fff;width:100%;justify-content:center;padding:14px;font-size:.95rem;border-radius:12px;margin-top:8px}
+.btn-send:hover{background:#2d2d52}
+.fb{padding:10px 16px;border-radius:9px;font-size:.86rem;margin-top:14px;line-height:1.6;display:none}
+.fb.show{display:block}
+.fb.good{background:var(--ok2);border:1px solid var(--ok);color:var(--ok)}
+.fb.bad{background:var(--er2);border:1px solid var(--er);color:var(--er)}
+.score{font-weight:800;font-size:1.05rem}
+.send-section{background:var(--sf);border:2px solid var(--ac);border-radius:14px;padding:24px 28px;margin-top:32px;text-align:center}
+.send-section h2{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+.send-section p{font-size:.86rem;color:var(--mu);margin-bottom:18px;line-height:1.6}
+.send-note{font-size:.78rem;color:var(--mu);margin-top:10px;line-height:1.5}
+.warn{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.3);border-radius:9px;padding:9px 16px;font-size:.83rem;color:var(--er);margin-top:10px;display:none}
+.warn.show{display:block}
+@media(max-width:560px){
+  .tc-grid{grid-template-columns:1fr}
+  .opts{margin-left:0}
+  .section,.intro{padding:18px 16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">✍️ <em>Vocabulary</em> · Homework</div>
+  <div class="hw-badge">Exaggeration</div>
+</header>
+
+<div class="wrap">
+
+  <!-- INTRO + NAME -->
+  <div class="intro">
+    <h1>Homework: The Language of Exaggeration</h1>
+    <p>Read the technique cards below, then complete the exercises. Click <strong>Check</strong> after each one and <strong>Send to Teacher</strong> when you're done.</p>
+    <div class="name-row">
+      <label for="sname">Your name:</label>
+      <input type="text" id="sname" placeholder="Type your full name here…" autocomplete="name">
+    </div>
+  </div>
+
+  <!-- TECHNIQUE CARDS -->
+  <div class="ref-title">📌 Your main techniques</div>
+  <div class="tc-grid">
+    <div class="tc tc-1">
+      <div class="tc-num">Technique 1</div>
+      <h3>Inflating Times, Costs &amp; Amounts</h3>
+      <p>Make a time, distance, or cost sound much worse or bigger than it really is. Often uses idiomatic phrases.</p>
+      <div class="tc-ex">
+        <div><em>I spend <strong>half my life</strong> trying to fix this machine!</em></div>
+        <div><em>It cost her <strong>a small fortune</strong>, that bag.</em></div>
+        <div><em>I've told you <strong>a thousand times</strong>!</em></div>
+      </div>
+    </div>
+    <div class="tc tc-2">
+      <div class="tc-num">Technique 2</div>
+      <h3>Repetition with <em>and</em></h3>
+      <p>Repeat a key word linked by <em>and</em> to suggest something goes on for much longer than expected.</p>
+      <div class="tc-ex">
+        <div><em>He just kept going <strong>on and on and on</strong> about it.</em></div>
+        <div><em>I've waited <strong>years and years</strong> for this moment.</em></div>
+        <div><em>She talked <strong>and talked and talked</strong>.</em></div>
+      </div>
+    </div>
+    <div class="tc tc-3">
+      <div class="tc-num">Technique 3</div>
+      <h3>Comparisons</h3>
+      <p>Use <em>like / as if / as though</em> to create a vivid mental image through comparison.</p>
+      <div class="tc-ex">
+        <div><em>It's <strong>like</strong> the North Pole in that back room today.</em></div>
+        <div><em>He looked <strong>as if / as though</strong> he hadn't slept for weeks.</em></div>
+        <div><em>She ate <strong>like</strong> she hadn't seen food in days.</em></div>
+      </div>
+    </div>
+    <div class="tc tc-4">
+      <div class="tc-num">Technique 4</div>
+      <h3>Death Metaphors</h3>
+      <p>Use words connected to death and suffering to describe uncomfortable or annoying experiences.</p>
+      <div class="tc-ex">
+        <div><em>I'm <strong>dying</strong> for a coffee.</em></div>
+        <div><em>It's <strong>murder</strong> trying to find a place to park.</em></div>
+        <div><em>My feet are <strong>killing</strong> me.</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXERCISE 1 — IDENTIFY THE TECHNIQUE -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">1</div>
+      <div>
+        <div class="sec-title">Which Technique Is It?</div>
+        <div class="sec-sub">Read each sentence. Click on the technique being used.</div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q1">
+      <div class="qn">1</div>
+      <div><em>"I'm absolutely <strong>dying</strong> for a cup of tea."</em>
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q1','Death Metaphors')">Death Metaphors</span>
+          <span class="opt" onclick="mc(this,'q1','Comparisons')">Comparisons</span>
+          <span class="opt" onclick="mc(this,'q1','Repetition')">Repetition</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q2">
+      <div class="qn">2</div>
+      <div><em>"It's <strong>like</strong> a sauna in this office!"</em>
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q2','Death Metaphors')">Death Metaphors</span>
+          <span class="opt" onclick="mc(this,'q2','Comparisons')">Comparisons</span>
+          <span class="opt" onclick="mc(this,'q2','Inflating')">Inflating</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q3">
+      <div class="qn">3</div>
+      <div><em>"She just talked <strong>and talked and talked</strong> during that meeting."</em>
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q3','Inflating')">Inflating</span>
+          <span class="opt" onclick="mc(this,'q3','Death Metaphors')">Death Metaphors</span>
+          <span class="opt" onclick="mc(this,'q3','Repetition')">Repetition</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q4">
+      <div class="qn">4</div>
+      <div><em>"It cost me <strong>a small fortune</strong> to get my car repaired."</em>
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q4','Repetition')">Repetition</span>
+          <span class="opt" onclick="mc(this,'q4','Inflating')">Inflating</span>
+          <span class="opt" onclick="mc(this,'q4','Comparisons')">Comparisons</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q5">
+      <div class="qn">5</div>
+      <div><em>"It's <strong>murder</strong> trying to get a taxi on a Friday night."</em>
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q5','Comparisons')">Comparisons</span>
+          <span class="opt" onclick="mc(this,'q5','Inflating')">Inflating</span>
+          <span class="opt" onclick="mc(this,'q5','Death Metaphors')">Death Metaphors</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrow" id="q6">
+      <div class="qn">6</div>
+      <div><em>"He looked <strong>as though</strong> he hadn't slept in a week."</em>
+        <div class="opts">
+          <span class="opt" onclick="mc(this,'q6','Repetition')">Repetition</span>
+          <span class="opt" onclick="mc(this,'q6','Comparisons')">Comparisons</span>
+          <span class="opt" onclick="mc(this,'q6','Death Metaphors')">Death Metaphors</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:22px">
+      <button class="btn btn-ac" onclick="chk1()">Check Exercise 1</button>
+    </div>
+    <div class="fb" id="fb1"></div>
+  </div>
+
+  <!-- EXERCISE 2 — FILL IN THE GAP -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">2</div>
+      <div>
+        <div class="sec-title">Fill in the Gap</div>
+        <div class="sec-sub">Complete each sentence with the correct word or phrase from the box.</div>
+      </div>
+    </div>
+
+    <div class="wb">
+      <div class="wb-label">Word box</div>
+      <strong>killing</strong> &nbsp;·&nbsp; <strong>years and years</strong> &nbsp;·&nbsp; <strong>like</strong> &nbsp;·&nbsp; <strong>murder</strong> &nbsp;·&nbsp; <strong>a thousand times</strong> &nbsp;·&nbsp; <strong>on and on</strong> &nbsp;·&nbsp; <strong>dying</strong> &nbsp;·&nbsp; <strong>a small fortune</strong>
+    </div>
+
+    <div class="qrow">
+      <div class="qn">1</div>
+      <div>I've been waiting <input class="blank" id="w1" data-a="years and years"> for a promotion at work.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">2</div>
+      <div>These shoes are <input class="blank" id="w2" data-a="killing"> me — I need to sit down.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">3</div>
+      <div>It's <input class="blank" id="w3" data-a="murder"> trying to find a seat on the train at rush hour.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">4</div>
+      <div>It felt <input class="blank" id="w4" data-a="like"> we had been walking for hours, but it was only twenty minutes.</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">5</div>
+      <div>I've told you <input class="blank" id="w5" data-a="a thousand times"> — please don't leave the dishes in the sink!</div>
+    </div>
+    <div class="qrow">
+      <div class="qn">6</div>
+      <div>The presentation just went <input class="blank" id="w6" data-a="on and on"> — I thought it would never end.</div>
+    </div>
+
+    <div style="margin-top:22px">
+      <button class="btn btn-ac" onclick="chk2()">Check Exercise 2</button>
+    </div>
+    <div class="fb" id="fb2"></div>
+  </div>
+
+  <!-- EXERCISE 3 — WRITE YOUR OWN -->
+  <div class="section">
+    <div class="sec-head">
+      <div class="sec-num">3</div>
+      <div>
+        <div class="sec-title">Your Turn</div>
+        <div class="sec-sub">Write 4–5 sentences using the language of exaggeration.</div>
+      </div>
+    </div>
+
+    <div class="hint-box">
+      Describe an everyday situation — being stuck in traffic, waiting in a queue, a long meeting, bad weather, feeling tired or hungry. Use <strong>at least three different techniques</strong> from the card above.<br><br>
+      For example: <em>"I'm <strong>dying</strong> for a coffee. The queue was <strong>miles and miles</strong> long. It was <strong>like</strong> standing in a freezer…"</em>
+    </div>
+
+    <textarea class="open" id="open3" placeholder="Write your sentences here. Try to use Technique 1 (inflating), Technique 2 (repetition), Technique 3 (comparisons), and Technique 4 (death metaphors)…"></textarea>
+    <div class="fb" id="fb3" style="margin-top:10px"></div>
+  </div>
+
+  <!-- SEND TO TEACHER -->
+  <div class="send-section">
+    <h2>✅ All done? Send your work!</h2>
+    <p>Make sure you have checked both exercises, then click the button below to send your answers.</p>
+    <button class="btn btn-send" onclick="send()">📧 Send to Teacher</button>
+    <div class="warn" id="warn">Please click <strong>Check</strong> on both exercises before sending.</div>
+    <p class="send-note">This will open your email app with your answers filled in. Just press Send.</p>
+  </div>
+
+</div>
+
+<script>
+let score1=null, score2=null;
+
+// ── Exercise 1 ──
+const mc_ans={q1:'Death Metaphors',q2:'Comparisons',q3:'Repetition',q4:'Inflating',q5:'Death Metaphors',q6:'Comparisons'};
+function mc(el,qid,choice){
+  const correct=mc_ans[qid];
+  const opts=el.closest('.qrow').querySelectorAll('.opt');
+  opts.forEach(o=>o.classList.add('disabled'));
+  if(choice===correct){el.classList.add('ok');}
+  else{el.classList.add('err');opts.forEach(o=>{if(o.textContent.trim()===correct)o.classList.add('reveal');});}
+}
+function chk1(){
+  let ok=0,answered=0;
+  Object.keys(mc_ans).forEach(qid=>{
+    const chosen=document.querySelector('#'+qid+' .opt.ok, #'+qid+' .opt.err');
+    if(chosen){answered++;if(chosen.classList.contains('ok'))ok++;}
+  });
+  const fb=document.getElementById('fb1');
+  if(answered===0){fb.className='fb show bad';fb.textContent='Please answer at least one question first.';return;}
+  score1={ok,total:6};
+  fb.className='fb show '+(ok===6?'good':'bad');
+  fb.innerHTML=ok===6?'✅ <span class="score">6 / 6</span> — Perfect! You know your techniques.':`<span class="score">${ok} / 6</span> — Good try! The correct answers are shown in green.`;
+}
+
+// ── Exercise 2 ──
+const blanks2=[
+  {id:'w1',ans:['years and years']},
+  {id:'w2',ans:['killing']},
+  {id:'w3',ans:['murder']},
+  {id:'w4',ans:['like']},
+  {id:'w5',ans:['a thousand times']},
+  {id:'w6',ans:['on and on','on and on and on']},
+];
+function chk2(){
+  let ok=0,answered=0;
+  blanks2.forEach(b=>{
+    const el=document.getElementById(b.id);
+    el.classList.remove('ok','err');
+    const v=el.value.trim().toLowerCase();
+    if(!v)return;
+    answered++;
+    if(b.ans.includes(v)){el.classList.add('ok');ok++;}
+    else el.classList.add('err');
+  });
+  const total=blanks2.length;
+  const fb=document.getElementById('fb2');
+  if(answered===0){fb.className='fb show bad';fb.textContent='Please fill in at least one gap first.';return;}
+  score2={ok,total};
+  fb.className='fb show '+(ok===total?'good':'bad');
+  fb.innerHTML=ok===total?`✅ <span class="score">${ok} / ${total}</span> — Excellent! All correct.`:`<span class="score">${ok} / ${total}</span> — Check the ones in red and try again.`;
+}
+
+// ── Exercise 3 open check ──
+const techWords={
+  'Death Metaphors':['dying','killing','murder','kill','dead','death'],
+  'Repetition':['and and','and on','and talked','and years','and miles','and hours','and walked','and ran','and waited'],
+  'Comparisons':['like','as if','as though'],
+  'Inflating':['half my life','a thousand','a million','a fortune','small fortune','ages','forever','miles','hours and hours','years and years']
+};
+document.getElementById('open3').addEventListener('blur',function(){
+  const val=this.value.trim().toLowerCase();
+  const fb=document.getElementById('fb3');
+  if(!val){fb.className='';return;}
+  const used=Object.entries(techWords).filter(([,words])=>words.some(w=>val.includes(w))).map(([t])=>t);
+  if(used.length>=3){
+    fb.className='fb show good';
+    fb.innerHTML=`✅ Great — you used ${used.length} technique(s): <strong>${used.join(', ')}</strong>.`;
+  } else if(used.length>0){
+    fb.className='fb show bad';
+    fb.innerHTML=`You used ${used.length} technique(s) (<strong>${used.join(', ')}</strong>). Try to include at least 3 different ones.`;
+  } else {
+    fb.className='fb show bad';
+    fb.textContent='Try using some of the words and phrases from the technique cards in your sentences.';
+  }
+});
+
+// ── Detail builders ──
+const techLabels={q1:'1.',q2:'2.',q3:'3.',q4:'4.',q5:'5.',q6:'6.'};
+function getEx1Detail(){
+  return Object.keys(mc_ans).map((qid,i)=>{
+    const chosen=document.querySelector('#'+qid+' .opt.ok, #'+qid+' .opt.err');
+    const val=chosen?chosen.textContent.trim():'(no answer)';
+    const mark=chosen?(chosen.classList.contains('ok')?'✓':`✗  (correct: ${mc_ans[qid]})`):'–';
+    return `  ${i+1}. ${val}  ${mark}`;
+  }).join('\n');
+}
+function getEx2Detail(){
+  return blanks2.map((b,i)=>{
+    const el=document.getElementById(b.id);
+    const val=el.value.trim()||'(blank)';
+    const mark=el.value.trim()?(b.ans.includes(el.value.trim().toLowerCase())?'✓':`✗  (correct: ${b.ans[0]})`):'–';
+    return `  Gap ${i+1}: ${val}  ${mark}`;
+  }).join('\n');
+}
+
+// ── Send ──
+function send(){
+  const name=document.getElementById('sname').value.trim();
+  if(!name){alert('Please enter your name before sending.');document.getElementById('sname').focus();return;}
+  if(!score1||!score2){
+    const w=document.getElementById('warn');w.className='warn show';
+    setTimeout(()=>w.className='warn',4000);return;
+  }
+  const open3=document.getElementById('open3').value.trim();
+  const val3=open3.toLowerCase();
+  const used=Object.entries(techWords).filter(([,words])=>words.some(w=>val3.includes(w))).map(([t])=>t);
+  const ex3note=open3?(used.length>=3?`Written ✓ (techniques: ${used.join(', ')})`:used.length>0?`Written — ${used.length} technique(s) detected (${used.join(', ')})`:'Written — techniques not clearly detected'):'not answered';
+  const s1=`${score1.ok} / ${score1.total}`,s2=`${score2.ok} / ${score2.total}`;
+  const subject=encodeURIComponent(`Homework – Exaggeration – ${name}`);
+  const body=encodeURIComponent(
+`Student: ${name}
+Topic: The Language of Exaggeration
+Date: ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}
+──────────────────────────────────────
+
+RESULTS SUMMARY
+  Exercise 1 (Identify the Technique):  ${s1}
+  Exercise 2 (Fill in the Gap):         ${s2}
+  Exercise 3 (Write Your Own):          ${ex3note}
+
+──────────────────────────────────────
+
+EXERCISE 1 — Identify the Technique  [${s1}]
+${getEx1Detail()}
+
+EXERCISE 2 — Fill in the Gap  [${s2}]
+${getEx2Detail()}
+
+EXERCISE 3 — Write Your Own
+${open3||'(no answer)'}
+`);
+  window.location.href=`mailto:dariia.mlnk@gmail.com?subject=${subject}&body=${body}`;
+}
+</script>
+</body>
+</html>
