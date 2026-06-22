@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 9 – Homework (A1)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f4f0;
+    color: #2c2c2c;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .hw-header {
+    background: #c0392b;
+    color: white;
+    padding: 18px 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  }
+  .hw-header .hl-title { font-size: 1.1rem; font-weight: 700; letter-spacing: .4px; }
+  .hw-header .hl-sub { font-size: .82rem; opacity: .85; margin-top: 3px; }
+
+  /* ── MAIN WRAP ── */
+  .hw-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 22px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* ── NAME BANNER ── */
+  .name-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .name-card label { font-size: .9rem; font-weight: 700; color: #555; white-space: nowrap; }
+  .name-input {
+    flex: 1; min-width: 180px;
+    border: 2px solid #ddd; border-radius: 8px;
+    padding: 9px 14px; font-size: .95rem;
+    font-family: inherit; color: #333;
+    transition: border-color .2s;
+  }
+  .name-input:focus { border-color: #c0392b; outline: none; }
+  .name-note { font-size: .8rem; color: #aaa; }
+
+  /* ── EXERCISE CARD ── */
+  .ex-card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+  }
+
+  .ex-label {
+    display: inline-block;
+    background: #c0392b; color: white;
+    font-size: .7rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    border-radius: 4px; padding: 3px 10px; margin-bottom: 12px;
+  }
+  .ex-title { font-size: 1.2rem; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .ex-tag {
+    display: inline-block; font-size: .74rem; font-weight: 600;
+    background: #fdecea; color: #c0392b; border-radius: 12px;
+    padding: 2px 10px; margin-bottom: 16px;
+  }
+
+  .instructions {
+    background: #f9f8f5; border-left: 4px solid #c0392b;
+    border-radius: 0 8px 8px 0; padding: 11px 15px;
+    font-size: .9rem; color: #444; margin-bottom: 20px; line-height: 1.6;
+  }
+  .instructions strong { color: #c0392b; }
+
+  /* ── QUESTION ROWS ── */
+  .q-list { display: flex; flex-direction: column; gap: 14px; }
+
+  .q-row { display: flex; flex-direction: column; gap: 5px; }
+  .q-text { font-size: .93rem; font-weight: 600; color: #333; line-height: 1.55; }
+  .q-hint { font-size: .78rem; color: #999; font-style: italic; }
+
+  /* fill-in blank */
+  .blank-inp {
+    display: inline-block;
+    border: none; border-bottom: 2px solid #bbb;
+    background: transparent;
+    padding: 2px 8px; font-size: .93rem; font-family: inherit;
+    color: #1a1a1a; width: 110px; text-align: center;
+    transition: border-color .2s; outline: none;
+  }
+  .blank-inp:focus { border-color: #c0392b; }
+  .blank-inp.ok { border-color: #27ae60; color: #1e8449; font-weight: 700; }
+  .blank-inp.err { border-color: #c0392b; color: #c0392b; }
+
+  /* multiple choice */
+  .opts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 5px; }
+  .opt-btn {
+    background: #f0efec; border: 2px solid #ddd; border-radius: 8px;
+    padding: 6px 15px; cursor: pointer; font-size: .88rem;
+    transition: all .17s; color: #333; font-family: inherit;
+  }
+  .opt-btn:hover { background: #fdecea; border-color: #c0392b; color: #c0392b; }
+  .opt-btn.sel { background: #fdecea; border-color: #c0392b; color: #c0392b; font-weight: 700; }
+  .opt-btn.ok  { background: #e8f8ee; border-color: #27ae60; color: #1e8449; font-weight: 700; }
+  .opt-btn.err { background: #fdecea; border-color: #c0392b; color: #c0392b; }
+  .opt-btn:disabled { cursor: default; }
+
+  .q-fb { font-size: .8rem; font-weight: 700; margin-top: 3px; }
+  .q-fb.ok  { color: #27ae60; }
+  .q-fb.err { color: #c0392b; }
+
+  /* ── WRITING AREA ── */
+  .write-prompt { font-size: .88rem; color: #666; margin-bottom: 6px; line-height: 1.5; }
+  .write-prompt strong { color: #2c2c2c; }
+  .write-area {
+    width: 100%; border: 2px solid #ddd; border-radius: 8px;
+    padding: 11px 14px; font-size: .92rem; resize: vertical; min-height: 70px;
+    font-family: inherit; color: #333; transition: border-color .2s;
+  }
+  .write-area:focus { border-color: #c0392b; outline: none; }
+  .write-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+
+  /* ── CHECK BUTTON ── */
+  .check-btn {
+    margin-top: 20px; background: #2c2c2c; color: white;
+    border: none; border-radius: 8px; padding: 10px 26px;
+    font-size: .9rem; font-weight: 700; cursor: pointer; font-family: inherit;
+    transition: background .2s;
+  }
+  .check-btn:hover { background: #444; }
+
+  /* ── SCORE PILL ── */
+  .score-pill {
+    display: none; margin-top: 14px;
+    background: #f9f8f5; border: 1px solid #e0ddd8;
+    border-radius: 10px; padding: 12px 18px;
+    font-size: .9rem;
+  }
+  .score-pill.show { display: block; }
+  .score-pill .sn { font-size: 1.4rem; font-weight: 900; color: #c0392b; }
+
+  /* ── DIVIDER ── */
+  .section-divider {
+    display: flex; align-items: center; gap: 12px; color: #ccc; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
+  }
+  .section-divider::before, .section-divider::after {
+    content: ''; flex: 1; height: 1px; background: #e0ddd8;
+  }
+
+  /* ── WORD BANK ── */
+  .word-bank {
+    background: #f0efec; border-radius: 8px; padding: 9px 14px;
+    margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center;
+  }
+  .wb-label { font-size: .73rem; font-weight: 800; color: #999; text-transform: uppercase; letter-spacing: .5px; margin-right: 3px; }
+  .wb-chip { background: white; border: 1px solid #ccc; border-radius: 20px; padding: 3px 11px; font-size: .84rem; color: #555; }
+
+  /* ── SEND CARD ── */
+  .send-card {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    text-align: center;
+    border-top: 4px solid #c0392b;
+  }
+  .send-card h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+  .send-card p { font-size: .88rem; color: #777; margin-bottom: 22px; line-height: 1.6; }
+  .send-btn {
+    background: #c0392b; color: white; border: none; border-radius: 10px;
+    padding: 14px 36px; font-size: 1rem; font-weight: 700; cursor: pointer;
+    font-family: inherit; transition: background .2s, transform .15s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .send-btn:hover { background: #a93226; transform: translateY(-1px); }
+  .send-note { font-size: .78rem; color: #bbb; margin-top: 14px; }
+
+  /* ── TOTAL SCORE ── */
+  .total-bar {
+    display: none; background: #f9f8f5; border-radius: 10px;
+    padding: 14px 20px; text-align: center; border: 1px solid #e0ddd8;
+    margin-top: 18px;
+  }
+  .total-bar.show { display: block; }
+  .total-bar .tn { font-size: 2rem; font-weight: 900; color: #c0392b; }
+  .total-bar .tl { font-size: .85rem; color: #888; }
+
+  /* ── SHAKE ANIMATION ── */
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    18%     { transform: translateX(-9px); }
+    36%     { transform: translateX(9px); }
+    54%     { transform: translateX(-5px); }
+    72%     { transform: translateX(5px); }
+  }
+  .shake { animation: shake .52s ease; }
+
+  /* ── NAME FIELD ERROR STATE ── */
+  .name-input.field-error {
+    border-color: #c0392b;
+    background: #fff5f5;
+  }
+  .name-card.card-error { box-shadow: 0 0 0 2px #c0392b33; }
+
+  /* ── ERROR PANEL ── */
+  .error-panel {
+    display: none;
+    background: #fff5f5;
+    border: 1.5px solid #e8b4b0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .error-panel.visible { display: block; }
+  .error-panel .ep-title {
+    font-size: .82rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .7px; color: #c0392b; margin-bottom: 12px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .ep-section { margin-bottom: 10px; }
+  .ep-section:last-child { margin-bottom: 0; }
+  .ep-section-label {
+    font-size: .76rem; font-weight: 700; color: #888;
+    text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px;
+  }
+  .ep-item {
+    font-size: .88rem; color: #7b241c;
+    padding: 5px 0 5px 16px; position: relative; line-height: 1.45;
+  }
+  .ep-item::before {
+    content: '•'; position: absolute; left: 4px; color: #c0392b; font-weight: 900;
+  }
+
+  @media (max-width: 600px) {
+    .hw-body { padding: 18px 14px 40px; }
+    .ex-card { padding: 20px 18px; }
+    .name-card { padding: 16px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="hw-header">
+  <div class="hl-title">Unit 9 — Homework &nbsp;·&nbsp; A1</div>
+  <div class="hl-sub">Family · Hobbies · Study Habits · Suggestions &nbsp;·&nbsp; Complete and send to your teacher</div>
+</div>
+
+<div class="hw-body">
+
+  <!-- NAME -->
+  <div class="name-card">
+    <label for="studentName">Your name:</label>
+    <input class="name-input" id="studentName" type="text" placeholder="Type your full name…">
+    <span class="name-note">Required before sending</span>
+  </div>
+
+  <!-- ══════════════════════════════════
+       EXERCISE 1 · OBJECT PRONOUNS
+  ══════════════════════════════════ -->
+  <div class="ex-card">
+    <div class="ex-label">Exercise 1</div>
+    <div class="ex-title">Object Pronouns</div>
+    <div class="ex-tag">9A · Grammar</div>
+    <div class="instructions">
+      Fill in the blank with the correct object pronoun: <strong>me · him · her · it · us · them</strong>
+    </div>
+
+    <div class="q-list" id="ex1">
+      <div class="q-row" data-answer="her">
+        <div class="q-text">1. My friend Sarah lives far away. I miss <input class="blank-inp" data-idx="0"> a lot.</div>
+        <div class="q-fb" id="fb1-0"></div>
+      </div>
+      <div class="q-row" data-answer="them">
+        <div class="q-text">2. My parents are at home. I'm going to visit <input class="blank-inp" data-idx="1"> tonight.</div>
+        <div class="q-fb" id="fb1-1"></div>
+      </div>
+      <div class="q-row" data-answer="it">
+        <div class="q-text">3. This is my new bag. I love <input class="blank-inp" data-idx="2">!</div>
+        <div class="q-fb" id="fb1-2"></div>
+      </div>
+      <div class="q-row" data-answer="me">
+        <div class="q-text">4. Can you help <input class="blank-inp" data-idx="3">? I don't understand this exercise.</div>
+        <div class="q-fb" id="fb1-3"></div>
+      </div>
+      <div class="q-row" data-answer="him">
+        <div class="q-text">5. My brother doesn't like vegetables, so Mum always cooks <input class="blank-inp" data-idx="4"> pasta.</div>
+        <div class="q-fb" id="fb1-4"></div>
+      </div>
+      <div class="q-row" data-answer="us">
+        <div class="q-text">6. Jake and I are best friends. Our teacher always asks <input class="blank-inp" data-idx="5"> questions first!</div>
+        <div class="q-fb" id="fb1-5"></div>
+      </div>
+    </div>
+
+    <button class="check-btn" onclick="checkEx1()">Check answers</button>
+    <div class="score-pill" id="sp1"></div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       EXERCISE 2 · PREPOSITIONS
+  ══════════════════════════════════ -->
+  <div class="ex-card">
+    <div class="ex-label">Exercise 2</div>
+    <div class="ex-title">Prepositions of Place</div>
+    <div class="ex-tag">9A · Vocabulary</div>
+    <div class="instructions">
+      Choose the correct preposition to describe the photo.
+    </div>
+
+    <div class="q-list" id="ex2">
+
+      <div class="q-row" data-answer="next to">
+        <div class="q-text">1. My desk is _____ the window. (I can see the garden when I study.)</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',0,'behind')">behind</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',0,'next to')">next to</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',0,'in front of')">in front of</button>
+        </div>
+        <div class="q-fb" id="fb2-0"></div>
+      </div>
+
+      <div class="q-row" data-answer="in front of">
+        <div class="q-text">2. The cat is sitting _____ the TV. (It is blocking the screen!)</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',1,'next to')">next to</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',1,'behind')">behind</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',1,'in front of')">in front of</button>
+        </div>
+        <div class="q-fb" id="fb2-1"></div>
+      </div>
+
+      <div class="q-row" data-answer="between">
+        <div class="q-text">3. My books are _____ my lamp and my clock on the shelf.</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',2,'behind')">behind</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',2,'between')">between</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',2,'on the left')">on the left</button>
+        </div>
+        <div class="q-fb" id="fb2-2"></div>
+      </div>
+
+      <div class="q-row" data-answer="behind">
+        <div class="q-text">4. In the family photo, my dad is _____ my mum. You can only see his face!</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',3,'next to')">next to</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',3,'in front of')">in front of</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',3,'behind')">behind</button>
+        </div>
+        <div class="q-fb" id="fb2-3"></div>
+      </div>
+
+      <div class="q-row" data-answer="on the left">
+        <div class="q-text">5. I'm _____ in this photo — you can see my sister on the right.</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',4,'between')">between</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',4,'behind')">behind</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex2',4,'on the left')">on the left</button>
+        </div>
+        <div class="q-fb" id="fb2-4"></div>
+      </div>
+
+    </div>
+
+    <button class="check-btn" onclick="checkMCEx('ex2','sp2',5)">Check answers</button>
+    <div class="score-pill" id="sp2"></div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       EXERCISE 3 · LIKE/ENJOY + -ING
+  ══════════════════════════════════ -->
+  <div class="ex-card">
+    <div class="ex-label">Exercise 3</div>
+    <div class="ex-title">like / enjoy / love / hate + <em>-ing</em></div>
+    <div class="ex-tag">9B · Grammar</div>
+    <div class="instructions">
+      Each sentence has <strong>one mistake</strong>. Choose the correct verb form.
+    </div>
+
+    <div class="q-list" id="ex3">
+
+      <div class="q-row" data-answer="cooking">
+        <div class="q-text">1. I love <span style="color:#c0392b;text-decoration:line-through">cook</span> _____ for my family at weekends.</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',0,'to cook')">to cook</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',0,'cook')">cook</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',0,'cooking')">cooking</button>
+        </div>
+        <div class="q-fb" id="fb3-0"></div>
+      </div>
+
+      <div class="q-row" data-answer="running">
+        <div class="q-text">2. She doesn't enjoy <span style="color:#c0392b;text-decoration:line-through">to run</span> _____ in the morning.</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',1,'run')">run</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',1,'running')">running</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',1,'to run')">to run</button>
+        </div>
+        <div class="q-fb" id="fb3-1"></div>
+      </div>
+
+      <div class="q-row" data-answer="going">
+        <div class="q-text">3. Do you like <span style="color:#c0392b;text-decoration:line-through">go</span> _____ to the cinema on Saturdays?</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',2,'go')">go</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',2,'to go')">to go</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',2,'going')">going</button>
+        </div>
+        <div class="q-fb" id="fb3-2"></div>
+      </div>
+
+      <div class="q-row" data-answer="waking up">
+        <div class="q-text">4. He hates <span style="color:#c0392b;text-decoration:line-through">wake up</span> _____ before 8 o'clock.</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',3,'to wake up')">to wake up</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',3,'wake up')">wake up</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',3,'waking up')">waking up</button>
+        </div>
+        <div class="q-fb" id="fb3-3"></div>
+      </div>
+
+      <div class="q-row" data-answer="watching">
+        <div class="q-text">5. We enjoy <span style="color:#c0392b;text-decoration:line-through">watch</span> _____ films together on Friday evenings.</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',4,'watch')">watch</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',4,'to watch')">to watch</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',4,'watching')">watching</button>
+        </div>
+        <div class="q-fb" id="fb3-4"></div>
+      </div>
+
+      <div class="q-row" data-answer="taking">
+        <div class="q-text">6. My sister loves <span style="color:#c0392b;text-decoration:line-through">take</span> _____ photos of the family.</div>
+        <div class="opts">
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',5,'take')">take</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',5,'to take')">to take</button>
+          <button class="opt-btn" onclick="pickOpt(this,'ex3',5,'taking')">taking</button>
+        </div>
+        <div class="q-fb" id="fb3-5"></div>
+      </div>
+
+    </div>
+
+    <button class="check-btn" onclick="checkMCEx('ex3','sp3',6)">Check answers</button>
+    <div class="score-pill" id="sp3"></div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       EXERCISE 4 · WHY AND BECAUSE
+  ══════════════════════════════════ -->
+  <div class="ex-card">
+    <div class="ex-label">Exercise 4</div>
+    <div class="ex-title">Why and Because</div>
+    <div class="ex-tag">9C · Grammar · Writing</div>
+    <div class="instructions">
+      Answer each question about yourself. Write <strong>one full sentence</strong> using <strong>because</strong>.
+      <br>Example: <em>Why do you study English? → I study English <strong>because</strong> I want a better job.</em>
+    </div>
+
+    <div class="q-list">
+      <div class="write-group">
+        <div class="write-prompt"><strong>1.</strong> Why do you study English?</div>
+        <textarea class="write-area" id="w4-1" placeholder="I study English because…" rows="2"></textarea>
+      </div>
+      <div class="write-group">
+        <div class="write-prompt"><strong>2.</strong> Why do you like (or not like) cooking?</div>
+        <textarea class="write-area" id="w4-2" placeholder="I (don't) like cooking because…" rows="2"></textarea>
+      </div>
+      <div class="write-group">
+        <div class="write-prompt"><strong>3.</strong> Why is it important to practise English every day?</div>
+        <textarea class="write-area" id="w4-3" placeholder="It's important because…" rows="2"></textarea>
+      </div>
+    </div>
+    <p style="font-size:.8rem;color:#aaa;margin-top:12px;">✉️ Your answers will be sent to your teacher for review.</p>
+  </div>
+
+  <!-- ══════════════════════════════════
+       EXERCISE 5 · SUGGESTIONS DIALOGUE
+  ══════════════════════════════════ -->
+  <div class="ex-card">
+    <div class="ex-label">Exercise 5</div>
+    <div class="ex-title">Making Suggestions</div>
+    <div class="ex-tag">9D · Writing</div>
+    <div class="instructions">
+      Write a short dialogue (6–8 lines) between two friends making plans for Saturday evening.
+      You must use <strong>all 6 phrases</strong> below at least once.
+    </div>
+
+    <div class="word-bank">
+      <span class="wb-label">Use these</span>
+      <span class="wb-chip">Why don't we…?</span>
+      <span class="wb-chip">Let's…</span>
+      <span class="wb-chip">How about…?</span>
+      <span class="wb-chip">That's a great idea!</span>
+      <span class="wb-chip">I'm not sure.</span>
+      <span class="wb-chip">OK, sounds good!</span>
+    </div>
+
+    <div class="write-group">
+      <div class="write-prompt">Write your dialogue here:</div>
+      <textarea class="write-area" id="w5" placeholder="A: Why don't we…&#10;B: That's a great idea! …&#10;A: How about…&#10;B: …" rows="9"></textarea>
+    </div>
+    <p style="font-size:.8rem;color:#aaa;margin-top:6px;">✉️ Your dialogue will be sent to your teacher for review.</p>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TOTAL SCORE
+  ══════════════════════════════════ -->
+  <div class="total-bar" id="totalBar">
+    <div class="tn" id="totalNum">–</div>
+    <div class="tl">Total score (Exercises 1–3)</div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SEND TO TEACHER
+  ══════════════════════════════════ -->
+  <div class="send-card">
+    <!-- error panel lives here, above the button -->
+    <div class="error-panel" id="errorPanel">
+      <div class="ep-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Please complete the following before sending
+      </div>
+      <div class="ep-section" id="ep-name" style="display:none">
+        <div class="ep-section-label">Name</div>
+        <div class="ep-item">Write your name at the top of the page.</div>
+      </div>
+      <div class="ep-section" id="ep-exercises" style="display:none">
+        <div class="ep-section-label">Exercises with missing answers</div>
+        <div id="ep-ex-items"></div>
+      </div>
+      <div class="ep-section" id="ep-writing" style="display:none">
+        <div class="ep-section-label">Writing tasks</div>
+        <div id="ep-wr-items"></div>
+      </div>
+    </div>
+
+    <h2>Ready? Send your homework to your teacher 📬</h2>
+    <p>Click the button below. Your email app will open with all your answers already filled in.<br>Just hit <strong>Send</strong>!</p>
+    <button class="send-btn" onclick="sendToTeacher()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Send to Teacher
+    </button>
+    <div class="send-note">Sends to: dariia.mlnk@gmail.com</div>
+  </div>
+
+</div><!-- /hw-body -->
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+// ── EXERCISE STATE ──────────────────────────────────
+// Track selected answers for MC exercises
+const selected = { ex2: {}, ex3: {} };
+const checked  = { ex1: false, ex2: false, ex3: false };
+const exScores = {};
+
+// ── EX 1: FILL IN THE BLANK ────────────────────────
+function checkEx1() {
+  const rows = document.querySelectorAll('#ex1 .q-row');
+  let correct = 0;
+  rows.forEach((row, i) => {
+    const answer = row.dataset.answer.toLowerCase();
+    const inp = row.querySelector('.blank-inp');
+    const fb  = document.getElementById(`fb1-${i}`);
+    const val = (inp.value || '').trim().toLowerCase();
+    inp.classList.remove('ok','err');
+    if (val === answer) {
+      inp.classList.add('ok');
+      fb.textContent = '✓ Correct!'; fb.className = 'q-fb ok';
+      correct++;
+    } else {
+      inp.classList.add('err');
+      inp.disabled = true;
+      fb.textContent = `✗ Answer: ${row.dataset.answer}`; fb.className = 'q-fb err';
+    }
+    inp.disabled = true;
+  });
+  showScore('sp1', correct, rows.length);
+  exScores.ex1 = { c: correct, t: rows.length };
+  checked.ex1 = true;
+  updateTotal();
+}
+
+// ── PICK OPTION (MC) ──────────────────────────────
+function pickOpt(btn, exId, idx, value) {
+  // Clear previous selection in this question
+  const row = document.querySelectorAll(`#${exId} .q-row`)[idx];
+  if (checked[exId]) return; // already submitted
+  row.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  selected[exId][idx] = value;
+}
+
+// ── CHECK MC EXERCISE ─────────────────────────────
+function checkMCEx(exId, scoreId, total) {
+  if (checked[exId]) return;
+  const rows = document.querySelectorAll(`#${exId} .q-row`);
+  let correct = 0;
+  rows.forEach((row, i) => {
+    const answer = row.dataset.answer;
+    const chosen = selected[exId][i];
+    const btns   = row.querySelectorAll('.opt-btn');
+    const fb     = document.getElementById(`fb${exId.replace('ex','')}-${i}`);
+    btns.forEach(b => { b.disabled = true; b.classList.remove('sel'); });
+    if (chosen === answer) {
+      btns.forEach(b => { if (b.textContent.trim() === answer) b.classList.add('ok'); });
+      fb.textContent = '✓ Correct!'; fb.className = 'q-fb ok';
+      correct++;
+    } else {
+      if (chosen) btns.forEach(b => { if (b.textContent.trim() === chosen) b.classList.add('err'); });
+      btns.forEach(b => { if (b.textContent.trim() === answer) b.classList.add('ok'); });
+      fb.textContent = `✗ Answer: ${answer}`; fb.className = 'q-fb err';
+    }
+  });
+  showScore(scoreId, correct, total);
+  exScores[exId] = { c: correct, t: total };
+  checked[exId] = true;
+  updateTotal();
+}
+
+// ── SHOW SCORE ────────────────────────────────────
+function showScore(id, c, t) {
+  const el = document.getElementById(id);
+  const pct = Math.round((c/t)*100);
+  const msg = pct===100 ? '🌟 Perfect!' : pct>=70 ? '👍 Good job!' : '📚 Review this section.';
+  el.innerHTML = `<span class="sn">${c}/${t}</span> &nbsp; ${msg}`;
+  el.classList.add('show');
+}
+
+// ── TOTAL SCORE ───────────────────────────────────
+function updateTotal() {
+  if (!exScores.ex1 && !exScores.ex2 && !exScores.ex3) return;
+  let tc=0, tt=0;
+  ['ex1','ex2','ex3'].forEach(k => { if(exScores[k]) { tc+=exScores[k].c; tt+=exScores[k].t; } });
+  document.getElementById('totalNum').textContent = `${tc}/${tt}`;
+  document.getElementById('totalBar').classList.add('show');
+}
+
+// ── VALIDATION ────────────────────────────────────
+function validate() {
+  const nameInp  = document.getElementById('studentName');
+  const nameCard = document.querySelector('.name-card');
+  const panel    = document.getElementById('errorPanel');
+
+  let hasErrors = false;
+
+  // --- Name ---
+  const nameOk = nameInp.value.trim().length > 0;
+  document.getElementById('ep-name').style.display = nameOk ? 'none' : '';
+  if (!nameOk) {
+    nameInp.classList.add('field-error');
+    nameCard.classList.add('card-error', 'shake');
+    setTimeout(() => nameCard.classList.remove('shake'), 560);
+    nameInp.focus();
+    hasErrors = true;
+  } else {
+    nameInp.classList.remove('field-error');
+    nameCard.classList.remove('card-error');
+  }
+
+  // --- Ex 1: fill-in-blank ---
+  const ex1Rows  = document.querySelectorAll('#ex1 .q-row');
+  const ex1Empty = [];
+  ex1Rows.forEach((row, i) => {
+    if (!row.querySelector('.blank-inp').value.trim()) ex1Empty.push(i + 1);
+  });
+
+  // --- Ex 2: multiple choice ---
+  const ex2Empty = [];
+  for (let i = 0; i < 5; i++) { if (!selected.ex2[i]) ex2Empty.push(i + 1); }
+
+  // --- Ex 3: multiple choice ---
+  const ex3Empty = [];
+  for (let i = 0; i < 6; i++) { if (!selected.ex3[i]) ex3Empty.push(i + 1); }
+
+  // Build exercise error items
+  const exItems = [];
+  if (ex1Empty.length) exItems.push(`Exercise 1: fill in question${ex1Empty.length > 1 ? 's' : ''} ${ex1Empty.join(', ')}.`);
+  if (ex2Empty.length) exItems.push(`Exercise 2: answer question${ex2Empty.length > 1 ? 's' : ''} ${ex2Empty.join(', ')}.`);
+  if (ex3Empty.length) exItems.push(`Exercise 3: answer question${ex3Empty.length > 1 ? 's' : ''} ${ex3Empty.join(', ')}.`);
+
+  const epEx = document.getElementById('ep-exercises');
+  const epExItems = document.getElementById('ep-ex-items');
+  if (exItems.length) {
+    epExItems.innerHTML = exItems.map(t => `<div class="ep-item">${t}</div>`).join('');
+    epEx.style.display = '';
+    hasErrors = true;
+  } else {
+    epEx.style.display = 'none';
+  }
+
+  // --- Free writing ---
+  const wrEmpty = [];
+  if (!document.getElementById('w4-1').value.trim()) wrEmpty.push('Exercise 4, question 1.');
+  if (!document.getElementById('w4-2').value.trim()) wrEmpty.push('Exercise 4, question 2.');
+  if (!document.getElementById('w4-3').value.trim()) wrEmpty.push('Exercise 4, question 3.');
+  if (!document.getElementById('w5').value.trim())   wrEmpty.push('Exercise 5: write your dialogue.');
+
+  const epWr = document.getElementById('ep-writing');
+  const epWrItems = document.getElementById('ep-wr-items');
+  if (wrEmpty.length) {
+    epWrItems.innerHTML = wrEmpty.map(t => `<div class="ep-item">${t}</div>`).join('');
+    epWr.style.display = '';
+    hasErrors = true;
+  } else {
+    epWr.style.display = 'none';
+  }
+
+  // Show/hide panel and scroll to it if there are errors
+  if (hasErrors) {
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    panel.classList.remove('visible');
+  }
+
+  return !hasErrors;
+}
+
+// Auto-clear name error on input
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('studentName').addEventListener('input', function () {
+    if (this.value.trim()) {
+      this.classList.remove('field-error');
+      document.querySelector('.name-card').classList.remove('card-error');
+    }
+  });
+});
+
+// ── SEND TO TEACHER ───────────────────────────────
+function sendToTeacher() {
+  if (!validate()) return;
+  const name = document.getElementById('studentName').value.trim();
+  const today = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+
+  // Collect Ex1 answers
+  const ex1Rows = document.querySelectorAll('#ex1 .q-row');
+  let ex1Lines = '';
+  ex1Rows.forEach((row, i) => {
+    const inp = row.querySelector('.blank-inp');
+    const correct = row.dataset.answer;
+    const student = (inp.value || '').trim() || '(blank)';
+    const mark = student.toLowerCase() === correct.toLowerCase() ? '✓' : `✗ (correct: ${correct})`;
+    ex1Lines += `  ${i+1}. Student wrote: "${student}" ${mark}\n`;
+  });
+
+  // Collect Ex2 answers
+  const ex2Rows = document.querySelectorAll('#ex2 .q-row');
+  let ex2Lines = '';
+  ex2Rows.forEach((row, i) => {
+    const correct = row.dataset.answer;
+    const student = selected.ex2[i] || '(not answered)';
+    const mark = student === correct ? '✓' : `✗ (correct: ${correct})`;
+    ex2Lines += `  ${i+1}. Student chose: "${student}" ${mark}\n`;
+  });
+
+  // Collect Ex3 answers
+  const ex3Rows = document.querySelectorAll('#ex3 .q-row');
+  let ex3Lines = '';
+  ex3Rows.forEach((row, i) => {
+    const correct = row.dataset.answer;
+    const student = selected.ex3[i] || '(not answered)';
+    const mark = student === correct ? '✓' : `✗ (correct: ${correct})`;
+    ex3Lines += `  ${i+1}. Student chose: "${student}" ${mark}\n`;
+  });
+
+  // Collect scores
+  let scoreLines = '';
+  if (exScores.ex1) scoreLines += `  Ex 1 (Object Pronouns): ${exScores.ex1.c}/${exScores.ex1.t}\n`;
+  if (exScores.ex2) scoreLines += `  Ex 2 (Prepositions):     ${exScores.ex2.c}/${exScores.ex2.t}\n`;
+  if (exScores.ex3) scoreLines += `  Ex 3 (like/enjoy -ing):  ${exScores.ex3.c}/${exScores.ex3.t}\n`;
+  if (!scoreLines) scoreLines = '  (Exercises not checked before sending)\n';
+
+  // Collect writing answers
+  const w41 = document.getElementById('w4-1').value.trim() || '(no answer)';
+  const w42 = document.getElementById('w4-2').value.trim() || '(no answer)';
+  const w43 = document.getElementById('w4-3').value.trim() || '(no answer)';
+  const w5  = document.getElementById('w5').value.trim()   || '(no answer)';
+
+  const body =
+`Unit 9 Homework — ${name}
+Date: ${today}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SCORES (auto-checked)
+${scoreLines}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXERCISE 1 — Object Pronouns (fill in the blank)
+${ex1Lines}
+EXERCISE 2 — Prepositions of Place (multiple choice)
+${ex2Lines}
+EXERCISE 3 — like / enjoy + -ing (multiple choice)
+${ex3Lines}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXERCISE 4 — Why and Because (free writing)
+
+  Q1. Why do you study English?
+  "${w41}"
+
+  Q2. Why do you like (or not like) cooking?
+  "${w42}"
+
+  Q3. Why is it important to practise English every day?
+  "${w43}"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXERCISE 5 — Making Suggestions (dialogue)
+
+${w5}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Sent from Unit 9 Homework (A1)`;
+
+  const subject = `Unit 9 Homework — ${name}`;
+  const mailto  = `mailto:dariia.mlnk@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+}
+</script>
+</body>
+</html>
