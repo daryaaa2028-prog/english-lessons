@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Homework — Units 1 &amp; 2 Revision</title>
+<style>
+:root {
+  --bg:#f5f0eb; --card:#fff; --dark:#1a1a2e;
+  --accent:#e63946; --accent2:#457b9d; --muted:#6b7280; --border:#e2d9d0;
+  --gb:#1a1a2e; --gy:#f4c430; --gt:#7fffd4;
+  --shadow:0 4px 24px rgba(0,0,0,.09);
+  --ok:#16a34a; --okbg:#f0fdf4; --okb:#22c55e;
+  --no:#dc2626; --nobg:#fef2f2; --nob:#ef4444;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Georgia',serif;background:var(--bg);color:var(--dark);min-height:100vh}
+
+.hdr{background:var(--dark);padding:1.1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem}
+.hdr-brand{font-family:'Arial',sans-serif;font-size:.95rem;font-weight:700;color:var(--gy);letter-spacing:.04em}
+.hdr-lbl{font-family:'Arial',sans-serif;font-size:.75rem;color:#aaa;letter-spacing:.08em;text-transform:uppercase}
+
+.pw{max-width:820px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+
+/* name card */
+.name-card{background:var(--card);border-radius:14px;padding:1.4rem 2rem;margin-bottom:2rem;box-shadow:var(--shadow);border:2px solid var(--gy);display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap}
+.name-card label{font-family:'Arial',sans-serif;font-weight:700;font-size:.95rem;white-space:nowrap}
+.name-inp{flex:1;min-width:200px;border:none;border-bottom:2.5px solid var(--accent2);background:transparent;font-family:'Georgia',serif;font-size:1.05rem;padding:4px 8px;outline:none;color:var(--dark);transition:border-color .2s}
+.name-inp:focus{border-bottom-color:var(--dark)}
+.name-inp::placeholder{color:#bbb;font-style:italic}
+.name-inp.err{border-bottom-color:var(--nob);background:var(--nobg);border-radius:4px 4px 0 0}
+.name-card.shake{animation:shk .4s ease}
+@keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+
+.stag{display:inline-block;font-family:'Arial',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);border:2px solid var(--accent);border-radius:4px;padding:2px 10px;margin-bottom:.9rem}
+h1{font-size:1.7rem;line-height:1.25;margin-bottom:.5rem}
+h2{font-size:1.1rem;margin-bottom:.6rem;font-family:'Arial',sans-serif}
+p{line-height:1.7;margin-bottom:.8rem;color:#333}
+
+.card{background:var(--card);border-radius:12px;padding:1.7rem 2rem;margin-bottom:2rem;box-shadow:var(--shadow);border:1px solid var(--border)}
+
+.gb{background:var(--gb);color:#e8e0ff;border-radius:12px;padding:1.2rem 1.6rem;margin-bottom:1.2rem;font-family:'Arial',sans-serif;font-size:.86rem;line-height:1.65}
+.gb h3{color:var(--gy);margin-bottom:.5rem;border-bottom:1px solid #fff2;padding-bottom:.4rem;font-size:.9rem}
+.gb .hl{color:var(--gy);font-weight:700}
+.gb .hl2{color:var(--gt);font-weight:700}
+
+.inst{background:#eef6ff;border-radius:8px;padding:.7rem 1rem;margin-bottom:1.1rem;font-family:'Arial',sans-serif;font-size:.87rem;color:#1a4a7a;border-left:3px solid var(--accent2);line-height:1.5}
+
+.bi{display:inline-block;border:none;border-bottom:2.5px solid var(--accent2);background:transparent;font-family:'Georgia',serif;font-size:.95rem;padding:2px 6px 4px;outline:none;color:var(--dark);transition:border-color .25s,background .25s,color .25s;vertical-align:bottom;min-width:130px}
+.bi:focus{border-bottom-color:var(--dark)}
+.bi.ok{border-bottom-color:var(--okb);background:var(--okbg);color:var(--ok);border-radius:4px 4px 0 0}
+.bi.no{border-bottom-color:var(--nob);background:var(--nobg);color:var(--no);border-radius:4px 4px 0 0}
+.fi{display:inline-block;font-size:.85rem;margin-left:3px;vertical-align:middle}
+
+.exi{padding:.8rem 0;border-bottom:1px solid var(--border);font-size:.95rem;line-height:2}
+.exi:last-of-type{border-bottom:none}
+.in{font-family:'Arial',sans-serif;font-weight:700;color:var(--accent2);margin-right:.4rem}
+
+.sb{display:flex;align-items:center;gap:.8rem;background:var(--dark);color:white;border-radius:10px;padding:.8rem 1.3rem;margin-top:1.1rem;font-family:'Arial',sans-serif;font-size:.9rem;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;pointer-events:none}
+.sb.vis{opacity:1;transform:translateY(0);pointer-events:auto}
+.sn{font-size:1.25rem;font-weight:700;color:var(--gy)}
+.sn.perf{color:var(--gt)}
+
+.bchk{font-family:'Arial',sans-serif;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;padding:.6rem 1.4rem;border-radius:8px;border:none;cursor:pointer;background:var(--accent2);color:white;margin-top:1.1rem;transition:background .18s}
+.bchk:hover{background:#2c5f7a}
+
+.wb{display:flex;flex-wrap:wrap;gap:.45rem;padding:.7rem 1rem;background:#f8f5f0;border-radius:8px;border:1px solid var(--border);margin-bottom:1rem}
+.wc{background:var(--dark);color:white;border-radius:16px;padding:4px 14px;font-family:'Arial',sans-serif;font-size:.82rem}
+
+.free-inp{display:block;width:100%;border:2px solid var(--border);border-radius:10px;background:#fafafa;font-family:'Georgia',serif;font-size:.95rem;padding:.8rem 1rem;outline:none;color:var(--dark);resize:vertical;min-height:150px;margin-top:.6rem;line-height:1.7;transition:border-color .2s}
+.free-inp:focus{border-color:var(--accent2);background:white}
+.free-inp.done-ok{border-color:var(--okb);background:var(--okbg)}
+
+.checklist{list-style:none;padding:0;margin-top:.8rem}
+.checklist li{padding:.55rem .8rem;border-radius:6px;background:#f8f5f0;margin-bottom:.4rem;font-family:'Arial',sans-serif;font-size:.85rem;color:var(--muted);border-left:3px solid var(--border);line-height:1.4;cursor:pointer;user-select:none}
+.checklist li.ticked{border-left-color:var(--okb);background:var(--okbg);color:var(--ok)}
+
+.val-panel{display:none;background:var(--nobg);border:2px solid var(--nob);border-radius:10px;padding:1rem 1.4rem;margin-bottom:1rem;font-family:'Arial',sans-serif;font-size:.9rem;color:var(--no)}
+.val-panel.vis{display:block}
+.val-panel strong{display:block;margin-bottom:.5rem}
+.val-panel ul{padding-left:1.2rem;line-height:1.8}
+
+.send-sec{background:var(--gb);border-radius:14px;padding:1.8rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem;margin-top:1.5rem}
+.send-sec h2{color:var(--gy);font-family:'Arial',sans-serif;margin-bottom:.3rem}
+.send-sec p{color:#bbb;font-size:.88rem;margin:0}
+.bsend{font-family:'Arial',sans-serif;font-weight:700;font-size:.9rem;text-transform:uppercase;letter-spacing:.04em;padding:.8rem 2rem;border-radius:10px;border:none;cursor:pointer;background:var(--gy);color:var(--dark);transition:background .18s,transform .15s;white-space:nowrap}
+.bsend:hover{background:#e8b900;transform:translateY(-1px)}
+
+.sec-divider{height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;margin:2.5rem 0}
+
+@media(max-width:600px){
+  h1{font-size:1.4rem}
+  .pw{padding:1.5rem 1rem 3rem}
+  .bi{min-width:90px}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-brand">📘 Units 1 &amp; 2 — Homework</div>
+  <div class="hdr-lbl">Revision</div>
+</header>
+
+<div class="pw">
+
+  <!-- NAME -->
+  <div class="name-card" id="nameCard">
+    <label for="sName">✏️ Your name:</label>
+    <input type="text" id="sName" class="name-inp" placeholder="First and last name…">
+  </div>
+
+
+  <!-- ── EX 1 ── -->
+  <div class="stag">Exercise 1</div>
+  <h1>Tense Challenge</h1>
+
+  <div class="gb">
+    <h3>📐 Quick reminder</h3>
+    <span class="hl">used to</span> — past habits &amp; states &nbsp;·&nbsp;
+    <span class="hl">would</span> — past habits only (not states) &nbsp;·&nbsp;
+    <span class="hl2">PP Simple</span> — completed action / how many times &nbsp;·&nbsp;
+    <span class="hl2">PP Continuous</span> — ongoing activity, explaining the present
+  </div>
+
+  <div class="inst">Complete each sentence with the correct verb form.</div>
+
+  <div class="card">
+    <div class="exi"><span class="in">1</span>When I was little, I <input class="bi" id="t1" data-answer="used to collect|would collect" placeholder="(collect)…"><span class="fi" id="fi-t1"></span> football stickers.</div>
+    <div class="exi"><span class="in">2</span>My sister <input class="bi" id="t2" data-answer="used to hate" placeholder="(hate)…"><span class="fi" id="fi-t2"></span> vegetables, but now she loves them. <em style="font-size:.82rem;color:var(--muted)">(one answer only — why?)</em></div>
+    <div class="exi"><span class="in">3</span>I <input class="bi" id="t3" data-answer="have just finished|'ve just finished|just finished" placeholder="(just / finish)…"><span class="fi" id="fi-t3"></span> my homework — shall we watch something?</div>
+    <div class="exi"><span class="in">4</span>How many times have you <input class="bi" id="t4" data-answer="watched|seen" placeholder="(watch / see)…"><span class="fi" id="fi-t4"></span> that series?</div>
+    <div class="exi"><span class="in">5</span>Sorry, you look exhausted — <input class="bi" id="t5" data-answer="have you been working|have you been studying|have you been awake" placeholder="…"><span class="fi" id="fi-t5"></span> all night?</div>
+    <div class="exi"><span class="in">6</span>Look at her eyes — she <input class="bi" id="t6" data-answer="has been crying|'s been crying" placeholder="(cry)…"><span class="fi" id="fi-t6"></span>. She must be upset.</div>
+    <button class="bchk" onclick="checkGroup('t',['t1','t2','t3','t4','t5','t6'],6)">Check answers</button>
+    <div class="sb" id="sb-t"><span class="sn" id="sn-t"></span><span id="sm-t"></span></div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+
+  <!-- ── EX 2 ── -->
+  <div class="stag">Exercise 2</div>
+  <h1>Word Factory</h1>
+
+  <div class="gb">
+    <h3>📐 -ed vs -ing adjectives</h3>
+    <span class="hl">-ed</span> → how a person <em>feels</em> &nbsp;·&nbsp;
+    <span class="hl2">-ing</span> → quality of a thing or situation
+  </div>
+
+  <div class="inst">Complete each sentence with the correct adjective form of the word in brackets.</div>
+
+  <div class="card">
+    <div class="exi"><span class="in">1</span>The ending of the film was completely <input class="bi" id="w1" data-answer="shocking" placeholder="…(shock)"><span class="fi" id="fi-w1"></span>. Nobody expected it.</div>
+    <div class="exi"><span class="in">2</span>I felt absolutely <input class="bi" id="w2" data-answer="exhausted" placeholder="…(exhaust)"><span class="fi" id="fi-w2"></span> after the three-hour exam.</div>
+    <div class="exi"><span class="in">3</span>She's quite <input class="bi" id="w3" data-answer="reserved" placeholder="…(reserve)"><span class="fi" id="fi-w3"></span> — she barely said a word at the party.</div>
+    <div class="exi"><span class="in">4</span>His argument was really <input class="bi" id="w4" data-answer="convincing" placeholder="…(convince)"><span class="fi" id="fi-w4"></span> — I completely changed my mind.</div>
+    <div class="exi"><span class="in">5</span>Don't be so <input class="bi" id="w5" data-answer="nervous" placeholder="…(nerve)"><span class="fi" id="fi-w5"></span>! You'll do great in the interview.</div>
+    <div class="exi"><span class="in">6</span>The documentary was really <input class="bi" id="w6" data-answer="interesting" placeholder="…(interest)"><span class="fi" id="fi-w6"></span>. I'd highly recommend it.</div>
+    <button class="bchk" onclick="checkGroup('w',['w1','w2','w3','w4','w5','w6'],6)">Check answers</button>
+    <div class="sb" id="sb-w"><span class="sn" id="sn-w"></span><span id="sm-w"></span></div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+
+  <!-- ── EX 3 ── -->
+  <div class="stag">Exercise 3</div>
+  <h1>Get Smart</h1>
+
+  <div class="inst">Complete each sentence with the missing word to form a GET phrase.</div>
+
+  <div class="card">
+    <div class="exi"><span class="in">1</span>It really gets <strong>_____</strong> my nerves when people talk loudly on the phone in public.<br><input class="bi" id="g1" data-answer="on" placeholder="…" style="min-width:80px"><span class="fi" id="fi-g1"></span></div>
+    <div class="exi"><span class="in">2</span>Have you managed to get rid <strong>_____</strong> that old sofa yet?<br><input class="bi" id="g2" data-answer="of" placeholder="…" style="min-width:80px"><span class="fi" id="fi-g2"></span></div>
+    <div class="exi"><span class="in">3</span>She talks for hours — she never gets to the <strong>_____</strong>.<br><input class="bi" id="g3" data-answer="point" placeholder="…" style="min-width:90px"><span class="fi" id="fi-g3"></span></div>
+    <div class="exi"><span class="in">4</span>I'll get in touch <strong>_____</strong> you as soon as I hear back from them.<br><input class="bi" id="g4" data-answer="with" placeholder="…" style="min-width:80px"><span class="fi" id="fi-g4"></span></div>
+    <div class="exi"><span class="in">5</span>Try not to get <strong>_____</strong> away — remember, it's just a game!<br><input class="bi" id="g5" data-answer="carried" placeholder="…" style="min-width:90px"><span class="fi" id="fi-g5"></span></div>
+    <div class="exi"><span class="in">6</span>The whole family is getting <strong>_____</strong> this weekend to celebrate my birthday.<br><input class="bi" id="g6" data-answer="together" placeholder="…" style="min-width:100px"><span class="fi" id="fi-g6"></span></div>
+    <button class="bchk" onclick="checkGroup('g',['g1','g2','g3','g4','g5','g6'],6)">Check answers</button>
+    <div class="sb" id="sb-g"><span class="sn" id="sn-g"></span><span id="sm-g"></span></div>
+  </div>
+
+  <div class="sec-divider"></div>
+
+
+  <!-- ── EX 4 ── -->
+  <div class="stag">Exercise 4</div>
+  <h1>Put It All Together</h1>
+
+  <div class="inst">Write <strong>5–7 sentences</strong> on one of the topics below. Include all four elements in the self-check list.</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.4rem">
+    <div style="background:#fff5f5;border-radius:9px;padding:.9rem 1.1rem;border-left:4px solid var(--accent);font-size:.92rem;line-height:1.5">
+      <strong>Option A</strong><br>A childhood memory — what life was like, what you used to do, and a specific experience you still remember.
+    </div>
+    <div style="background:#eef6ff;border-radius:9px;padding:.9rem 1.1rem;border-left:4px solid var(--accent2);font-size:.92rem;line-height:1.5">
+      <strong>Option B</strong><br>A film or series you've watched recently — what you thought of it, how long you've been watching it, and how it made you feel.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Your writing</h2>
+    <textarea class="free-inp" id="freeWrite" rows="7" placeholder="Write your paragraph here…"></textarea>
+
+    <h2 style="margin-top:1.2rem">Self-check ✏️</h2>
+    <p style="font-family:'Arial',sans-serif;font-size:.85rem;color:var(--muted);margin-bottom:.4rem">Click each box once you've included it:</p>
+    <ul class="checklist" id="checklist">
+      <li id="cl1" onclick="tickCheck(this)">☐ &nbsp;<strong>used to</strong> or <strong>would</strong></li>
+      <li id="cl2" onclick="tickCheck(this)">☐ &nbsp;<strong>Present Perfect Simple</strong> or <strong>Continuous</strong></li>
+      <li id="cl3" onclick="tickCheck(this)">☐ &nbsp;A <strong>personality or emotion adjective</strong></li>
+      <li id="cl4" onclick="tickCheck(this)">☐ &nbsp;A <strong>GET phrase</strong></li>
+    </ul>
+  </div>
+
+
+  <!-- Validation -->
+  <div class="val-panel" id="valPanel">
+    <strong>⚠ Please complete the following before sending:</strong>
+    <ul id="valList"></ul>
+  </div>
+
+  <!-- Send -->
+  <div class="send-sec">
+    <div>
+      <h2>📬 Send to Teacher</h2>
+      <p>Your answers will be sent by email. Make sure everything is filled in!</p>
+    </div>
+    <button class="bsend" onclick="sendToTeacher()">Send to Teacher →</button>
+  </div>
+
+</div><!-- /pw -->
+
+
+<script>
+/* ── HELPERS ── */
+function norm(s){ return s.trim().toLowerCase().replace(/\s+/g,' ').replace(/[.!?,]$/,''); }
+
+function chkOne(id){
+  const inp=document.getElementById(id);
+  if(!inp) return false;
+  const v=norm(inp.value);
+  const fi=document.getElementById('fi-'+id);
+  if(!v){ inp.classList.remove('ok','no'); if(fi) fi.textContent=''; return false; }
+  const ok=inp.dataset.answer.split('|').map(a=>norm(a)).includes(v);
+  inp.classList.toggle('ok',ok);
+  inp.classList.toggle('no',!ok);
+  if(fi){ fi.textContent=ok?'✓':'✗'; fi.style.color=ok?'var(--ok)':'var(--no)'; }
+  return ok;
+}
+
+const timers={};
+document.querySelectorAll('.bi').forEach(inp=>{
+  inp.addEventListener('input',()=>{ clearTimeout(timers[inp.id]); timers[inp.id]=setTimeout(()=>chkOne(inp.id),650); });
+  inp.addEventListener('blur',()=>{ clearTimeout(timers[inp.id]); chkOne(inp.id); });
+});
+
+/* ── GROUP CHECK ── */
+function checkGroup(key,ids,total){
+  const c=ids.filter(id=>chkOne(id)).length;
+  const sb=document.getElementById('sb-'+key);
+  const sn=document.getElementById('sn-'+key);
+  const sm=document.getElementById('sm-'+key);
+  sb.classList.add('vis');
+  sn.textContent=c+'/'+total;
+  sn.className='sn'+(c===total?' perf':'');
+  sm.textContent=c===total?'🎉 Perfect!':c>=Math.ceil(total*.7)?'Almost — check the red ones!':'Good try — review your notes!';
+}
+
+/* ── TICK ── */
+function tickCheck(li){
+  li.classList.toggle('ticked');
+  li.textContent=li.classList.contains('ticked')
+    ? li.textContent.replace('☐','☑')
+    : li.textContent.replace('☑','☐');
+}
+
+/* ── NAME CLEAR ── */
+document.getElementById('sName').addEventListener('input',function(){ this.classList.remove('err'); });
+
+/* ── SEND ── */
+function sendToTeacher(){
+  const nameEl=document.getElementById('sName');
+  const name=nameEl.value.trim();
+  const nameCard=document.getElementById('nameCard');
+  const panel=document.getElementById('valPanel');
+  const list=document.getElementById('valList');
+  const issues=[];
+
+  if(!name){
+    issues.push('Write your name at the top of the page.');
+    nameEl.classList.add('err');
+    nameCard.classList.remove('shake');
+    void nameCard.offsetWidth;
+    nameCard.classList.add('shake');
+  } else { nameEl.classList.remove('err'); }
+
+  const groups={'Exercise 1':['t1','t2','t3','t4','t5','t6'],'Exercise 2':['w1','w2','w3','w4','w5','w6'],'Exercise 3':['g1','g2','g3','g4','g5','g6']};
+  Object.entries(groups).forEach(([exName,ids])=>{
+    const empty=ids.filter(id=>!document.getElementById(id).value.trim());
+    if(empty.length){
+      const qNums=empty.map(id=>id.match(/\d+$/)[0]);
+      issues.push(`${exName}: fill in question${qNums.length>1?'s':''} ${qNums.join(', ')}.`);
+    }
+  });
+
+  if(!document.getElementById('freeWrite').value.trim()) issues.push('Exercise 4: write your paragraph.');
+
+  if(issues.length>0){
+    list.innerHTML=issues.map(i=>`<li>${i}</li>`).join('');
+    panel.classList.add('vis');
+    panel.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  panel.classList.remove('vis');
+
+  function v(id){ const e=document.getElementById(id); return e?(e.value.trim()||'—'):'—'; }
+  function s(id){ const e=document.getElementById(id); if(!e||!e.value.trim()) return '(blank)'; return e.classList.contains('ok')?'✓':'✗'; }
+
+  const ticks=['cl1','cl2','cl3','cl4'].map(id=>document.getElementById(id).classList.contains('ticked')?'☑':'☐');
+
+  const body=`HOMEWORK — Units 1 & 2 Revision
+Student: ${name}
+================================================
+
+EXERCISE 1 — Tense Challenge [${document.getElementById('sn-t').textContent||'not checked'}]
+1. ${v('t1')} ${s('t1')}
+2. ${v('t2')} ${s('t2')}
+3. ${v('t3')} ${s('t3')}
+4. ${v('t4')} ${s('t4')}
+5. ${v('t5')} ${s('t5')}
+6. ${v('t6')} ${s('t6')}
+
+EXERCISE 2 — Word Factory [${document.getElementById('sn-w').textContent||'not checked'}]
+1. ${v('w1')} ${s('w1')}
+2. ${v('w2')} ${s('w2')}
+3. ${v('w3')} ${s('w3')}
+4. ${v('w4')} ${s('w4')}
+5. ${v('w5')} ${s('w5')}
+6. ${v('w6')} ${s('w6')}
+
+EXERCISE 3 — GET Phrases [${document.getElementById('sn-g').textContent||'not checked'}]
+1. ${v('g1')} ${s('g1')}
+2. ${v('g2')} ${s('g2')}
+3. ${v('g3')} ${s('g3')}
+4. ${v('g4')} ${s('g4')}
+5. ${v('g5')} ${s('g5')}
+6. ${v('g6')} ${s('g6')}
+
+EXERCISE 4 — Free Writing
+Self-check: used to/would ${ticks[0]} | PP ${ticks[1]} | adjective ${ticks[2]} | GET phrase ${ticks[3]}
+
+${document.getElementById('freeWrite').value.trim()}
+
+================================================`.trim();
+
+  const subj=encodeURIComponent(`HW Units 1&2 — ${name}`);
+  window.location.href=`mailto:dariia.mlnk@gmail.com?subject=${subj}&body=${encodeURIComponent(body)}`;
+}
+</script>
+</body>
+</html>
