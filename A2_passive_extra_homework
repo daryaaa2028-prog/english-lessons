@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Passive Voice – Homework</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(145deg, #f3eeff 0%, #fde8f4 100%);
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+      color: #2a2a2a;
+    }
+
+    .container { max-width: 780px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .hw-header {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 28px 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(109,40,217,.10);
+      text-align: center;
+    }
+    .hw-header h1 {
+      font-size: 1.75rem;
+      color: #6d28d9;
+      margin-bottom: 4px;
+    }
+    .hw-header p { color: #888; font-size: .9rem; }
+
+    /* ── Name field ── */
+    .name-card {
+      background: white;
+      border-radius: 16px;
+      padding: 18px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .name-card label {
+      font-weight: 700;
+      color: #6d28d9;
+      white-space: nowrap;
+      font-size: .95rem;
+    }
+    .name-card input {
+      flex: 1;
+      padding: 9px 14px;
+      border: 2px solid #e4d4fc;
+      border-radius: 10px;
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .name-card input:focus { border-color: #6d28d9; }
+    .name-card input.error { border-color: #ef4444; background: #fff5f5; }
+
+    /* ── Rules ── */
+    .rules-card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #6d28d9;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .rule-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    .rule-table th {
+      background: #ede9fe;
+      color: #5b21b6;
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 700;
+    }
+    .rule-table th:first-child { border-radius: 8px 0 0 8px; }
+    .rule-table th:last-child  { border-radius: 0 8px 8px 0; }
+    .rule-table td { padding: 9px 12px; border-bottom: 1px solid #f3eeff; vertical-align: top; }
+    .rule-table tr:last-child td { border-bottom: none; }
+    .rule-table tr:hover td { background: #faf7ff; }
+    .formula {
+      font-family: 'Courier New', monospace;
+      background: #ede9fe;
+      color: #5b21b6;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: .82rem;
+      white-space: nowrap;
+    }
+    .rules-tip {
+      margin-top: 14px;
+      background: #fdf4ff;
+      border-left: 3px solid #c084fc;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: .85rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    /* ── Exercise card ── */
+    .exercise {
+      background: white;
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    }
+    .ex-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .ex-num {
+      background: #6d28d9;
+      color: white;
+      min-width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .88rem;
+      flex-shrink: 0;
+    }
+    .ex-title { font-weight: 700; font-size: 1rem; color: #1a1a1a; }
+    .ex-instr { font-size: .83rem; color: #888; margin-top: 2px; }
+
+    /* ── MC ── */
+    .mc-item {
+      padding: 12px 14px;
+      background: #faf7ff;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .mc-sentence {
+      font-size: .92rem;
+      margin-bottom: 8px;
+      line-height: 1.5;
+      color: #333;
+    }
+    .mc-options { display: flex; gap: 8px; flex-wrap: wrap; }
+    .mc-opt {
+      padding: 5px 14px;
+      border: 2px solid #ddd6fe;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: .84rem;
+      background: white;
+      color: #444;
+      transition: all .15s;
+      user-select: none;
+    }
+    .mc-opt:hover:not(.locked) { border-color: #6d28d9; color: #6d28d9; }
+    .mc-opt.selected { background: #6d28d9; border-color: #6d28d9; color: white; }
+    .mc-opt.correct  { background: #d1fae5; border-color: #10b981; color: #065f46; }
+    .mc-opt.wrong    { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+
+    /* ── FIB ── */
+    .fib-item {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 14px;
+      background: #faf7ff;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      font-size: .92rem;
+      line-height: 1.6;
+    }
+    .fib-item .hint {
+      font-size: .78rem;
+      color: #888;
+      font-style: italic;
+      margin-left: 4px;
+    }
+    .fib-input {
+      border: 2px solid #ddd6fe;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: .88rem;
+      min-width: 160px;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .fib-input:focus { border-color: #6d28d9; }
+    .fib-input.correct { border-color: #10b981; background: #d1fae5; }
+    .fib-input.wrong   { border-color: #ef4444; background: #fee2e2; }
+    .fib-fb { font-size: .78rem; margin-top: 3px; width: 100%; }
+    .fib-fb.ok  { color: #059669; }
+    .fib-fb.err { color: #dc2626; }
+
+    /* ── Transform ── */
+    .tr-item {
+      padding: 12px 14px;
+      background: #faf7ff;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .tr-active {
+      font-size: .88rem;
+      color: #555;
+      margin-bottom: 7px;
+    }
+    .tr-active strong { color: #6d28d9; font-weight: 600; }
+    .tr-label { font-size: .78rem; color: #aaa; margin-bottom: 4px; }
+    .tr-input {
+      width: 100%;
+      padding: 7px 12px;
+      border: 2px solid #ddd6fe;
+      border-radius: 8px;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .tr-input:focus { border-color: #6d28d9; }
+    .tr-input.correct { border-color: #10b981; background: #d1fae5; }
+    .tr-input.wrong   { border-color: #ef4444; background: #fee2e2; }
+    .tr-fb { font-size: .78rem; margin-top: 4px; }
+    .tr-fb.ok  { color: #059669; }
+    .tr-fb.err { color: #dc2626; }
+
+    /* ── Check button & score ── */
+    .btn-row { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
+    .btn-check {
+      padding: 9px 22px;
+      background: #6d28d9;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: .88rem;
+      font-weight: 700;
+      transition: background .2s, transform .1s;
+    }
+    .btn-check:hover { background: #5b21b6; transform: translateY(-1px); }
+    .btn-check:active { transform: translateY(0); }
+    .score-pill {
+      display: none;
+      background: #ede9fe;
+      color: #5b21b6;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+
+    /* ── Send section ── */
+    .send-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+      text-align: center;
+    }
+    .btn-send {
+      padding: 13px 38px;
+      background: linear-gradient(135deg, #6d28d9, #db2777);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+      transition: all .2s;
+      box-shadow: 0 4px 16px rgba(109,40,217,.28);
+    }
+    .btn-send:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(109,40,217,.38);
+    }
+    .btn-send:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+    .send-note { font-size: .82rem; color: #aaa; margin-top: 10px; min-height: 1.2em; }
+    .send-note.warn { color: #ef4444; }
+    .send-note.ready { color: #10b981; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="hw-header">
+    <h1>✏️ Passive Voice Homework</h1>
+    <p>Present Simple Passive &nbsp;·&nbsp; Past Simple Passive &nbsp;·&nbsp; Present Perfect Passive</p>
+  </div>
+
+  <!-- Name -->
+  <div class="name-card">
+    <label for="studentName">👤 Your name:</label>
+    <input type="text" id="studentName" placeholder="Write your first and last name…" autocomplete="off" />
+  </div>
+
+  <!-- Rules -->
+  <div class="rules-card">
+    <div class="section-title">📖 Grammar Rules</div>
+    <table class="rule-table">
+      <thead>
+        <tr>
+          <th>Tense</th>
+          <th>Formula</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Present Simple Passive</strong></td>
+          <td><span class="formula">am / is / are + past participle</span></td>
+          <td>English <em>is spoken</em> here.</td>
+        </tr>
+        <tr>
+          <td><strong>Past Simple Passive</strong></td>
+          <td><span class="formula">was / were + past participle</span></td>
+          <td>The cake <em>was eaten</em> yesterday.</td>
+        </tr>
+        <tr>
+          <td><strong>Present Perfect Passive</strong></td>
+          <td><span class="formula">have / has + been + past participle</span></td>
+          <td>My keys <em>have been lost</em>.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="rules-tip">
+      💡 <strong>Tip:</strong> Use the <strong>passive</strong> when you don't know who did the action, or when it's not important.<br>
+      To choose <em>is/are</em> or <em>was/were</em>, look at the subject and the time: singular subject → <em>is / was</em>; plural subject → <em>are / were</em>.
+    </div>
+  </div>
+
+  <!-- Exercise 1 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">1</div>
+      <div>
+        <div class="ex-title">Multiple Choice</div>
+        <div class="ex-instr">Click the correct passive form for each sentence.</div>
+      </div>
+    </div>
+    <div id="ex1"></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkEx1()">✓ Check Exercise 1</button>
+      <span class="score-pill" id="score1"></span>
+    </div>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">2</div>
+      <div>
+        <div class="ex-title">Fill in the Blanks</div>
+        <div class="ex-instr">Use the verb in brackets in the correct passive form. Type your answer in the gap.</div>
+      </div>
+    </div>
+    <div id="ex2"></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkEx2()">✓ Check Exercise 2</button>
+      <span class="score-pill" id="score2"></span>
+    </div>
+  </div>
+
+  <!-- Exercise 3 -->
+  <div class="exercise">
+    <div class="ex-header">
+      <div class="ex-num">3</div>
+      <div>
+        <div class="ex-title">Active → Passive</div>
+        <div class="ex-instr">Rewrite each sentence in the passive voice. Keep the same tense!</div>
+      </div>
+    </div>
+    <div id="ex3"></div>
+    <div class="btn-row">
+      <button class="btn-check" onclick="checkEx3()">✓ Check Exercise 3</button>
+      <span class="score-pill" id="score3"></span>
+    </div>
+  </div>
+
+  <!-- Send -->
+  <div class="send-card">
+    <button class="btn-send" id="sendBtn" disabled onclick="sendToTeacher()">📧 Send to Teacher</button>
+    <div class="send-note" id="sendNote">Complete all exercises and write your name first.</div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const ex1Data = [
+  {
+    q: '1. English ___ all over the world.',
+    opts: ['is spoken', 'are spoken', 'was spoken'],
+    ans: 0
+  },
+  {
+    q: '2. This letter ___ three days ago.',
+    opts: ['is written', 'was written', 'has been written'],
+    ans: 1
+  },
+  {
+    q: '3. Look! The window ___!',
+    opts: ['is breaking', 'was broken', 'has been broken'],
+    ans: 2
+  },
+  {
+    q: '4. These shoes ___ in Italy.',
+    opts: ['is made', 'are made', 'were made'],
+    ans: 1
+  },
+  {
+    q: '5. The homework ___ every Friday.',
+    opts: ['is given', 'was given', 'has been given'],
+    ans: 0
+  },
+  {
+    q: '6. My phone ___! I can\'t find it anywhere.',
+    opts: ['is stolen', 'was stolen', 'has been stolen'],
+    ans: 2
+  },
+  {
+    q: '7. The concert ___ last Saturday.',
+    opts: ['is cancelled', 'was cancelled', 'has been cancelled'],
+    ans: 1
+  },
+  {
+    q: '8. This song ___ in more than 50 countries.',
+    opts: ['is loved', 'was loved', 'has been loved'],
+    ans: 0
+  }
+];
+
+const ex2Data = [
+  {
+    before: 'French',
+    after: 'at this school.',
+    hint: '(teach)',
+    answers: ['is taught']
+  },
+  {
+    before: 'My bike',
+    after: 'last summer.',
+    hint: '(steal)',
+    answers: ['was stolen']
+  },
+  {
+    before: 'The results',
+    after: 'yet.',
+    hint: '(not / announce)',
+    answers: ["haven't been announced", "have not been announced"]
+  },
+  {
+    before: 'This novel',
+    after: 'by J.K. Rowling.',
+    hint: '(write)',
+    answers: ['was written']
+  },
+  {
+    before: 'The emails',
+    after: 'every morning.',
+    hint: '(check)',
+    answers: ['are checked']
+  },
+  {
+    before: 'The winner',
+    after: 'already.',
+    hint: '(choose)',
+    answers: ['has been chosen']
+  }
+];
+
+const ex3Data = [
+  {
+    active: 'People speak English in Australia.',
+    answers: ['english is spoken in australia', 'english is spoken in australia.'],
+    model: 'English is spoken in Australia.'
+  },
+  {
+    active: 'Someone stole her bag yesterday.',
+    answers: ['her bag was stolen yesterday', 'her bag was stolen yesterday.'],
+    model: 'Her bag was stolen yesterday.'
+  },
+  {
+    active: 'They have just built a new school.',
+    answers: ['a new school has just been built', 'a new school has just been built.'],
+    model: 'A new school has just been built.'
+  },
+  {
+    active: 'The teacher corrects our mistakes every day.',
+    answers: ['our mistakes are corrected every day', 'our mistakes are corrected every day.',
+              'our mistakes are corrected by the teacher every day', 'our mistakes are corrected by the teacher every day.'],
+    model: 'Our mistakes are corrected every day.'
+  },
+  {
+    active: 'Someone has already eaten the pizza.',
+    answers: ['the pizza has already been eaten', 'the pizza has already been eaten.'],
+    model: 'The pizza has already been eaten.'
+  }
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const ex1Selected = new Array(ex1Data.length).fill(null);
+let ex1Locked = false;
+
+// ─── BUILD EX 1 ──────────────────────────────────────────────────────────────
+function buildEx1() {
+  const wrap = document.getElementById('ex1');
+  ex1Data.forEach((item, qi) => {
+    const div = document.createElement('div');
+    div.className = 'mc-item';
+    div.innerHTML = `<div class="mc-sentence">${item.q}</div><div class="mc-options" id="mco-${qi}"></div>`;
+    wrap.appendChild(div);
+    const optsDiv = div.querySelector('.mc-options');
+    item.opts.forEach((opt, oi) => {
+      const btn = document.createElement('button');
+      btn.className = 'mc-opt';
+      btn.id = `mc-${qi}-${oi}`;
+      btn.textContent = opt;
+      btn.onclick = () => pickMC(qi, oi);
+      optsDiv.appendChild(btn);
+    });
+  });
+}
+
+function pickMC(qi, oi) {
+  if (ex1Locked) return;
+  ex1Data[qi].opts.forEach((_, i) => {
+    const b = document.getElementById(`mc-${qi}-${i}`);
+    b.classList.remove('selected');
+  });
+  ex1Selected[qi] = oi;
+  document.getElementById(`mc-${qi}-${oi}`).classList.add('selected');
+  refreshSend();
+}
+
+function checkEx1() {
+  let score = 0;
+  ex1Data.forEach((item, qi) => {
+    const sel = ex1Selected[qi];
+    item.opts.forEach((_, oi) => {
+      const b = document.getElementById(`mc-${qi}-${oi}`);
+      b.classList.remove('selected', 'correct', 'wrong');
+      b.classList.add('locked');
+      if (oi === item.ans) {
+        b.classList.add('correct');
+        if (sel === oi) score++;
+      } else if (sel === oi) {
+        b.classList.add('wrong');
+      }
+    });
+  });
+  ex1Locked = true;
+  showScore('score1', score, ex1Data.length);
+  refreshSend();
+}
+
+// ─── BUILD EX 2 ──────────────────────────────────────────────────────────────
+function buildEx2() {
+  const wrap = document.getElementById('ex2');
+  ex2Data.forEach((item, qi) => {
+    const div = document.createElement('div');
+    div.className = 'fib-item';
+    div.innerHTML =
+      `<span>${qi + 1}.&nbsp;${item.before}</span>` +
+      `<input class="fib-input" id="fib-${qi}" type="text" placeholder="…" autocomplete="off" />` +
+      `<span>${item.after}</span>` +
+      `<span class="hint">${item.hint}</span>` +
+      `<div class="fib-fb" id="fib-fb-${qi}"></div>`;
+    wrap.appendChild(div);
+    document.getElementById(`fib-${qi}`).addEventListener('input', refreshSend);
+  });
+}
+
+function checkEx2() {
+  let score = 0;
+  ex2Data.forEach((item, qi) => {
+    const inp = document.getElementById(`fib-${qi}`);
+    const val = inp.value.trim().toLowerCase();
+    const ok = item.answers.some(a => a.toLowerCase() === val);
+    inp.classList.remove('correct', 'wrong');
+    const fb = document.getElementById(`fib-fb-${qi}`);
+    if (ok) {
+      inp.classList.add('correct');
+      fb.className = 'fib-fb ok';
+      fb.textContent = '✓ Correct!';
+      score++;
+    } else {
+      inp.classList.add('wrong');
+      fb.className = 'fib-fb err';
+      fb.textContent = `✗ Model answer: ${item.answers[0]}`;
+    }
+  });
+  showScore('score2', score, ex2Data.length);
+  refreshSend();
+}
+
+// ─── BUILD EX 3 ──────────────────────────────────────────────────────────────
+function buildEx3() {
+  const wrap = document.getElementById('ex3');
+  ex3Data.forEach((item, qi) => {
+    const div = document.createElement('div');
+    div.className = 'tr-item';
+    div.innerHTML =
+      `<div class="tr-active">${qi + 1}. <strong>Active:</strong> ${item.active}</div>` +
+      `<div class="tr-label">Passive:</div>` +
+      `<input class="tr-input" id="tr-${qi}" type="text" placeholder="Write the passive sentence here…" autocomplete="off" />` +
+      `<div class="tr-fb" id="tr-fb-${qi}"></div>`;
+    wrap.appendChild(div);
+    document.getElementById(`tr-${qi}`).addEventListener('input', refreshSend);
+  });
+}
+
+function checkEx3() {
+  let score = 0;
+  ex3Data.forEach((item, qi) => {
+    const inp = document.getElementById(`tr-${qi}`);
+    const val = inp.value.trim().toLowerCase().replace(/\.$/, '');
+    const ok = item.answers.some(a => a.toLowerCase().replace(/\.$/, '') === val);
+    inp.classList.remove('correct', 'wrong');
+    const fb = document.getElementById(`tr-fb-${qi}`);
+    if (ok) {
+      inp.classList.add('correct');
+      fb.className = 'tr-fb ok';
+      fb.textContent = '✓ Perfect!';
+      score++;
+    } else {
+      inp.classList.add('wrong');
+      fb.className = 'tr-fb err';
+      fb.textContent = `✗ Model answer: ${item.model}`;
+    }
+  });
+  showScore('score3', score, ex3Data.length);
+  refreshSend();
+}
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function showScore(id, score, total) {
+  const el = document.getElementById(id);
+  el.style.display = 'inline-block';
+  el.textContent = `${score} / ${total}`;
+}
+
+function allDone() {
+  if (!document.getElementById('studentName').value.trim()) return false;
+  if (ex1Selected.some(s => s === null)) return false;
+  for (let i = 0; i < ex2Data.length; i++) {
+    if (!document.getElementById(`fib-${i}`).value.trim()) return false;
+  }
+  for (let i = 0; i < ex3Data.length; i++) {
+    if (!document.getElementById(`tr-${i}`).value.trim()) return false;
+  }
+  return true;
+}
+
+function refreshSend() {
+  const btn = document.getElementById('sendBtn');
+  const note = document.getElementById('sendNote');
+  if (allDone()) {
+    btn.disabled = false;
+    note.className = 'send-note ready';
+    note.textContent = 'Everything is filled in — you\'re ready to send! 🎉';
+  } else {
+    btn.disabled = true;
+    const missing = [];
+    if (!document.getElementById('studentName').value.trim()) missing.push('write your name');
+    if (ex1Selected.some(s => s === null)) missing.push('finish Exercise 1');
+    let fib = false;
+    for (let i = 0; i < ex2Data.length; i++) {
+      if (!document.getElementById(`fib-${i}`).value.trim()) { fib = true; break; }
+    }
+    if (fib) missing.push('finish Exercise 2');
+    let tr = false;
+    for (let i = 0; i < ex3Data.length; i++) {
+      if (!document.getElementById(`tr-${i}`).value.trim()) { tr = true; break; }
+    }
+    if (tr) missing.push('finish Exercise 3');
+    note.className = missing.length ? 'send-note warn' : 'send-note';
+    note.textContent = missing.length
+      ? 'Still needed: ' + missing.join(' · ') + '.'
+      : '';
+  }
+}
+
+function sendToTeacher() {
+  const name = document.getElementById('studentName').value.trim();
+  const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+
+  let body = `PASSIVE VOICE HOMEWORK\nStudent: ${name}\nDate: ${date}\n`;
+  body += '─'.repeat(40) + '\n\n';
+
+  body += 'EXERCISE 1 – Multiple Choice\n\n';
+  ex1Data.forEach((item, qi) => {
+    const sel = ex1Selected[qi];
+    const chosen = sel !== null ? item.opts[sel] : '(no answer)';
+    const mark = (sel === item.ans) ? '✓' : '✗';
+    body += `${mark} ${item.q.replace('___', `[${chosen}]`)}\n`;
+  });
+
+  body += '\n' + '─'.repeat(40) + '\n\n';
+  body += 'EXERCISE 2 – Fill in the Blanks\n\n';
+  ex2Data.forEach((item, qi) => {
+    const ans = document.getElementById(`fib-${qi}`).value.trim();
+    const correct = item.answers.some(a => a.toLowerCase() === ans.toLowerCase());
+    const mark = correct ? '✓' : '✗';
+    body += `${mark} ${qi + 1}. ${item.before} [${ans}] ${item.after}  ${item.hint}\n`;
+  });
+
+  body += '\n' + '─'.repeat(40) + '\n\n';
+  body += 'EXERCISE 3 – Active → Passive\n\n';
+  ex3Data.forEach((item, qi) => {
+    const ans = document.getElementById(`tr-${qi}`).value.trim();
+    const val = ans.toLowerCase().replace(/\.$/, '');
+    const correct = item.answers.some(a => a.toLowerCase().replace(/\.$/, '') === val);
+    const mark = correct ? '✓' : '✗';
+    body += `${mark} ${qi + 1}.\n   Active:  ${item.active}\n   Passive: ${ans}\n\n`;
+  });
+
+  const subject = encodeURIComponent(`Passive Voice HW – ${name}`);
+  const bodyEnc = encodeURIComponent(body);
+  window.location.href = `mailto:dariia.mlnk@gmail.com?subject=${subject}&body=${bodyEnc}`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+buildEx1();
+buildEx2();
+buildEx3();
+document.getElementById('studentName').addEventListener('input', refreshSend);
+refreshSend();
+</script>
+</body>
+</html>
