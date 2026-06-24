@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Passive Voice — Homework</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #f4f0fc;
+  color: #1a1a2e;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+.wrap { max-width: 680px; margin: 0 auto; padding: 36px 22px 60px; }
+
+/* ── HEADER ── */
+.hw-header {
+  background: #1e1b4b; border-radius: 20px;
+  padding: 28px 30px; margin-bottom: 26px;
+}
+.hw-header .tag {
+  display: inline-block; background: #7c3aed; color: #fff;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 12px; border-radius: 99px; margin-bottom: 12px;
+}
+.hw-header h1 { font-size: 1.45rem; font-weight: 900; color: #fff; line-height: 1.25; margin-bottom: 5px; }
+.hw-header p  { font-size: 0.87rem; color: #a78bfa; }
+
+/* ── NAME ── */
+.name-card {
+  background: #fff; border-radius: 16px; padding: 18px 22px;
+  margin-bottom: 22px; box-shadow: 0 2px 14px rgba(80,40,160,0.07);
+  display: flex; align-items: center; gap: 14px;
+}
+.name-label { font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+.name-input {
+  flex: 1; border: 2px solid #e2d9f3; border-radius: 10px;
+  padding: 9px 14px; font-size: 0.95rem; font-family: inherit;
+  outline: none; transition: border-color 0.18s;
+}
+.name-input:focus { border-color: #7c3aed; }
+.name-input.filled { border-color: #22c55e; }
+
+/* ── GRAMMAR BOX (dark) ── */
+.gbox {
+  background: #1e1b4b; border-radius: 18px;
+  padding: 24px 26px; margin-bottom: 22px;
+}
+.gbox-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #a78bfa; margin-bottom: 18px;
+}
+.tense-row { margin-bottom: 18px; }
+.tense-row:last-child { margin-bottom: 0; }
+.tense-name {
+  color: #f9a8d4; font-weight: 800; font-size: 0.88rem;
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;
+}
+.tense-formula {
+  background: rgba(255,255,255,0.08); border-left: 3px solid #7c3aed;
+  border-radius: 0 8px 8px 0; padding: 8px 14px;
+  color: #e2d9f3; font-size: 0.9rem; font-weight: 600; margin-bottom: 6px;
+}
+.tense-formula span { color: #c4b5fd; }
+.tense-eg {
+  font-size: 0.85rem; color: #94a3b8; font-style: italic;
+  padding-left: 6px; line-height: 1.6;
+}
+.tense-eg b { color: #e2d9f3; font-style: normal; }
+.gbox-divider {
+  border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 16px 0;
+}
+
+/* ── EXERCISE CARD ── */
+.ex-card {
+  background: #fff; border-radius: 18px;
+  padding: 24px 26px; margin-bottom: 20px;
+  box-shadow: 0 2px 14px rgba(80,40,160,0.06);
+}
+.ex-tag {
+  display: inline-block; background: #ede9fe; color: #6d28d9;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 99px; margin-bottom: 10px;
+}
+.ex-title { font-size: 1.05rem; font-weight: 800; color: #1a1a2e; margin-bottom: 4px; }
+.ex-sub   { font-size: 0.87rem; color: #64748b; margin-bottom: 20px; line-height: 1.5; }
+
+/* ── MC ── */
+.mc-item { margin-bottom: 20px; }
+.mc-item:last-child { margin-bottom: 0; }
+.mc-q { font-size: 0.93rem; color: #374151; margin-bottom: 9px; font-weight: 500; line-height: 1.5; }
+.mc-q em { color: #7c3aed; }
+.mc-options { display: flex; flex-direction: column; gap: 7px; }
+.mc-opt {
+  background: #f8f5ff; border: 2px solid #e2d9f3; border-radius: 11px;
+  padding: 10px 15px; cursor: pointer; font-size: 0.9rem; font-family: inherit;
+  text-align: left; transition: all 0.18s; color: #1a1a2e;
+}
+.mc-opt:hover:not(.locked) { border-color: #7c3aed; background: #ede9fe; }
+.mc-opt.selected { border-color: #7c3aed; background: #ede9fe; color: #5b21b6; font-weight: 600; }
+.mc-opt.correct  { border-color: #22c55e; background: #f0fdf4; color: #15803d; font-weight: 600; }
+.mc-opt.wrong    { border-color: #f43f5e; background: #fff1f2; color: #be123c; }
+.mc-opt.reveal   { border-color: #22c55e; background: #f0fdf4; color: #15803d; font-weight: 600; }
+.mc-opt.locked   { cursor: default; }
+
+/* ── FILL-IN-BLANK ── */
+.gap-line {
+  font-size: 0.93rem; color: #374151; line-height: 2.7; margin-bottom: 0;
+}
+.blank {
+  border: 2px solid #e2d9f3; border-radius: 8px;
+  padding: 4px 10px; font-size: 0.88rem; font-family: inherit;
+  outline: none; text-align: center; transition: border-color 0.18s;
+  min-width: 60px; width: auto;
+}
+.blank:focus { border-color: #7c3aed; }
+.blank.ok  { border-color: #22c55e; background: #f0fdf4; color: #15803d; }
+.blank.bad { border-color: #f43f5e; background: #fff1f2; color: #be123c; }
+.tick { font-size: 0.9rem; margin-left: 2px; }
+.hint-tag {
+  display: inline-block; background: #f1f5f9; color: #64748b;
+  font-size: 0.72rem; border-radius: 5px; padding: 1px 6px;
+  margin-left: 4px; font-style: italic;
+}
+
+/* ── TRANSFORM ── */
+.tf-item { margin-bottom: 18px; }
+.tf-item:last-child { margin-bottom: 0; }
+.tf-active {
+  background: #f8f5ff; border-radius: 10px;
+  padding: 10px 14px; font-size: 0.92rem; color: #374151;
+  line-height: 1.6; margin-bottom: 7px;
+}
+.tf-label { font-size: 0.72rem; font-weight: 700; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+.tf-input {
+  width: 100%; border: 2px solid #e2d9f3; border-radius: 9px;
+  padding: 9px 13px; font-size: 0.9rem; font-family: inherit;
+  outline: none; transition: border-color 0.18s;
+}
+.tf-input:focus { border-color: #7c3aed; }
+.tf-input.ok  { border-color: #22c55e; background: #f0fdf4; color: #15803d; }
+.tf-input.bad { border-color: #f43f5e; background: #fff1f2; }
+.model-ans {
+  display: none; background: #f0fdf4; border: 1px solid #bbf7d0;
+  color: #15803d; border-radius: 8px; padding: 9px 13px;
+  font-size: 0.85rem; margin-top: 6px; line-height: 1.6;
+}
+.model-ans.show { display: block; }
+
+/* ── FEEDBACK ── */
+.fb {
+  display: none; margin-top: 13px; padding: 11px 15px;
+  border-radius: 10px; font-size: 0.88rem; font-weight: 600; line-height: 1.5;
+}
+.fb.ok  { display:block; background:#f0fdf4; border:1px solid #bbf7d0; color:#15803d; }
+.fb.bad { display:block; background:#fff1f2; border:1px solid #fecdd3; color:#be123c; }
+
+/* ── CHECK BTN ── */
+.check-btn {
+  background: #7c3aed; color: #fff; border: none;
+  border-radius: 10px; padding: 10px 22px;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  margin-top: 18px; transition: background 0.18s, transform 0.1s;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.check-btn:hover { background: #6d28d9; transform: translateY(-1px); }
+
+/* ── Q SEPARATOR ── */
+.q-sep { border: none; border-top: 1px solid #f1f5f9; margin: 18px 0; }
+
+/* ── SEND SECTION ── */
+.send-card {
+  background: #fff; border-radius: 18px; padding: 26px 28px;
+  box-shadow: 0 2px 14px rgba(80,40,160,0.07); text-align: center;
+}
+.send-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 6px; }
+.send-card p  { font-size: 0.87rem; color: #64748b; margin-bottom: 20px; line-height: 1.5; }
+.checklist {
+  display: inline-flex; flex-direction: column; gap: 7px;
+  text-align: left; margin-bottom: 22px;
+}
+.cl-row { display: flex; align-items: center; gap: 9px; font-size: 0.85rem; color: #64748b; }
+.dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #e2d9f3; transition: background 0.3s; flex-shrink: 0;
+}
+.dot.done { background: #22c55e; }
+.send-btn {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: #fff; border: none; border-radius: 12px;
+  padding: 14px 36px; font-weight: 800; font-size: 1rem;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 18px rgba(124,58,237,0.35);
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.send-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(124,58,237,0.45); }
+.send-btn:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; box-shadow: none; transform: none; }
+.val-msg { font-size: 0.82rem; color: #f43f5e; margin-top: 12px; min-height: 18px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="hw-header">
+    <div class="tag">Homework</div>
+    <h1>🔄 The Passive Voice</h1>
+    <p>Complete all three exercises, then send your work to your teacher.</p>
+  </div>
+
+  <!-- NAME -->
+  <div class="name-card">
+    <span class="name-label">✏️ Your name:</span>
+    <input class="name-input" id="studentName" type="text"
+           placeholder="Type your full name here…"
+           oninput="onName()" autocomplete="name">
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       GRAMMAR RULES
+  ══════════════════════════════════════ -->
+  <div class="gbox">
+    <div class="gbox-label">📚 Grammar Rules — The Passive Voice</div>
+
+    <div class="tense-row">
+      <div class="tense-name">Present Simple Passive</div>
+      <div class="tense-formula"><span>Subject</span> + am / is / are + <span>past participle</span></div>
+      <div class="tense-eg">→ Emojis <b>are used</b> all over the world. (every day, always, general facts)</div>
+    </div>
+
+    <hr class="gbox-divider">
+
+    <div class="tense-row">
+      <div class="tense-name">Past Simple Passive</div>
+      <div class="tense-formula"><span>Subject</span> + was / were + <span>past participle</span></div>
+      <div class="tense-eg">→ The first emoji <b>was created</b> in Japan in 1999. (completed past action)</div>
+    </div>
+
+    <hr class="gbox-divider">
+
+    <div class="tense-row">
+      <div class="tense-name">Present Perfect Passive</div>
+      <div class="tense-formula"><span>Subject</span> + has / have + been + <span>past participle</span></div>
+      <div class="tense-eg">→ This song <b>has been downloaded</b> over a billion times. (at some point up to now)</div>
+    </div>
+
+    <hr class="gbox-divider" style="margin-top:18px;">
+    <div style="font-size:0.82rem; color:#94a3b8; margin-top:4px; line-height:1.6;">
+      💡 We use the passive when we don't know who did something, or when the action is more important than the person who did it.<br>
+      To say who did the action, add <span style="color:#c4b5fd; font-weight:700;">by</span> + agent: <em style="color:#e2d9f3;">"The film was directed <span style="color:#f9a8d4;">by</span> Greta Gerwig."</em>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       EXERCISE 1 — Multiple Choice
+  ══════════════════════════════════════ -->
+  <div class="ex-card">
+    <span class="ex-tag">Exercise 1</span>
+    <div class="ex-title">Choose the correct form</div>
+    <p class="ex-sub">Click on the option that correctly completes each sentence. Only one answer is correct.</p>
+
+    <!-- Q1 -->
+    <div class="mc-item">
+      <div class="mc-q">1. English <em>_____</em> in more than 50 countries around the world.</div>
+      <div class="mc-options" id="mc1">
+        <button class="mc-opt" onclick="selectMC('mc1',this,false)">A. &nbsp;was spoken</button>
+        <button class="mc-opt" onclick="selectMC('mc1',this,true)">B. &nbsp;is spoken</button>
+        <button class="mc-opt" onclick="selectMC('mc1',this,false)">C. &nbsp;has been spoken</button>
+      </div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- Q2 -->
+    <div class="mc-item">
+      <div class="mc-q">2. The Barbie film <em>_____</em> by millions of people in 2023.</div>
+      <div class="mc-options" id="mc2">
+        <button class="mc-opt" onclick="selectMC('mc2',this,false)">A. &nbsp;is watched</button>
+        <button class="mc-opt" onclick="selectMC('mc2',this,false)">B. &nbsp;has been watched</button>
+        <button class="mc-opt" onclick="selectMC('mc2',this,true)">C. &nbsp;was watched</button>
+      </div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- Q3 -->
+    <div class="mc-item">
+      <div class="mc-q">3. Oh no! My phone <em>_____</em> — I can't find it anywhere!</div>
+      <div class="mc-options" id="mc3">
+        <button class="mc-opt" onclick="selectMC('mc3',this,false)">A. &nbsp;was stolen</button>
+        <button class="mc-opt" onclick="selectMC('mc3',this,true)">B. &nbsp;has been stolen</button>
+        <button class="mc-opt" onclick="selectMC('mc3',this,false)">C. &nbsp;is stolen</button>
+      </div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- Q4 -->
+    <div class="mc-item">
+      <div class="mc-q">4. Pizza <em>_____</em> all over the world every single day.</div>
+      <div class="mc-options" id="mc4">
+        <button class="mc-opt" onclick="selectMC('mc4',this,true)">A. &nbsp;is eaten</button>
+        <button class="mc-opt" onclick="selectMC('mc4',this,false)">B. &nbsp;was eaten</button>
+        <button class="mc-opt" onclick="selectMC('mc4',this,false)">C. &nbsp;has been eaten</button>
+      </div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- Q5 -->
+    <div class="mc-item">
+      <div class="mc-q">5. The Eiffel Tower <em>_____</em> in 1889.</div>
+      <div class="mc-options" id="mc5">
+        <button class="mc-opt" onclick="selectMC('mc5',this,false)">A. &nbsp;is built</button>
+        <button class="mc-opt" onclick="selectMC('mc5',this,true)">B. &nbsp;was built</button>
+        <button class="mc-opt" onclick="selectMC('mc5',this,false)">C. &nbsp;has been built</button>
+      </div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- Q6 -->
+    <div class="mc-item" style="margin-bottom:0;">
+      <div class="mc-q">6. The winner of the competition <em>_____</em> yet — we're still waiting!</div>
+      <div class="mc-options" id="mc6">
+        <button class="mc-opt" onclick="selectMC('mc6',this,false)">A. &nbsp;wasn't announced</button>
+        <button class="mc-opt" onclick="selectMC('mc6',this,false)">B. &nbsp;isn't announced</button>
+        <button class="mc-opt" onclick="selectMC('mc6',this,true)">C. &nbsp;hasn't been announced</button>
+      </div>
+    </div>
+
+    <button class="check-btn" onclick="checkEx1()">Check ✓</button>
+    <div class="fb" id="ex1fb"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       EXERCISE 2 — Fill in the blank
+  ══════════════════════════════════════ -->
+  <div class="ex-card">
+    <span class="ex-tag">Exercise 2</span>
+    <div class="ex-title">Fill in the blank</div>
+    <p class="ex-sub">Write the correct passive form of the verb in brackets. The tense hint is shown in grey.</p>
+
+    <div class="gap-line">
+      1. The Harry Potter books <input class="blank" id="b1" size="18" placeholder="verb"> into more than 80 languages. (translate) <span class="tick" id="b1t"></span>
+    </div>
+    <div class="gap-line">
+      2. Chocolate <input class="blank" id="b2" size="12" placeholder="verb"> from cacao beans. (make) <span class="tick" id="b2t"></span>
+    </div>
+    <div class="gap-line">
+      3. The 2024 Olympic Games <input class="blank" id="b3" size="12" placeholder="verb"> in Paris. (hold) <span class="tick" id="b3t"></span>
+    </div>
+    <div class="gap-line">
+      4. This video <input class="blank" id="b4" size="18" placeholder="verb"> over 500 million times so far! (watch) <span class="tick" id="b4t"></span>
+    </div>
+    <div class="gap-line">
+      5. Our school <input class="blank" id="b5" size="12" placeholder="verb"> a hundred years ago. (build) <span class="tick" id="b5t"></span>
+    </div>
+    <div class="gap-line">
+      6. These phones <input class="blank" id="b6" size="12" placeholder="verb"> in South Korea. (make) <span class="tick" id="b6t"></span>
+    </div>
+
+    <button class="check-btn" onclick="checkEx2()">Check ✓</button>
+    <div class="fb" id="ex2fb"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       EXERCISE 3 — Active → Passive
+  ══════════════════════════════════════ -->
+  <div class="ex-card">
+    <span class="ex-tag">Exercise 3</span>
+    <div class="ex-title">Rewrite in the passive 🔄</div>
+    <p class="ex-sub">Change each active sentence into the passive. You can keep or remove the agent (by + person). When you're done, click Check to see the model answers.</p>
+
+    <!-- TF 1 -->
+    <div class="tf-item">
+      <div class="tf-active">🔵 &nbsp;<strong>Active:</strong> &nbsp;Millions of people <u>stream</u> this song every week.</div>
+      <div class="tf-label">→ Passive:</div>
+      <input class="tf-input" id="tf1" placeholder="Write the passive sentence here…">
+      <div class="model-ans" id="tf1m">✅ <strong>Model answer:</strong> This song <b>is streamed</b> by millions of people every week.</div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- TF 2 -->
+    <div class="tf-item">
+      <div class="tf-active">🔵 &nbsp;<strong>Active:</strong> &nbsp;Scientists <u>discovered</u> penicillin in 1928.</div>
+      <div class="tf-label">→ Passive:</div>
+      <input class="tf-input" id="tf2" placeholder="Write the passive sentence here…">
+      <div class="model-ans" id="tf2m">✅ <strong>Model answer:</strong> Penicillin <b>was discovered</b> by scientists in 1928.</div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- TF 3 -->
+    <div class="tf-item">
+      <div class="tf-active">🔵 &nbsp;<strong>Active:</strong> &nbsp;Someone <u>has stolen</u> my bag!</div>
+      <div class="tf-label">→ Passive:</div>
+      <input class="tf-input" id="tf3" placeholder="Write the passive sentence here…">
+      <div class="model-ans" id="tf3m">✅ <strong>Model answer:</strong> My bag <b>has been stolen</b>! &nbsp;<em>(We don't need "by someone" — we don't know who did it.)</em></div>
+    </div>
+
+    <hr class="q-sep">
+
+    <!-- TF 4 -->
+    <div class="tf-item" style="margin-bottom:0;">
+      <div class="tf-active">🔵 &nbsp;<strong>Active:</strong> &nbsp;Greta Gerwig <u>directed</u> the Barbie film.</div>
+      <div class="tf-label">→ Passive:</div>
+      <input class="tf-input" id="tf4" placeholder="Write the passive sentence here…">
+      <div class="model-ans" id="tf4m">✅ <strong>Model answer:</strong> The Barbie film <b>was directed</b> by Greta Gerwig.</div>
+    </div>
+
+    <button class="check-btn" onclick="checkEx3()">Check ✓</button>
+    <div class="fb" id="ex3fb"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       SEND SECTION
+  ══════════════════════════════════════ -->
+  <div class="send-card">
+    <h3>Ready to send? 📬</h3>
+    <p>All done? Click the button — your email app will open with everything filled in. Just press Send!</p>
+
+    <div class="checklist">
+      <div class="cl-row"><span class="dot" id="d-name"></span> Your name is written</div>
+      <div class="cl-row"><span class="dot" id="d-ex1"></span> Exercise 1 checked</div>
+      <div class="cl-row"><span class="dot" id="d-ex2"></span> Exercise 2 checked</div>
+      <div class="cl-row"><span class="dot" id="d-ex3"></span> Exercise 3 — all sentences written &amp; checked</div>
+    </div>
+
+    <button class="send-btn" id="sendBtn" onclick="sendMail()" disabled>
+      📧 Send to Teacher
+    </button>
+    <div class="val-msg" id="valMsg">Please complete the checklist above first.</div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ══════════ STATE ══════════
+const done = { ex1: false, ex2: false, ex3: false };
+
+function dot(id, on) {
+  document.getElementById('d-' + id).classList.toggle('done', on);
+}
+
+function refresh() {
+  const nameOk = document.getElementById('studentName').value.trim().length > 0;
+  const allDone = done.ex1 && done.ex2 && done.ex3;
+  dot('name', nameOk);
+  const btn = document.getElementById('sendBtn');
+  btn.disabled = !(nameOk && allDone);
+  const msg = document.getElementById('valMsg');
+  if (!nameOk && !allDone)     msg.textContent = 'Please write your name and complete all exercises.';
+  else if (!nameOk)            msg.textContent = 'Please write your name.';
+  else if (!allDone)           msg.textContent = 'Please check all exercises first.';
+  else                         msg.textContent = '';
+}
+
+function onName() {
+  const el = document.getElementById('studentName');
+  el.classList.toggle('filled', el.value.trim().length > 0);
+  refresh();
+}
+
+// ══════════ EXERCISE 1 — MC ══════════
+// Track selected per group, and whether checked
+const mcSel = {};   // groupId → button element
+const mcLocked = {};
+
+function selectMC(groupId, btn, isCorrect) {
+  if (mcLocked[groupId]) return;
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.mc-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  btn._correct = isCorrect;
+  mcSel[groupId] = btn;
+}
+
+function checkEx1() {
+  const groups = ['mc1','mc2','mc3','mc4','mc5','mc6'];
+  let ok = 0; let answered = 0;
+
+  groups.forEach(gid => {
+    const group = document.getElementById(gid);
+    const sel = mcSel[gid];
+    if (!sel) return; // not answered
+    answered++;
+    mcLocked[gid] = true;
+    group.querySelectorAll('.mc-opt').forEach(b => {
+      b.classList.remove('selected');
+      b.classList.add('locked');
+      if (b._correct) b.classList.add(b === sel ? 'correct' : 'reveal');
+      else if (b === sel) b.classList.add('wrong');
+    });
+    if (sel._correct) ok++;
+  });
+
+  const fb = document.getElementById('ex1fb');
+  if (answered < groups.length) {
+    fb.className = 'fb bad';
+    fb.textContent = '⚠️ Please answer all 6 questions before checking!';
+    return;
+  }
+  if (ok === groups.length) {
+    fb.className = 'fb ok';
+    fb.textContent = '🎉 Perfect — all 6 correct!';
+  } else {
+    fb.className = 'fb bad';
+    fb.textContent = ok + '/6 correct. The correct answers are highlighted in green — read them carefully!';
+  }
+  done.ex1 = true; dot('ex1', true); refresh();
+}
+
+// ══════════ EXERCISE 2 — FILL IN BLANK ══════════
+// accept multiple valid forms
+const B_ANS = {
+  b1: ['have been translated'],
+  b2: ['is made','is produced'],
+  b3: ['were held'],
+  b4: ['has been watched','has been viewed','has been seen'],
+  b5: ['was built','was founded','was opened','was established'],
+  b6: ['are made','are produced','are manufactured']
+};
+
+function norm(s) { return s.trim().toLowerCase().replace(/\s+/g,' '); }
+
+function checkEx2() {
+  let ok = 0; let allFilled = true;
+  Object.entries(B_ANS).forEach(([id, answers]) => {
+    const el = document.getElementById(id);
+    const tick = document.getElementById(id + 't');
+    const v = norm(el.value);
+    if (!v) { allFilled = false; el.classList.remove('ok','bad'); tick.textContent = ''; return; }
+    if (answers.includes(v)) {
+      el.classList.add('ok'); el.classList.remove('bad'); tick.textContent = ' ✅'; ok++;
+    } else {
+      el.classList.add('bad'); el.classList.remove('ok'); tick.textContent = ' ❌';
+    }
+  });
+  const fb = document.getElementById('ex2fb');
+  if (!allFilled) {
+    fb.className = 'fb bad'; fb.textContent = '⚠️ Please fill in all 6 gaps before checking!'; return;
+  }
+  if (ok === 6) {
+    fb.className = 'fb ok'; fb.textContent = '🎉 All six correct — amazing!';
+  } else {
+    fb.className = 'fb bad';
+    fb.textContent = ok + '/6 correct. Check the red boxes — remember: correct tense + "be" + past participle!';
+  }
+  done.ex2 = true; dot('ex2', true); refresh();
+}
+
+// ══════════ EXERCISE 3 — TRANSFORM ══════════
+function checkEx3() {
+  const ids = ['tf1','tf2','tf3','tf4'];
+  const keywords = {
+    tf1: ['is streamed'],
+    tf2: ['was discovered'],
+    tf3: ['has been stolen'],
+    tf4: ['was directed']
+  };
+
+  let allFilled = true; let ok = 0;
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    const model = document.getElementById(id + 'm');
+    const v = norm(el.value);
+    if (v.length < 5) { allFilled = false; return; }
+    model.classList.add('show');
+    const kws = keywords[id];
+    const correct = kws.some(kw => v.includes(kw));
+    if (correct) {
+      el.classList.add('ok'); el.classList.remove('bad'); ok++;
+    } else {
+      el.classList.add('bad'); el.classList.remove('ok');
+    }
+  });
+
+  const fb = document.getElementById('ex3fb');
+  if (!allFilled) {
+    fb.className = 'fb bad'; fb.textContent = '⚠️ Please write all 4 passive sentences before checking!'; return;
+  }
+  if (ok === 4) {
+    fb.className = 'fb ok'; fb.textContent = '🎉 All four passive sentences correct! Compare with the model answers below each one.';
+  } else {
+    fb.className = 'fb bad';
+    fb.textContent = ok + '/4 correct. Compare your sentences with the model answers — check your verb form!';
+  }
+  done.ex3 = true; dot('ex3', true); refresh();
+}
+
+// ══════════ SEND ══════════
+function sendMail() {
+  const name = document.getElementById('studentName').value.trim();
+  if (!name) return;
+
+  // collect MC
+  const mcGroups = ['mc1','mc2','mc3','mc4','mc5','mc6'];
+  const mcQ = [
+    'English _____ in more than 50 countries.',
+    'The Barbie film _____ by millions of people in 2023.',
+    'My phone _____ — I can\'t find it anywhere!',
+    'Pizza _____ all over the world every single day.',
+    'The Eiffel Tower _____ in 1889.',
+    'The winner _____ yet — we\'re still waiting!'
+  ];
+  let ex1Lines = '';
+  mcGroups.forEach((gid, i) => {
+    const sel = mcSel[gid];
+    ex1Lines += `${i+1}. ${mcQ[i]}\n   → ${sel ? sel.textContent.trim() : '(not answered)'}\n`;
+  });
+
+  // collect blanks
+  const bIds = ['b1','b2','b3','b4','b5','b6'];
+  const bQ = [
+    'The Harry Potter books _____ into more than 80 languages. [present perfect]',
+    'Chocolate _____ from cacao beans. [present simple]',
+    'The 2024 Olympic Games _____ in Paris. [past simple]',
+    'This video _____ over 500 million times so far! [present perfect]',
+    'Our school _____ a hundred years ago. [past simple]',
+    'These phones _____ in South Korea. [present simple]'
+  ];
+  let ex2Lines = '';
+  bIds.forEach((id, i) => {
+    ex2Lines += `${i+1}. ${bQ[i]}\n   → ${document.getElementById(id).value.trim() || '(blank)'}\n`;
+  });
+
+  // collect transforms
+  const tfQ = [
+    'Millions of people stream this song every week. [present simple]',
+    'Scientists discovered penicillin in 1928. [past simple]',
+    'Someone has stolen my bag! [present perfect]',
+    'Greta Gerwig directed the Barbie film. [past simple]'
+  ];
+  let ex3Lines = '';
+  ['tf1','tf2','tf3','tf4'].forEach((id, i) => {
+    ex3Lines += `${i+1}. Active:  ${tfQ[i]}\n   Passive: ${document.getElementById(id).value.trim() || '(blank)'}\n`;
+  });
+
+  const body =
+`HOMEWORK — The Passive Voice
+Student: ${name}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXERCISE 1 — Multiple Choice
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${ex1Lines}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXERCISE 2 — Fill in the Blank
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${ex2Lines}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXERCISE 3 — Active → Passive
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${ex3Lines}`;
+
+  const sub = encodeURIComponent(`Homework: Passive Voice — ${name}`);
+  window.location.href = `mailto:dariia.mlnk@gmail.com?subject=${sub}&body=${encodeURIComponent(body)}`;
+}
+
+refresh();
+</script>
+</body>
+</html>
