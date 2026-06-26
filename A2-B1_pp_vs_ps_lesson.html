@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Present Perfect vs Past Simple</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #f4f1ec;
+    color: #2d3748;
+    font-size: 16px;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #fff;
+    border-bottom: 3px solid #c8a96e;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-title { font-size: 1.15rem; font-weight: bold; color: #2c4a7c; letter-spacing: .03em; }
+  .header-sub { font-size: 0.82rem; color: #888; margin-top: 2px; }
+  .score-badge {
+    background: #2c4a7c;
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    letter-spacing: .04em;
+  }
+
+  /* ── NAV DOTS ── */
+  .nav-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 18px 0 10px;
+    flex-wrap: wrap;
+  }
+  .dot {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: #ddd;
+    border: 2px solid #ccc;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #777;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: sans-serif;
+  }
+  .dot:hover { background: #b8d0f0; border-color: #2c4a7c; color: #2c4a7c; }
+  .dot.active { background: #2c4a7c; border-color: #2c4a7c; color: #fff; }
+  .dot.done { background: #e8f5e9; border-color: #66bb6a; color: #388e3c; }
+
+  /* ── PAGES ── */
+  .page { display: none; max-width: 820px; margin: 0 auto; padding: 28px 20px 100px; }
+  .page.active { display: block; }
+
+  /* ── PAGE HEADER ── */
+  .page-tag {
+    display: inline-block;
+    background: #e8eef8;
+    color: #2c4a7c;
+    border-radius: 6px;
+    padding: 3px 12px;
+    font-size: 0.78rem;
+    font-family: sans-serif;
+    font-weight: bold;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .page-tag.speaking { background: #fff3e0; color: #c05c00; }
+  .page-tag.grammar { background: #e8f5e9; color: #2e7d32; }
+  .page-tag.practice { background: #f3e5f5; color: #6a1b9a; }
+  .page-tag.reading { background: #e3f2fd; color: #1565c0; }
+
+  h1 { font-size: 1.7rem; color: #2c4a7c; margin-bottom: 8px; line-height: 1.3; }
+  h2 { font-size: 1.25rem; color: #2c4a7c; margin-bottom: 14px; }
+  .intro-text { font-size: 1rem; color: #555; line-height: 1.7; margin-bottom: 20px; }
+
+  /* ── CARDS ── */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border-left: 4px solid #c8a96e;
+  }
+  .card.blue { border-left-color: #2c4a7c; }
+  .card.green { border-left-color: #66bb6a; }
+  .card.orange { border-left-color: #e07b39; }
+  .card.purple { border-left-color: #9c6ad6; }
+  .card.teal { border-left-color: #26a69a; }
+
+  /* ── DISCUSSION QUESTIONS ── */
+  .disc-q {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border-top: 4px solid #c8a96e;
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+  .disc-q .q-num {
+    font-size: 0.78rem;
+    font-family: sans-serif;
+    font-weight: bold;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #c8a96e;
+    margin-bottom: 6px;
+  }
+  .disc-q .q-text { color: #2d3748; font-size: 1.08rem; }
+  .disc-q .q-hint { font-size: 0.88rem; color: #888; margin-top: 8px; font-style: italic; }
+
+  /* ── GRAMMAR REFERENCE ── */
+  .grammar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 600px) { .grammar-grid { grid-template-columns: 1fr; } }
+  .grammar-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  }
+  .grammar-box.pp { border-top: 4px solid #2c4a7c; }
+  .grammar-box.ps { border-top: 4px solid #e07b39; }
+  .grammar-box h3 { font-size: 1rem; margin-bottom: 10px; }
+  .grammar-box.pp h3 { color: #2c4a7c; }
+  .grammar-box.ps h3 { color: #e07b39; }
+  .formula {
+    background: #f4f1ec;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: monospace;
+    font-size: 0.92rem;
+    margin-bottom: 12px;
+    color: #2d3748;
+  }
+  .grammar-box ul { padding-left: 18px; }
+  .grammar-box li { font-size: 0.9rem; color: #555; line-height: 1.8; }
+  .example-sentence {
+    font-style: italic;
+    color: #2c4a7c;
+    font-size: 0.92rem;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #e8eef8;
+    border-radius: 6px;
+  }
+  .time-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .chip {
+    background: #e8eef8;
+    color: #2c4a7c;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.82rem;
+    font-family: sans-serif;
+  }
+  .chip.ps-chip { background: #fff3e0; color: #c05c00; }
+
+  /* ── MCQ ── */
+  .mcq-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .mcq-item .sent { font-size: 1rem; color: #2d3748; margin-bottom: 12px; line-height: 1.6; }
+  .mcq-opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mcq-btn {
+    padding: 8px 20px;
+    border: 2px solid #c8a96e;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: 'Georgia', serif;
+    color: #2d3748;
+    transition: all 0.18s;
+  }
+  .mcq-btn:hover { background: #f4f1ec; }
+  .mcq-btn.selected { background: #e8eef8; border-color: #2c4a7c; color: #2c4a7c; font-weight: bold; }
+  .mcq-btn.correct { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; font-weight: bold; }
+  .mcq-btn.wrong { background: #ffebee; border-color: #e57373; color: #c62828; }
+  .mcq-fb { font-size: 0.88rem; margin-top: 8px; font-family: sans-serif; display: none; }
+  .mcq-fb.show { display: block; }
+  .mcq-fb.ok { color: #2e7d32; }
+  .mcq-fb.err { color: #c62828; }
+
+  .check-btn, .next-btn {
+    display: block;
+    margin: 22px auto 0;
+    padding: 12px 36px;
+    background: #2c4a7c;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.1s;
+    letter-spacing: .04em;
+  }
+  .check-btn:hover, .next-btn:hover { background: #1a3260; transform: translateY(-1px); }
+  .check-btn:disabled { background: #aaa; cursor: default; transform: none; }
+
+  /* ── SPEAKING CARDS ── */
+  .speaking-card-area { position: relative; min-height: 260px; }
+  .sp-card {
+    display: none;
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 36px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    border-top: 6px solid #2c4a7c;
+    text-align: center;
+    min-height: 220px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  .sp-card.active-card { display: flex; }
+  .sp-card .card-icon { font-size: 2.2rem; margin-bottom: 12px; }
+  .sp-card .card-q { font-size: 1.18rem; color: #2d3748; line-height: 1.7; margin-bottom: 14px; }
+  .sp-card .card-hint { font-size: 0.88rem; color: #888; font-style: italic; }
+  .sp-card .card-prompts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 14px;
+  }
+  .sp-card .prompt-tag {
+    background: #e8eef8;
+    color: #2c4a7c;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.84rem;
+    font-family: sans-serif;
+  }
+  .card-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+  }
+  .card-nav-btn {
+    background: #fff;
+    border: 2px solid #c8a96e;
+    border-radius: 30px;
+    padding: 8px 22px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #2c4a7c;
+    font-family: 'Georgia', serif;
+    transition: all 0.18s;
+  }
+  .card-nav-btn:hover { background: #f4f1ec; }
+  .card-nav-btn:disabled { opacity: 0.4; cursor: default; }
+  .card-counter { font-size: 0.88rem; color: #888; font-family: sans-serif; }
+  .card-dots { display: flex; gap: 6px; justify-content: center; margin-top: 12px; }
+  .card-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; transition: background 0.2s; }
+  .card-dot.on { background: #2c4a7c; }
+
+  /* ── READING ── */
+  .reading-text {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 28px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    font-size: 1rem;
+    line-height: 1.85;
+    color: #2d3748;
+    margin-bottom: 22px;
+    border-left: 4px solid #1565c0;
+  }
+  .reading-text p { margin-bottom: 12px; }
+
+  /* ── FILL-IN ── */
+  .fill-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 1rem;
+    line-height: 2;
+  }
+  .fill-input {
+    border: none;
+    border-bottom: 2px solid #c8a96e;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #2d3748;
+    padding: 2px 6px;
+    min-width: 160px;
+    outline: none;
+    transition: border-color 0.18s;
+  }
+  .fill-input:focus { border-bottom-color: #2c4a7c; }
+  .fill-input.correct { border-bottom-color: #66bb6a; color: #2e7d32; }
+  .fill-input.wrong { border-bottom-color: #e57373; color: #c62828; }
+
+  /* ── STORYTELLING ── */
+  .story-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin-bottom: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border-left: 4px solid #9c6ad6;
+  }
+  .story-card .story-stem {
+    font-size: 1.1rem;
+    color: #2d3748;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+  .story-card .story-help {
+    font-size: 0.88rem;
+    color: #888;
+    margin-bottom: 10px;
+  }
+  .story-sub-prompts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .story-sub {
+    background: #f3e5f5;
+    color: #6a1b9a;
+    border-radius: 8px;
+    padding: 5px 14px;
+    font-size: 0.85rem;
+    font-family: sans-serif;
+  }
+
+  /* ── FLIP CARDS (page 6) ── */
+  .flip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 8px;
+  }
+  @media (max-width: 600px) { .flip-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .flip-wrap {
+    perspective: 900px;
+    height: 150px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+  }
+  .flip-wrap.flipped .flip-inner { transform: rotateY(180deg); }
+
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.1);
+  }
+  .flip-front {
+    background: linear-gradient(135deg, #2c4a7c 0%, #3a6bc4 100%);
+    color: #fff;
+  }
+  .flip-front .card-num {
+    font-size: 3.2rem;
+    font-weight: bold;
+    line-height: 1;
+    font-family: 'Georgia', serif;
+  }
+  .flip-front .card-tap {
+    font-size: 0.72rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-family: sans-serif;
+    opacity: 0.7;
+    margin-top: 8px;
+  }
+  .flip-back {
+    background: #fff;
+    border: 2px solid #e8e0d5;
+    transform: rotateY(180deg);
+    text-align: center;
+  }
+  .flip-back .d-statement {
+    font-size: 0.88rem;
+    color: #2d3748;
+    line-height: 1.55;
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  .flip-back .d-follow {
+    font-size: 0.78rem;
+    color: #26a69a;
+    font-family: sans-serif;
+    line-height: 1.4;
+  }
+
+  /* ── RESULTS ── */
+  .results-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 36px 32px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+    margin-bottom: 24px;
+  }
+  .results-box .score-num {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #2c4a7c;
+    line-height: 1;
+    margin: 16px 0 6px;
+  }
+  .results-box .score-label { font-size: 1rem; color: #888; font-family: sans-serif; }
+  .results-bar-wrap { height: 14px; background: #e0e0e0; border-radius: 8px; margin: 20px 0 8px; overflow: hidden; }
+  .results-bar { height: 14px; background: linear-gradient(90deg,#2c4a7c,#66bb6a); border-radius: 8px; width: 0; transition: width 1.2s ease; }
+  .results-msg { font-size: 1.05rem; color: #555; margin-top: 16px; line-height: 1.7; }
+  .speaking-summary {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px 26px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    margin-bottom: 14px;
+    border-left: 4px solid #c8a96e;
+  }
+  .speaking-summary h3 { font-size: 1rem; color: #2c4a7c; margin-bottom: 10px; font-family: sans-serif; letter-spacing: .03em; }
+  .speaking-summary ul { padding-left: 20px; }
+  .speaking-summary li { font-size: 0.93rem; color: #555; line-height: 1.9; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #fff;
+    border-top: 2px solid #e8e0d5;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
+  }
+  .nav-btn {
+    padding: 10px 28px;
+    background: #2c4a7c;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: background 0.18s;
+    letter-spacing: .04em;
+  }
+  .nav-btn:hover { background: #1a3260; }
+  .nav-btn:disabled { background: #ccc; cursor: default; }
+  .nav-page-info { font-size: 0.85rem; color: #888; font-family: sans-serif; }
+
+  /* ── UTILITY ── */
+  .divider { border: none; border-top: 1px solid #e8e0d5; margin: 24px 0; }
+  .highlight { color: #2c4a7c; font-weight: bold; }
+  .tag-pp { background:#e8eef8; color:#2c4a7c; padding:2px 10px; border-radius:12px; font-size:.85rem; font-family:sans-serif; font-weight:bold; }
+  .tag-ps { background:#fff3e0; color:#c05c00; padding:2px 10px; border-radius:12px; font-size:.85rem; font-family:sans-serif; font-weight:bold; }
+  .notice {
+    background: #fffde7;
+    border-left: 4px solid #f9a825;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    color: #5d4037;
+    margin-bottom: 18px;
+    font-family: sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Present Perfect &amp; Past Simple</div>
+    <div class="header-sub">Life Experiences</div>
+  </div>
+  <div class="score-badge" id="scoreBadge">0 / 0 pts</div>
+</div>
+
+<div class="nav-dots" id="navDots"></div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 0 — WARM-UP (Speaking / Discussion)
+══════════════════════════════════════════ -->
+<div class="page active" id="page-0">
+  <div class="page-tag speaking">Speaking · Warm-up</div>
+  <h1>Let's talk about your life! 🌍</h1>
+  <p class="intro-text">Just speak freely — there are no right or wrong answers here. Think and share!</p>
+
+  <div class="disc-q">
+    <div class="q-num">Question 1</div>
+    <div class="q-text">Think of one thing you have done in your life that you are really proud of. What is it?</div>
+    <div class="q-hint">Tell your partner as much as you can remember.</div>
+  </div>
+  <div class="disc-q">
+    <div class="q-num">Question 2</div>
+    <div class="q-text">Has anything unexpected ever happened to you while travelling? Tell the story.</div>
+    <div class="q-hint">Where were you? What happened? How did you feel?</div>
+  </div>
+  <div class="disc-q">
+    <div class="q-num">Question 3</div>
+    <div class="q-text">Is there something you have always wanted to do but haven't done yet? What is stopping you?</div>
+    <div class="q-hint">Dream big! What would you do first if you had no limits?</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 1 — GRAMMAR QUICK LOOK
+══════════════════════════════════════════ -->
+<div class="page" id="page-1">
+  <div class="page-tag grammar">Grammar · Quick Revision</div>
+  <h1>The Difference at a Glance</h1>
+  <p class="intro-text">You already know these tenses — here's a quick reminder of the key contrast.</p>
+
+  <div class="grammar-grid">
+    <div class="grammar-box pp">
+      <h3>✦ Present Perfect</h3>
+      <div class="formula">have / has + past participle</div>
+      <ul>
+        <li>Life experiences (no time given)</li>
+        <li>Something that still affects now</li>
+        <li>Unfinished time period</li>
+      </ul>
+      <div class="example-sentence">"I have visited 12 countries."<br>"She has already eaten."</div>
+      <div class="time-chips">
+        <span class="chip">ever</span>
+        <span class="chip">never</span>
+        <span class="chip">already</span>
+        <span class="chip">yet</span>
+        <span class="chip">just</span>
+        <span class="chip">recently</span>
+        <span class="chip">this year</span>
+        <span class="chip">so far</span>
+      </div>
+    </div>
+    <div class="grammar-box ps">
+      <h3>✦ Past Simple</h3>
+      <div class="formula">verb + -ed / irregular form</div>
+      <ul>
+        <li>Finished event at a specific time</li>
+        <li>Series of completed actions</li>
+        <li>When the time is known</li>
+      </ul>
+      <div class="example-sentence">"I visited France in 2018."<br>"She ate at 7 o'clock."</div>
+      <div class="time-chips">
+        <span class="chip ps-chip">yesterday</span>
+        <span class="chip ps-chip">last year</span>
+        <span class="chip ps-chip">in 2005</span>
+        <span class="chip ps-chip">ago</span>
+        <span class="chip ps-chip">when I was…</span>
+        <span class="chip ps-chip">in the morning</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card blue">
+    <strong>Key rule to remember:</strong><br>
+    <span style="line-height:1.9">
+      Use <span class="tag-pp">Present Perfect</span> when the exact time is <em>not important</em> or <em>not mentioned</em>.<br>
+      Use <span class="tag-ps">Past Simple</span> when you say <em>when</em> something happened — or it's clearly finished.
+    </span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 2 — QUICK PRACTICE (MCQ)
+══════════════════════════════════════════ -->
+<div class="page" id="page-2">
+  <div class="page-tag practice">Practice · Multiple Choice</div>
+  <h1>Choose the Right Tense</h1>
+  <p class="intro-text">Read each sentence carefully. Is it a general life experience, or does it mention a specific time?</p>
+
+  <div id="mcqItems"></div>
+  <button class="check-btn" id="mcqCheck" onclick="checkMCQ()">Check Answers</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 3 — SPEAKING: Have You Ever?
+══════════════════════════════════════════ -->
+<div class="page" id="page-3">
+  <div class="page-tag speaking">Speaking · Conversation</div>
+  <h1>Have You Ever…?</h1>
+  <p class="intro-text">Take turns asking the questions below. When your partner says <em>"Yes, I have"</em> — ask <strong>follow-up questions</strong> using Past Simple (when? where? what happened?).</p>
+
+  <div class="notice">💬 <strong>Model exchange:</strong><br>
+  "Have you ever cooked for more than ten people?" → "Yes, I have." → "When did you do that? What did you make?"</div>
+
+  <div class="speaking-card-area">
+    <div id="hye-cards"></div>
+    <div class="card-nav">
+      <button class="card-nav-btn" id="hyePrev" onclick="moveCard('hye',-1)">← Previous</button>
+      <span class="card-counter" id="hyeCounter">1 / 8</span>
+      <button class="card-nav-btn" id="hyeNext" onclick="moveCard('hye',1)">Next →</button>
+    </div>
+    <div class="card-dots" id="hyeDots"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 4 — READING + FILL-IN
+══════════════════════════════════════════ -->
+<div class="page" id="page-4">
+  <div class="page-tag reading">Reading &amp; Language</div>
+  <h1>Read &amp; Complete</h1>
+  <p class="intro-text">Read the text, then complete the sentences below using Present Perfect or Past Simple.</p>
+
+  <div class="reading-text">
+    <p><strong>A Life Well Travelled</strong></p>
+    <p>
+      Maria is 52 years old and lives in Barcelona. She <strong>has travelled</strong> to over 30 countries in her life.
+      She first <strong>left</strong> Spain when she was 24 — she <strong>went</strong> to Argentina for six months and
+      <strong>worked</strong> there as a language teacher.
+    </p>
+    <p>
+      Since then, she <strong>has returned</strong> to South America four times.
+      Last summer, she <strong>visited</strong> Colombia and <strong>climbed</strong> the famous Cocora Valley.
+      It was the hardest thing she has ever done physically, but she says it completely <strong>changed</strong> her perspective on life.
+    </p>
+    <p>
+      Maria <strong>has just booked</strong> a trip to Japan for next spring. She <strong>has never been</strong>
+      to Asia before, and she is very excited. "I have always wanted to see cherry blossoms," she says.
+    </p>
+  </div>
+
+  <div id="fillItems"></div>
+  <button class="check-btn" id="fillCheck" onclick="checkFill()">Check Answers</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 5 — SPEAKING: Storytelling
+══════════════════════════════════════════ -->
+<div class="page" id="page-5">
+  <div class="page-tag speaking">Speaking · Storytelling</div>
+  <h1>Tell Me About a Time When…</h1>
+  <p class="intro-text">Choose one card. Take 1–2 minutes to tell your story. Use <strong>Past Simple</strong> for the story details, and <strong>Present Perfect</strong> to introduce or reflect on the experience.</p>
+
+  <div class="notice">💬 <strong>Example:</strong> "I have tried surfing once. It was in Portugal — I went there in 2019. I fell off the board about twenty times but…"</div>
+
+  <div id="story-cards"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 6 — SPEAKING: Discussion
+══════════════════════════════════════════ -->
+<div class="page" id="page-6">
+  <div class="page-tag speaking">Speaking · Discussion</div>
+  <h1>What Do You Think?</h1>
+  <p class="intro-text">Discuss these statements with your partner. Agree, disagree, or share your own experience — and try to use both tenses naturally as you speak.</p>
+
+  <div class="flip-grid" id="debate-cards"></div>
+  <p style="text-align:center;font-size:0.85rem;color:#aaa;margin-top:14px;font-family:sans-serif;">Click any card to reveal the question</p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE 7 — FINAL SPEAKING + WRAP-UP
+══════════════════════════════════════════ -->
+<div class="page" id="page-7">
+  <div class="page-tag speaking">Speaking · Final Task</div>
+  <h1>Your Life in 2 Minutes</h1>
+  <p class="intro-text">This is your final speaking task. Take 2 minutes to tell your partner about your life using <strong>both</strong> Present Perfect and Past Simple.</p>
+
+  <div class="card teal" style="font-size:1.05rem;line-height:2;">
+    Use these ideas as a guide — but speak naturally, don't just read them!<br>
+    <span style="font-size:.92rem;color:#555;">
+      ✦ Something you have achieved in life<br>
+      ✦ A place you went to that you will never forget<br>
+      ✦ Something you have never done but want to do<br>
+      ✦ A time in your life when everything changed<br>
+      ✦ Something you have learned recently
+    </span>
+  </div>
+
+  <div class="card green" style="margin-top:0;">
+    <strong>Useful phrases:</strong><br>
+    <span style="font-size:.92rem;line-height:2.1;color:#555;">
+      "I have always believed that…" &nbsp;·&nbsp; "Back in [year], I…"<br>
+      "It was the first time I had ever…" &nbsp;·&nbsp; "Since then, I have…"<br>
+      "I've never forgotten the moment when…"
+    </span>
+  </div>
+
+  <hr class="divider">
+  <div id="resultsArea" style="display:none;">
+    <div class="results-box">
+      <div style="font-size:2rem;">🎉</div>
+      <div class="score-num" id="finalScore">0</div>
+      <div class="score-label" id="finalLabel">points out of 0</div>
+      <div class="results-bar-wrap"><div class="results-bar" id="resultsBar"></div></div>
+      <div class="results-msg" id="resultsMsg"></div>
+    </div>
+    <div class="speaking-summary">
+      <h3>WHAT YOU PRACTISED TODAY</h3>
+      <ul>
+        <li>Warm-up: sharing life memories and dreams</li>
+        <li>Grammar: Present Perfect vs Past Simple contrast</li>
+        <li>Practice: choosing the right tense in context</li>
+        <li>Conversation: "Have you ever…?" + follow-up questions</li>
+        <li>Reading: tenses in natural text</li>
+        <li>Storytelling: linking past events with present reflection</li>
+        <li>Discussion: expressing opinions using both tenses</li>
+        <li>Final task: extended speaking about your own life</li>
+      </ul>
+    </div>
+  </div>
+  <button class="check-btn" id="showResultsBtn" onclick="showResults()">See My Score</button>
+</div>
+
+<!-- ══════════════ BOTTOM NAV ══════════════ -->
+<div class="bottom-nav">
+  <button class="nav-btn" id="btnPrev" onclick="goTo(curPage-1)" disabled>← Back</button>
+  <div class="nav-page-info" id="navInfo">Page 1 of 8</div>
+  <button class="nav-btn" id="btnNext" onclick="goTo(curPage+1)">Next →</button>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────────────
+const TOTAL = 8;
+const PAGE_LABELS = ['Warm-up','Grammar','Practice','Speaking 1','Reading','Speaking 2','Discussion','Wrap-up'];
+let curPage = 0;
+let pts = 0, maxPts = 0;
+const done = {};
+const inited = {};
+
+// ─────────────────────────────────────────────────────
+//  NAV
+// ─────────────────────────────────────────────────────
+function buildDots() {
+  const c = document.getElementById('navDots');
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.textContent = i + 1;
+    d.title = PAGE_LABELS[i];
+    d.onclick = () => goTo(i);
+    c.appendChild(d);
+  }
+}
+
+function goTo(n) {
+  if (n < 0 || n >= TOTAL) return;
+  document.getElementById('page-' + curPage).classList.remove('active');
+  const oldDot = document.querySelectorAll('.dot')[curPage];
+  if (done[curPage]) oldDot.classList.add('done');
+  oldDot.classList.remove('active');
+  curPage = n;
+  document.getElementById('page-' + curPage).classList.add('active');
+  const newDot = document.querySelectorAll('.dot')[curPage];
+  newDot.classList.add('active');
+  document.getElementById('btnPrev').disabled = curPage === 0;
+  document.getElementById('btnNext').disabled = curPage === TOTAL - 1;
+  document.getElementById('navInfo').textContent = 'Page ' + (curPage + 1) + ' of ' + TOTAL + ' — ' + PAGE_LABELS[curPage];
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  lazyInit(curPage);
+}
+
+function earn(p, m) {
+  pts += p; maxPts += m;
+  document.getElementById('scoreBadge').textContent = pts + ' / ' + maxPts + ' pts';
+}
+
+function norm(s) {
+  return s.trim().toLowerCase().replace(/[.!?,]+$/, '').replace(/\s+/g, ' ');
+}
+
+// ─────────────────────────────────────────────────────
+//  LAZY INIT
+// ─────────────────────────────────────────────────────
+function lazyInit(pg) {
+  if (inited[pg]) return;
+  inited[pg] = true;
+  if (pg === 2) initMCQ();
+  if (pg === 3) initHYE();
+  if (pg === 4) initFill();
+  if (pg === 5) initStory();
+  if (pg === 6) initDebate();
+}
+
+// ─────────────────────────────────────────────────────
+//  PAGE 2 — MCQ
+// ─────────────────────────────────────────────────────
+const MCQ_DATA = [
+  {
+    sent: "Our team ___ this project together. We started in January and we still meet every week.",
+    opts: ["have worked on", "worked on"],
+    ans: 0,
+    hint: "The project is still ongoing — use Present Perfect."
+  },
+  {
+    sent: "She ___ to London three times. Her last visit was in 2021.",
+    opts: ["has been", "went"],
+    ans: 0,
+    hint: "'Three times' refers to life experience — Present Perfect. (The 2021 detail is extra information.)"
+  },
+  {
+    sent: "I ___ my keys this morning and I still can't find them!",
+    opts: ["have lost", "lost"],
+    ans: 0,
+    hint: "The result is still relevant now — Present Perfect."
+  },
+  {
+    sent: "We ___ in Rome for two weeks in the summer of 2019.",
+    opts: ["have stayed", "stayed"],
+    ans: 1,
+    hint: "'In the summer of 2019' is a specific finished time — Past Simple."
+  },
+  {
+    sent: "He ___ his first book when he was 40 years old.",
+    opts: ["has published", "published"],
+    ans: 1,
+    hint: "'When he was 40' specifies a finished time — Past Simple."
+  },
+  {
+    sent: "___ you ever ___ a cooking class?",
+    opts: ["Have … taken", "Did … take"],
+    ans: 0,
+    hint: "'Ever' with life experience = Present Perfect."
+  }
+];
+
+const mcqState = {}; // index → chosen option index
+
+function initMCQ() {
+  const c = document.getElementById('mcqItems');
+  MCQ_DATA.forEach((q, i) => {
+    mcqState[i] = -1;
+    const div = document.createElement('div');
+    div.className = 'mcq-item';
+    const sentHtml = q.sent.replace('___', '<span style="color:#c8a96e;font-weight:bold;">___</span>');
+    const optsHtml = q.opts.map((o, j) =>
+      `<button class="mcq-btn" id="mcq-${i}-${j}" onclick="selectMCQ(${i},${j})">${o}</button>`
+    ).join('');
+    div.innerHTML = `
+      <div class="sent">${sentHtml}</div>
+      <div class="mcq-opts">${optsHtml}</div>
+      <div class="mcq-fb" id="mcq-fb-${i}"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function selectMCQ(qi, oi) {
+  if (document.getElementById('mcqCheck').disabled) return;
+  mcqState[qi] = oi;
+  MCQ_DATA[qi].opts.forEach((_, j) => {
+    document.getElementById(`mcq-${qi}-${j}`).className = 'mcq-btn' + (j === oi ? ' selected' : '');
+  });
+}
+
+function checkMCQ() {
+  let correct = 0;
+  MCQ_DATA.forEach((q, i) => {
+    const chosen = mcqState[i];
+    const fb = document.getElementById(`mcq-fb-${i}`);
+    q.opts.forEach((_, j) => {
+      const btn = document.getElementById(`mcq-${i}-${j}`);
+      btn.classList.remove('selected', 'correct', 'wrong');
+      if (j === q.ans) btn.classList.add('correct');
+      else if (j === chosen && chosen !== q.ans) btn.classList.add('wrong');
+    });
+    if (chosen === q.ans) {
+      correct++;
+      fb.textContent = '✓ Correct!';
+      fb.className = 'mcq-fb show ok';
+    } else {
+      fb.textContent = '✗ ' + q.hint;
+      fb.className = 'mcq-fb show err';
+    }
+  });
+  earn(correct, MCQ_DATA.length);
+  done[2] = true;
+  document.getElementById('mcqCheck').disabled = true;
+  document.getElementById('mcqCheck').textContent = `${correct} / ${MCQ_DATA.length} correct ✓`;
+}
+
+// ─────────────────────────────────────────────────────
+//  PAGE 3 — "HAVE YOU EVER?" CARDS
+// ─────────────────────────────────────────────────────
+const HYE_DATA = [
+  {
+    icon: "✈️",
+    q: "Have you ever missed a flight or train?",
+    hint: "What happened? Why? How did you sort it out?",
+    prompts: ["Where were you going?", "What did you do next?", "How long did you have to wait?"]
+  },
+  {
+    icon: "🍽️",
+    q: "Have you ever cooked a completely new dish for the first time?",
+    hint: "Did it go well? Who did you cook it for?",
+    prompts: ["What dish was it?", "Did you follow a recipe?", "Would you make it again?"]
+  },
+  {
+    icon: "🌿",
+    q: "Have you ever done something for the environment?",
+    hint: "Big or small — recycling, volunteering, changing habits…",
+    prompts: ["When did you start?", "What made you do it?", "Have you kept it up?"]
+  },
+  {
+    icon: "📚",
+    q: "Have you ever read a book that completely changed your thinking?",
+    hint: "What was it about? Why did it affect you?",
+    prompts: ["When did you read it?", "Who recommended it?", "Would you recommend it to others?"]
+  },
+  {
+    icon: "💼",
+    q: "Have you ever started something completely new — a job, hobby, or project?",
+    hint: "Was it scary? How did it go?",
+    prompts: ["How old were you?", "What made you take the step?", "Are you still doing it?"]
+  },
+  {
+    icon: "🏔️",
+    q: "Have you ever done anything that really pushed your limits?",
+    hint: "Physical, emotional, professional…",
+    prompts: ["What was the challenge?", "How did you prepare?", "What did you learn?"]
+  },
+  {
+    icon: "🎨",
+    q: "Have you ever created something with your hands?",
+    hint: "Painting, building, knitting, crafts, music…",
+    prompts: ["What did you make?", "How long did it take?", "Do you still have it?"]
+  },
+  {
+    icon: "🤝",
+    q: "Have you ever helped a stranger in an unexpected way?",
+    hint: "Or has a stranger ever helped you?",
+    prompts: ["What happened exactly?", "How did it make you feel?", "Have you thought about it since?"]
+  }
+];
+
+let hyeCur = 0;
+
+function initHYE() {
+  const c = document.getElementById('hye-cards');
+  const dotsC = document.getElementById('hyeDots');
+  HYE_DATA.forEach((d, i) => {
+    const card = document.createElement('div');
+    card.className = 'sp-card' + (i === 0 ? ' active-card' : '');
+    card.id = 'hye-card-' + i;
+    const promsHtml = d.prompts.map(p => `<span class="prompt-tag">${p}</span>`).join('');
+    card.innerHTML = `
+      <div class="card-icon">${d.icon}</div>
+      <div class="card-q">${d.q}</div>
+      <div class="card-hint">${d.hint}</div>
+      <div class="card-prompts">${promsHtml}</div>`;
+    c.appendChild(card);
+
+    const dot = document.createElement('div');
+    dot.className = 'card-dot' + (i === 0 ? ' on' : '');
+    dot.id = 'hye-dot-' + i;
+    dotsC.appendChild(dot);
+  });
+  updateHYE();
+}
+
+function moveCard(prefix, dir) {
+  const data = prefix === 'hye' ? HYE_DATA : [];
+  const total = data.length;
+  if (prefix === 'hye') {
+    hyeCur = Math.max(0, Math.min(total - 1, hyeCur + dir));
+    updateHYE();
+  }
+}
+
+function updateHYE() {
+  HYE_DATA.forEach((_, i) => {
+    document.getElementById('hye-card-' + i).className = 'sp-card' + (i === hyeCur ? ' active-card' : '');
+    document.getElementById('hye-dot-' + i).className = 'card-dot' + (i === hyeCur ? ' on' : '');
+  });
+  document.getElementById('hyePrev').disabled = hyeCur === 0;
+  document.getElementById('hyeNext').disabled = hyeCur === HYE_DATA.length - 1;
+  document.getElementById('hyeCounter').textContent = (hyeCur + 1) + ' / ' + HYE_DATA.length;
+}
+
+// ─────────────────────────────────────────────────────
+//  PAGE 4 — FILL-IN
+// ─────────────────────────────────────────────────────
+const FILL_DATA = [
+  {
+    parts: ["1. Maria ", " to over 30 countries in her life. (travel)"],
+    ans: ["has travelled"],
+    alt: [["has traveled"]]
+  },
+  {
+    parts: ["2. She first ", " Spain when she was 24. (leave)"],
+    ans: ["left"],
+    alt: [[]]
+  },
+  {
+    parts: ["3. Last summer, she ", " the Cocora Valley. (climb)"],
+    ans: ["climbed"],
+    alt: [[]]
+  },
+  {
+    parts: ["4. She ", " a trip to Japan for next spring. (just / book)"],
+    ans: ["has just booked"],
+    alt: [[]]
+  },
+  {
+    parts: ["5. She ", " to Asia before. (never / be)"],
+    ans: ["has never been"],
+    alt: [["has never gone"]]
+  }
+];
+
+function initFill() {
+  const c = document.getElementById('fillItems');
+  FILL_DATA.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'fill-item';
+    div.id = 'fill-item-' + i;
+    div.innerHTML = q.parts[0] +
+      `<input class="fill-input" id="fill-inp-${i}" placeholder="…" autocomplete="off" spellcheck="false">` +
+      q.parts[1];
+    c.appendChild(div);
+  });
+}
+
+function checkFill() {
+  let correct = 0;
+  FILL_DATA.forEach((q, i) => {
+    const inp = document.getElementById('fill-inp-' + i);
+    const val = norm(inp.value);
+    const ok = val === norm(q.ans[0]) || (q.alt[0] && q.alt[0].some(a => val === norm(a)));
+    inp.className = 'fill-input ' + (ok ? 'correct' : 'wrong');
+    if (ok) { correct++; } else { inp.title = 'Answer: ' + q.ans[0]; }
+  });
+  earn(correct, FILL_DATA.length);
+  done[4] = true;
+  document.getElementById('fillCheck').disabled = true;
+  document.getElementById('fillCheck').textContent = `${correct} / ${FILL_DATA.length} correct ✓`;
+}
+
+// ─────────────────────────────────────────────────────
+//  PAGE 5 — STORYTELLING CARDS
+// ─────────────────────────────────────────────────────
+const STORY_DATA = [
+  {
+    stem: "Tell me about a time when you tried something completely new and it surprised you.",
+    help: "Start with: 'I have tried… once. It was when…'",
+    subs: ["Where were you?", "Who were you with?", "What went wrong or right?", "How do you feel about it now?"]
+  },
+  {
+    stem: "Describe a journey or trip that didn't go as planned.",
+    help: "Start with: 'One of the most unexpected trips I have ever taken was…'",
+    subs: ["What happened?", "How did you react?", "Did anything good come of it?"]
+  },
+  {
+    stem: "Tell me about someone who has had a big influence on your life.",
+    help: "Start with: 'I have known this person since… / I met them when…'",
+    subs: ["Who are they?", "What did they do or say?", "How have they shaped you?"]
+  },
+  {
+    stem: "Describe a moment in your life when you had to make a very difficult decision.",
+    help: "Start with: 'I have faced some tough choices, but the hardest was…'",
+    subs: ["What were the options?", "What did you decide?", "Do you still think it was right?"]
+  },
+  {
+    stem: "Tell me about a skill you have learned later in life — after the age of 30.",
+    help: "Start with: 'I have learned… It was in [year]…'",
+    subs: ["Why did you start?", "How long did it take?", "Are you still practising?"]
+  }
+];
+
+function initStory() {
+  const c = document.getElementById('story-cards');
+  STORY_DATA.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'story-card';
+    const subsHtml = s.subs.map(p => `<span class="story-sub">${p}</span>`).join('');
+    div.innerHTML = `
+      <div class="story-stem">Card ${i + 1}: "${s.stem}"</div>
+      <div class="story-help">💬 ${s.help}</div>
+      <div class="story-sub-prompts">${subsHtml}</div>`;
+    c.appendChild(div);
+  });
+}
+
+// ─────────────────────────────────────────────────────
+//  PAGE 6 — DISCUSSION / DEBATE
+// ─────────────────────────────────────────────────────
+const DEBATE_DATA = [
+  {
+    statement: '"People who have travelled a lot are more open-minded than those who have stayed in one place."',
+    follow: "Have you noticed this in your own life? Can you give an example from your experience?"
+  },
+  {
+    statement: '"It\'s more important to have experienced many different things than to be very good at just one."',
+    follow: "What have you chosen — depth or breadth? Has your opinion changed over the years?"
+  },
+  {
+    statement: '"The things we have not done yet matter more than the things we have already done."',
+    follow: "Do you still have a list of dreams? What's at the top of it right now?"
+  },
+  {
+    statement: '"Technology has changed the way we experience the world for the worse."',
+    follow: "Can you think of a specific example from your own life where technology helped or hurt an experience?"
+  },
+  {
+    statement: '"By the time people reach 50, they have usually learned the most important lessons life has to teach."',
+    follow: "What is the single most important thing life has taught you so far?"
+  }
+];
+
+function initDebate() {
+  const c = document.getElementById('debate-cards');
+  DEBATE_DATA.forEach((d, i) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'flip-wrap';
+    wrap.innerHTML = `
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="card-num">${i + 1}</div>
+          <div class="card-tap">tap to flip</div>
+        </div>
+        <div class="flip-back">
+          <div class="d-statement">${d.statement}</div>
+          <div class="d-follow">🗣 ${d.follow}</div>
+        </div>
+      </div>`;
+    wrap.addEventListener('click', () => wrap.classList.toggle('flipped'));
+    c.appendChild(wrap);
+  });
+}
+
+// ─────────────────────────────────────────────────────
+//  PAGE 7 — RESULTS
+// ─────────────────────────────────────────────────────
+function showResults() {
+  done[7] = true;
+  const area = document.getElementById('resultsArea');
+  const btn = document.getElementById('showResultsBtn');
+  area.style.display = 'block';
+  btn.style.display = 'none';
+
+  const pct = maxPts > 0 ? Math.round((pts / maxPts) * 100) : 0;
+  document.getElementById('finalScore').textContent = pts;
+  document.getElementById('finalLabel').textContent = 'points out of ' + maxPts;
+
+  let msg = '';
+  if (pct >= 90) msg = 'Excellent! You have a strong command of both tenses. Keep using them naturally in conversation!';
+  else if (pct >= 70) msg = 'Well done! You understand the key difference. A little more practice with edge cases and you\'ll be confident!';
+  else if (pct >= 50) msg = 'Good effort! The tenses can be tricky — revisit the grammar card and try to notice them in your reading.';
+  else msg = 'Keep going! Understanding when to use each tense takes time. Focus on the time expressions — they\'re your best clue.';
+
+  document.getElementById('resultsMsg').textContent = msg;
+
+  setTimeout(() => {
+    const bar = document.getElementById('resultsBar');
+    bar.style.width = pct + '%';
+  }, 300);
+
+  // mark all dots as done
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.remove('active');
+    if (i === curPage) d.classList.add('active');
+    else d.classList.add('done');
+  });
+}
+
+// ─────────────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────────────
+buildDots();
+document.getElementById('btnPrev').disabled = true;
+document.getElementById('navInfo').textContent = 'Page 1 of ' + TOTAL + ' — ' + PAGE_LABELS[0];
+lazyInit(0);
+</script>
+</body>
+</html>
