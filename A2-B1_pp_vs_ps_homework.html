@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Present Perfect vs Past Simple — Homework</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #f4f1ec;
+    color: #2d3748;
+    font-size: 16px;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: #fff;
+    border-bottom: 3px solid #c8a96e;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-title { font-size: 1.15rem; font-weight: bold; color: #2c4a7c; letter-spacing: .03em; }
+  .header-sub { font-size: 0.82rem; color: #888; margin-top: 2px; }
+
+  /* ── PROGRESS STRIP ── */
+  .progress-strip {
+    background: #fff;
+    border-bottom: 1px solid #e8e0d5;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .ps-step {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .ps-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    border: 2px solid #ccc;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.72rem;
+    font-weight: bold;
+    color: #888;
+    font-family: sans-serif;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+  .ps-dot.done { background: #e8f5e9; border-color: #66bb6a; color: #388e3c; }
+  .ps-dot.active { background: #2c4a7c; border-color: #2c4a7c; color: #fff; }
+  .ps-label {
+    font-size: 0.75rem;
+    color: #999;
+    font-family: sans-serif;
+    margin: 0 6px;
+    white-space: nowrap;
+  }
+  .ps-label.done { color: #388e3c; }
+  .ps-line {
+    width: 28px; height: 2px;
+    background: #e0e0e0;
+    flex-shrink: 0;
+    transition: background 0.3s;
+  }
+  .ps-line.done { background: #66bb6a; }
+
+  /* ── MAIN ── */
+  .main { max-width: 820px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* ── NAME FIELD ── */
+  .name-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border-top: 4px solid #c8a96e;
+  }
+  .name-card label {
+    display: block;
+    font-size: 0.82rem;
+    font-family: sans-serif;
+    font-weight: bold;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #c8a96e;
+    margin-bottom: 10px;
+  }
+  .name-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #c8a96e;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 1.15rem;
+    color: #2d3748;
+    padding: 6px 4px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .name-input:focus { border-bottom-color: #2c4a7c; }
+  .name-input.filled { border-bottom-color: #66bb6a; }
+
+  /* ── EXERCISE CARDS ── */
+  .ex-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  }
+  .ex-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .ex-num {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: #2c4a7c;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .ex-title { font-size: 1.1rem; color: #2c4a7c; margin-bottom: 4px; }
+  .ex-instr { font-size: 0.9rem; color: #666; line-height: 1.6; }
+
+  /* ── MCQ ── */
+  .mcq-item {
+    border-bottom: 1px solid #f0ebe3;
+    padding: 14px 0;
+  }
+  .mcq-item:last-of-type { border-bottom: none; }
+  .mcq-sent { font-size: 1rem; color: #2d3748; margin-bottom: 10px; line-height: 1.6; }
+  .mcq-opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .mcq-btn {
+    padding: 7px 20px;
+    border: 2px solid #c8a96e;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: 'Georgia', serif;
+    color: #2d3748;
+    transition: all 0.18s;
+  }
+  .mcq-btn:hover { background: #f4f1ec; }
+  .mcq-btn.selected { background: #e8eef8; border-color: #2c4a7c; color: #2c4a7c; font-weight: bold; }
+  .mcq-btn.correct { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; font-weight: bold; }
+  .mcq-btn.wrong { background: #ffebee; border-color: #e57373; color: #c62828; }
+  .mcq-fb { font-size: 0.85rem; margin-top: 6px; font-family: sans-serif; display: none; }
+  .mcq-fb.show { display: block; }
+  .mcq-fb.ok { color: #2e7d32; }
+  .mcq-fb.err { color: #c62828; }
+
+  /* ── DROPDOWN ── */
+  .gap-text {
+    font-size: 1rem;
+    line-height: 2.4;
+    color: #2d3748;
+    background: #faf8f4;
+    border-radius: 10px;
+    padding: 18px 20px;
+    border-left: 4px solid #2c4a7c;
+  }
+  .gap-select {
+    border: none;
+    border-bottom: 2px solid #c8a96e;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #2c4a7c;
+    padding: 0 4px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.18s;
+    font-weight: bold;
+  }
+  .gap-select:focus { border-bottom-color: #2c4a7c; }
+  .gap-select.correct { border-bottom-color: #66bb6a; color: #2e7d32; }
+  .gap-select.wrong { border-bottom-color: #e57373; color: #c62828; }
+
+  /* ── FILL-IN ── */
+  .fill-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0ebe3;
+    font-size: 1rem;
+    line-height: 2;
+  }
+  .fill-item:last-of-type { border-bottom: none; }
+  .fill-input {
+    border: none;
+    border-bottom: 2px solid #c8a96e;
+    background: transparent;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #2d3748;
+    padding: 2px 6px;
+    min-width: 170px;
+    outline: none;
+    transition: border-color 0.18s;
+  }
+  .fill-input:focus { border-bottom-color: #2c4a7c; }
+  .fill-input.correct { border-bottom-color: #66bb6a; color: #2e7d32; }
+  .fill-input.wrong { border-bottom-color: #e57373; color: #c62828; }
+
+  /* ── WRITING ── */
+  .writing-prompt {
+    background: #f4f1ec;
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 14px;
+    border-left: 4px solid #c8a96e;
+  }
+  .writing-area {
+    width: 100%;
+    min-height: 120px;
+    border: 2px solid #e8e0d5;
+    border-radius: 10px;
+    background: #faf8f4;
+    font-family: 'Georgia', serif;
+    font-size: 1rem;
+    color: #2d3748;
+    padding: 14px 16px;
+    outline: none;
+    resize: vertical;
+    line-height: 1.7;
+    transition: border-color 0.2s;
+  }
+  .writing-area:focus { border-color: #2c4a7c; }
+  .word-count { font-size: 0.82rem; color: #aaa; font-family: sans-serif; margin-top: 6px; text-align: right; }
+  .word-count.enough { color: #388e3c; }
+
+  /* ── CHECK BUTTON ── */
+  .check-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 11px 34px;
+    background: #2c4a7c;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.1s;
+    letter-spacing: .04em;
+  }
+  .check-btn:hover { background: #1a3260; transform: translateY(-1px); }
+  .check-btn:disabled { background: #aaa; cursor: default; transform: none; }
+  .ex-done-badge {
+    display: none;
+    font-size: 0.82rem;
+    font-family: sans-serif;
+    color: #388e3c;
+    text-align: center;
+    margin-top: 10px;
+    letter-spacing: .03em;
+  }
+  .ex-done-badge.show { display: block; }
+
+  /* ── SEND SECTION ── */
+  .send-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 30px 28px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border-top: 4px solid #66bb6a;
+    text-align: center;
+  }
+  .send-title { font-size: 1.2rem; color: #2c4a7c; margin-bottom: 8px; }
+  .send-note { font-size: 0.9rem; color: #888; margin-bottom: 20px; font-family: sans-serif; line-height: 1.6; }
+  .send-btn {
+    display: inline-block;
+    padding: 14px 44px;
+    background: #66bb6a;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.05rem;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.1s;
+    letter-spacing: .04em;
+    text-decoration: none;
+  }
+  .send-btn:hover { background: #43a047; transform: translateY(-1px); }
+  .send-btn:disabled { background: #ccc; cursor: default; transform: none; }
+  .send-block-msg {
+    font-size: 0.88rem;
+    font-family: sans-serif;
+    color: #e57373;
+    margin-top: 12px;
+    min-height: 20px;
+  }
+
+  /* ── UTILITY ── */
+  .hint-pill {
+    display: inline-block;
+    background: #e8eef8;
+    color: #2c4a7c;
+    border-radius: 20px;
+    padding: 2px 12px;
+    font-size: 0.82rem;
+    font-family: sans-serif;
+    margin: 2px 3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Present Perfect &amp; Past Simple</div>
+    <div class="header-sub">Homework</div>
+  </div>
+</div>
+
+<!-- PROGRESS STRIP -->
+<div class="progress-strip">
+  <div class="ps-step">
+    <div class="ps-dot" id="pd-name">✎</div>
+    <div class="ps-label" id="pl-name">Name</div>
+  </div>
+  <div class="ps-line" id="pline-1"></div>
+  <div class="ps-step">
+    <div class="ps-dot" id="pd-ex1">1</div>
+    <div class="ps-label" id="pl-ex1">Multiple Choice</div>
+  </div>
+  <div class="ps-line" id="pline-2"></div>
+  <div class="ps-step">
+    <div class="ps-dot" id="pd-ex2">2</div>
+    <div class="ps-label" id="pl-ex2">Gap Fill</div>
+  </div>
+  <div class="ps-line" id="pline-3"></div>
+  <div class="ps-step">
+    <div class="ps-dot" id="pd-ex3">3</div>
+    <div class="ps-label" id="pl-ex3">Fill in</div>
+  </div>
+  <div class="ps-line" id="pline-4"></div>
+  <div class="ps-step">
+    <div class="ps-dot" id="pd-ex4">4</div>
+    <div class="ps-label" id="pl-ex4">Writing</div>
+  </div>
+  <div class="ps-line" id="pline-5"></div>
+  <div class="ps-step">
+    <div class="ps-dot" id="pd-send">✉</div>
+    <div class="ps-label" id="pl-send">Send</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- NAME -->
+  <div class="name-card">
+    <label for="studentName">Your Name</label>
+    <input type="text" class="name-input" id="studentName" placeholder="Write your full name here…" autocomplete="off">
+  </div>
+
+  <!-- EX 1: MCQ -->
+  <div class="ex-card" id="ex1-card">
+    <div class="ex-header">
+      <div class="ex-num">1</div>
+      <div>
+        <div class="ex-title">Multiple Choice</div>
+        <div class="ex-instr">Choose the correct tense for each sentence. Think carefully — is the time mentioned?</div>
+      </div>
+    </div>
+
+    <div id="mcq1-items"></div>
+    <button class="check-btn" id="mcq1-check" onclick="checkMCQ1()">Check Answers</button>
+    <div class="ex-done-badge" id="ex1-badge">✓ Exercise 1 complete</div>
+  </div>
+
+  <!-- EX 2: DROPDOWN GAP FILL -->
+  <div class="ex-card" id="ex2-card">
+    <div class="ex-header">
+      <div class="ex-num">2</div>
+      <div>
+        <div class="ex-title">Choose the Right Form</div>
+        <div class="ex-instr">Read the paragraph and choose the correct verb form from each dropdown.</div>
+      </div>
+    </div>
+
+    <div class="gap-text" id="gapText"></div>
+    <button class="check-btn" id="dd-check" onclick="checkDD()">Check Answers</button>
+    <div class="ex-done-badge" id="ex2-badge">✓ Exercise 2 complete</div>
+  </div>
+
+  <!-- EX 3: TYPED FILL-IN -->
+  <div class="ex-card" id="ex3-card">
+    <div class="ex-header">
+      <div class="ex-num">3</div>
+      <div>
+        <div class="ex-title">Fill in the Gaps</div>
+        <div class="ex-instr">Write the correct form of the verb in brackets. Use Present Perfect or Past Simple.</div>
+      </div>
+    </div>
+
+    <div id="fill3-items"></div>
+    <button class="check-btn" id="fill3-check" onclick="checkFill3()">Check Answers</button>
+    <div class="ex-done-badge" id="ex3-badge">✓ Exercise 3 complete</div>
+  </div>
+
+  <!-- EX 4: OPEN WRITING -->
+  <div class="ex-card" id="ex4-card">
+    <div class="ex-header">
+      <div class="ex-num">4</div>
+      <div>
+        <div class="ex-title">Write About Yourself</div>
+        <div class="ex-instr">Answer the question below in at least <strong>30 words</strong>. Use both Present Perfect and Past Simple.</div>
+      </div>
+    </div>
+
+    <div class="writing-prompt">
+      <strong>Think of something you have done recently that you are proud of.</strong><br>
+      Tell me what it is, when you did it, how it went, and why it matters to you.<br>
+      <span style="font-size:.85rem;color:#888;font-style:italic;">
+        Useful starters: "I have recently…" / "Last [month/week/year], I…" / "It was the first time I had ever…"
+      </span>
+    </div>
+    <textarea class="writing-area" id="writing4" placeholder="Write your answer here…" oninput="updateWordCount()"></textarea>
+    <div class="word-count" id="wordCount">0 / 30 words minimum</div>
+    <div class="ex-done-badge" id="ex4-badge">✓ Exercise 4 complete</div>
+  </div>
+
+  <!-- SEND -->
+  <div class="send-card">
+    <div class="send-title">Ready to send? 📬</div>
+    <div class="send-note">This will open your email with your completed homework pre-filled.<br>Make sure your name is written and all exercises are checked first.</div>
+    <button class="send-btn" id="sendBtn" onclick="trySend()" disabled>Send to Teacher</button>
+    <div class="send-block-msg" id="sendMsg">Complete all exercises and write your name to unlock sending.</div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ─────────────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────────────
+const exDone = { name: false, ex1: false, ex2: false, ex3: false, ex4: false };
+
+function markDone(key) {
+  exDone[key] = true;
+  refreshProgress();
+}
+
+function refreshProgress() {
+  const steps = ['name','ex1','ex2','ex3','ex4'];
+  steps.forEach((k, i) => {
+    const dot = document.getElementById('pd-' + k);
+    const lbl = document.getElementById('pl-' + k);
+    if (exDone[k]) {
+      dot.classList.add('done');
+      lbl.classList.add('done');
+      const line = document.getElementById('pline-' + (i + 1));
+      if (line) line.classList.add('done');
+    }
+  });
+
+  const allDone = Object.values(exDone).every(Boolean);
+  const sendBtn = document.getElementById('sendBtn');
+  const sendMsg = document.getElementById('sendMsg');
+  sendBtn.disabled = !allDone;
+  if (allDone) {
+    sendMsg.textContent = 'All done! Click to send your homework.';
+    sendMsg.style.color = '#388e3c';
+    document.getElementById('pd-send').classList.add('active');
+  } else {
+    const missing = [];
+    if (!exDone.name) missing.push('your name');
+    if (!exDone.ex1) missing.push('Exercise 1');
+    if (!exDone.ex2) missing.push('Exercise 2');
+    if (!exDone.ex3) missing.push('Exercise 3');
+    if (!exDone.ex4) missing.push('Exercise 4 (30+ words)');
+    sendMsg.textContent = 'Still needed: ' + missing.join(', ') + '.';
+    sendMsg.style.color = '#e57373';
+  }
+}
+
+// Name watcher
+document.getElementById('studentName').addEventListener('input', function() {
+  const filled = this.value.trim().length > 1;
+  this.className = 'name-input' + (filled ? ' filled' : '');
+  if (filled) markDone('name');
+  else { exDone.name = false; refreshProgress(); }
+});
+
+function norm(s) {
+  return s.trim().toLowerCase().replace(/[.!?,]+$/, '').replace(/\s+/g, ' ');
+}
+
+// ─────────────────────────────────────────────────────
+//  EX 1 — MCQ
+// ─────────────────────────────────────────────────────
+const MCQ1 = [
+  {
+    sent: "I ___ to Japan twice in my life.",
+    opts: ["have been", "went"],
+    ans: 0,
+    hint: "No specific time → Present Perfect."
+  },
+  {
+    sent: "She ___ her driving test last month.",
+    opts: ["has passed", "passed"],
+    ans: 1,
+    hint: "'Last month' is a finished time → Past Simple."
+  },
+  {
+    sent: "We ___ here since we retired — we love it!",
+    opts: ["have lived", "lived"],
+    ans: 0,
+    hint: "'Since' with an ongoing situation → Present Perfect."
+  },
+  {
+    sent: "He ___ his first novel when he was 45.",
+    opts: ["has written", "wrote"],
+    ans: 1,
+    hint: "'When he was 45' is a specific past time → Past Simple."
+  },
+  {
+    sent: "___ you ever ___ a language other than your own?",
+    opts: ["Have … studied", "Did … study"],
+    ans: 0,
+    hint: "'Ever' in a life experience question → Present Perfect."
+  },
+  {
+    sent: "I can't find my glasses. I think I ___ them somewhere.",
+    opts: ["have left", "left"],
+    ans: 0,
+    hint: "The result is still relevant now → Present Perfect."
+  }
+];
+
+const mcq1State = {};
+
+(function initMCQ1() {
+  const c = document.getElementById('mcq1-items');
+  MCQ1.forEach((q, i) => {
+    mcq1State[i] = -1;
+    const div = document.createElement('div');
+    div.className = 'mcq-item';
+    const sentHtml = q.sent.replace(/___/g, '<span style="color:#c8a96e;font-weight:bold;">___</span>');
+    const optsHtml = q.opts.map((o, j) =>
+      `<button class="mcq-btn" id="m1-${i}-${j}" onclick="selMCQ1(${i},${j})">${o}</button>`
+    ).join('');
+    div.innerHTML = `
+      <div class="mcq-sent">${i+1}. ${sentHtml}</div>
+      <div class="mcq-opts">${optsHtml}</div>
+      <div class="mcq-fb" id="m1-fb-${i}"></div>`;
+    c.appendChild(div);
+  });
+})();
+
+function selMCQ1(qi, oi) {
+  if (document.getElementById('mcq1-check').disabled) return;
+  mcq1State[qi] = oi;
+  MCQ1[qi].opts.forEach((_, j) => {
+    document.getElementById(`m1-${qi}-${j}`).className = 'mcq-btn' + (j === oi ? ' selected' : '');
+  });
+}
+
+function checkMCQ1() {
+  let correct = 0;
+  MCQ1.forEach((q, i) => {
+    const chosen = mcq1State[i];
+    const fb = document.getElementById(`m1-fb-${i}`);
+    q.opts.forEach((_, j) => {
+      const btn = document.getElementById(`m1-${i}-${j}`);
+      btn.classList.remove('selected','correct','wrong');
+      if (j === q.ans) btn.classList.add('correct');
+      else if (j === chosen && chosen !== q.ans) btn.classList.add('wrong');
+    });
+    if (chosen === q.ans) {
+      correct++;
+      fb.textContent = '✓ Correct!';
+      fb.className = 'mcq-fb show ok';
+    } else {
+      fb.textContent = '✗ ' + q.hint;
+      fb.className = 'mcq-fb show err';
+    }
+  });
+  document.getElementById('mcq1-check').disabled = true;
+  document.getElementById('mcq1-check').textContent = correct + ' / ' + MCQ1.length + ' correct ✓';
+  document.getElementById('ex1-badge').className = 'ex-done-badge show';
+  markDone('ex1');
+}
+
+// ─────────────────────────────────────────────────────
+//  EX 2 — DROPDOWN GAP FILL
+// ─────────────────────────────────────────────────────
+const DD_PARTS = [
+  "My friend Marco is an interesting person. He ",
+  " all over the world — he ",
+  " to over 25 countries so far. Last year, he ",
+  " six months in South America, where he ",
+  " Spanish for the first time. He says it was the best decision he ",
+  " in years. Since he came back, his life ",
+  " completely."
+];
+const DD_OPTS = [
+  [["has travelled","travelled"],   0],  // no time, life experience
+  [["has been","went"],             0],  // life total - no specific time
+  [["has spent","spent"],           1],  // last year = specific time
+  [["has studied","studied"],       1],  // at that time in the past
+  [["has made","made"],             1],  // specific decision in the past
+  [["has changed","changed"],       0],  // since = present perfect
+];
+
+(function initDD() {
+  const c = document.getElementById('gapText');
+  let html = DD_PARTS[0];
+  DD_OPTS.forEach(([opts, ans], i) => {
+    html += `<select class="gap-select" id="dd-${i}">
+      <option value="">— choose —</option>
+      <option value="0">${opts[0]}</option>
+      <option value="1">${opts[1]}</option>
+    </select>`;
+    html += DD_PARTS[i + 1];
+  });
+  c.innerHTML = html;
+})();
+
+function checkDD() {
+  let correct = 0;
+  DD_OPTS.forEach(([opts, ans], i) => {
+    const sel = document.getElementById('dd-' + i);
+    const chosen = sel.value === '' ? -1 : parseInt(sel.value);
+    if (chosen === ans) {
+      correct++;
+      sel.className = 'gap-select correct';
+    } else {
+      sel.className = 'gap-select wrong';
+      sel.title = 'Answer: ' + opts[ans];
+    }
+    sel.disabled = true;
+  });
+  document.getElementById('dd-check').disabled = true;
+  document.getElementById('dd-check').textContent = correct + ' / ' + DD_OPTS.length + ' correct ✓';
+  document.getElementById('ex2-badge').className = 'ex-done-badge show';
+  markDone('ex2');
+}
+
+// ─────────────────────────────────────────────────────
+//  EX 3 — TYPED FILL-IN
+// ─────────────────────────────────────────────────────
+const FILL3 = [
+  {
+    parts: ["1. I ", " anything like that before — it was completely new to me. (never / experience)"],
+    ans: "had never experienced",
+    alt: ["have never experienced"]
+  },
+  {
+    parts: ["2. She ", " the company back in 2005 and it's still growing. (found)"],
+    ans: "founded",
+    alt: []
+  },
+  {
+    parts: ["3. We ", " each other for twenty years — we met at school. (know)"],
+    ans: "have known",
+    alt: []
+  },
+  {
+    parts: ["4. He ", " the report by the time the meeting started. (already / finish)"],
+    ans: "had already finished",
+    alt: ["already finished", "finished"]
+  },
+  {
+    parts: ["5. They ", " the news yet when I called them. (not / hear)"],
+    ans: "had not heard",
+    alt: ["hadn't heard", "have not heard", "haven't heard"]
+  }
+];
+
+(function initFill3() {
+  const c = document.getElementById('fill3-items');
+  FILL3.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'fill-item';
+    div.innerHTML = q.parts[0] +
+      `<input class="fill-input" id="fi3-${i}" placeholder="…" autocomplete="off" spellcheck="false">` +
+      q.parts[1];
+    c.appendChild(div);
+  });
+})();
+
+function checkFill3() {
+  let correct = 0;
+  FILL3.forEach((q, i) => {
+    const inp = document.getElementById('fi3-' + i);
+    const val = norm(inp.value);
+    const ok = val === norm(q.ans) || q.alt.some(a => val === norm(a));
+    inp.className = 'fill-input ' + (ok ? 'correct' : 'wrong');
+    if (ok) correct++;
+    else inp.title = 'Suggested: ' + q.ans;
+    inp.readOnly = true;
+  });
+  document.getElementById('fill3-check').disabled = true;
+  document.getElementById('fill3-check').textContent = correct + ' / ' + FILL3.length + ' correct ✓';
+  document.getElementById('ex3-badge').className = 'ex-done-badge show';
+  markDone('ex3');
+}
+
+// ─────────────────────────────────────────────────────
+//  EX 4 — WRITING
+// ─────────────────────────────────────────────────────
+function updateWordCount() {
+  const text = document.getElementById('writing4').value.trim();
+  const words = text === '' ? 0 : text.split(/\s+/).length;
+  const wc = document.getElementById('wordCount');
+  wc.textContent = words + ' / 30 words minimum';
+  const enough = words >= 30;
+  wc.className = 'word-count' + (enough ? ' enough' : '');
+  if (enough) {
+    document.getElementById('ex4-badge').className = 'ex-done-badge show';
+    markDone('ex4');
+  } else {
+    exDone.ex4 = false;
+    document.getElementById('ex4-badge').className = 'ex-done-badge';
+    refreshProgress();
+  }
+}
+
+// ─────────────────────────────────────────────────────
+//  SEND
+// ─────────────────────────────────────────────────────
+function trySend() {
+  const allDone = Object.values(exDone).every(Boolean);
+  if (!allDone) return;
+
+  const name = document.getElementById('studentName').value.trim();
+
+  // Build MCQ summary
+  let mcqLines = MCQ1.map((q, i) => {
+    const chosen = mcq1State[i];
+    const answer = chosen >= 0 ? q.opts[chosen] : '(not answered)';
+    const correct = chosen === q.ans ? '✓' : '✗ (' + q.opts[q.ans] + ')';
+    return `  ${i+1}. ${answer} ${correct}`;
+  }).join('\n');
+
+  // Build DD summary
+  let ddLines = DD_OPTS.map(([opts, ans], i) => {
+    const sel = document.getElementById('dd-' + i);
+    const chosen = sel.value === '' ? -1 : parseInt(sel.value);
+    const answer = chosen >= 0 ? opts[chosen] : '(not answered)';
+    const correct = chosen === ans ? '✓' : '✗ (' + opts[ans] + ')';
+    return `  ${i+1}. ${answer} ${correct}`;
+  }).join('\n');
+
+  // Build fill-in summary
+  let fillLines = FILL3.map((q, i) => {
+    const val = document.getElementById('fi3-' + i).value.trim();
+    const ok = norm(val) === norm(q.ans) || q.alt.some(a => norm(val) === norm(a));
+    return `  ${i+1}. ${val || '(blank)'} ${ok ? '✓' : '✗ (' + q.ans + ')'}`;
+  }).join('\n');
+
+  // Writing
+  const writing = document.getElementById('writing4').value.trim();
+
+  const body =
+`Homework: Present Perfect vs Past Simple
+Student: ${name}
+
+── Exercise 1: Multiple Choice ──
+${mcqLines}
+
+── Exercise 2: Gap Fill ──
+${ddLines}
+
+── Exercise 3: Fill in the Gaps ──
+${fillLines}
+
+── Exercise 4: Writing ──
+${writing}`;
+
+  const mailto = 'mailto:dariia.mlnk@gmail.com'
+    + '?subject=' + encodeURIComponent('Homework: PP vs PS — ' + name)
+    + '&body=' + encodeURIComponent(body);
+
+  window.location.href = mailto;
+}
+
+// Init progress
+refreshProgress();
+</script>
+</body>
+</html>
