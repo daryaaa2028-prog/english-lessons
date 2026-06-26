@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homework — Smarter Investing</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #eef2f7; min-height: 100vh; display: flex; flex-direction: column; }
+
+    .header { background: #18344f; color: #fff; padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+    .lesson-title { font-size: 17px; font-weight: 700; }
+    .header-sub { font-size: 13px; opacity: .7; background: rgba(255,255,255,.13); padding: 4px 14px; border-radius: 20px; }
+
+    .main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 36px 24px 60px; gap: 24px; }
+
+    .card { max-width: 860px; width: 100%; background: #fff; border-radius: 18px; padding: 40px 48px; box-shadow: 0 4px 28px rgba(0,0,0,.08); }
+
+    /* NAME CARD */
+    .name-card { border-left: 5px solid #18344f; }
+    .name-card h2 { font-size: 18px; color: #18344f; margin-bottom: 16px; }
+    .name-input { width: 100%; border: 2px solid #d1d5db; border-radius: 10px; padding: 13px 18px; font-size: 16px; color: #18344f; outline: none; transition: border-color .2s; font-family: inherit; }
+    .name-input:focus { border-color: #18344f; }
+    .name-input.error { border-color: #dc2626; background: #fef2f2; }
+
+    /* BADGES */
+    .badge { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; padding: 4px 13px; border-radius: 20px; margin-bottom: 16px; }
+    .badge.vocab   { background: #ede9fe; color: #5b21b6; }
+    .badge.grammar { background: #fef3c7; color: #78350f; }
+    .badge.writing { background: #e0f2fe; color: #0c4a6e; }
+
+    h1 { font-size: 22px; color: #18344f; margin-bottom: 6px; }
+    .subtitle { color: #6b7280; font-size: 14.5px; margin-bottom: 24px; line-height: 1.55; }
+
+    /* WORD BANK */
+    .word-bank { background: #fffbeb; border: 1.5px solid #fcd34d; border-radius: 10px; padding: 13px 18px; margin-bottom: 22px; }
+    .word-bank h4 { font-size: 10px; font-weight: 800; letter-spacing: 1.3px; text-transform: uppercase; color: #92400e; margin-bottom: 10px; }
+    .wb-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .wb-tag  { background: #fff; border: 1.5px solid #fbbf24; border-radius: 6px; padding: 4px 12px; font-size: 13.5px; font-weight: 700; color: #92400e; }
+
+    /* EX ROWS */
+    .ex-list { display: flex; flex-direction: column; gap: 13px; }
+    .ex-row { display: flex; align-items: flex-start; gap: 12px; background: #f9fafb; border: 1.5px solid #e5e7eb; border-radius: 10px; padding: 14px 16px; font-size: 15px; color: #1f2937; line-height: 1.7; flex-wrap: wrap; transition: border-color .2s, background .2s; }
+    .ex-row.ok    { border-color: #16a34a !important; background: #f0fdf4 !important; }
+    .ex-row.wrong { border-color: #dc2626 !important; background: #fef2f2 !important; }
+    .ex-n { font-weight: 800; color: #18344f; min-width: 26px; flex-shrink: 0; padding-top: 2px; }
+    .bi { border: none; border-bottom: 2px solid #18344f; background: transparent; font-size: 15px; color: #18344f; font-weight: 700; min-width: 120px; padding: 1px 4px; outline: none; vertical-align: baseline; font-family: inherit; transition: border-color .2s; }
+    .bi:focus { border-bottom-color: #6366f1; }
+    .bi.ok    { border-bottom-color: #16a34a; color: #15803d; }
+    .bi.wrong { border-bottom-color: #dc2626; color: #b91c1c; }
+    .bi.empty-err { border-bottom-color: #f59e0b !important; }
+    .reveal-ans { font-size: 13px; font-weight: 700; color: #16a34a; margin-left: 6px; }
+
+    /* MC */
+    .mc-wrap { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .mc-stem { display: flex; gap: 12px; align-items: flex-start; }
+    .mc-opts { display: flex; gap: 9px; flex-wrap: wrap; padding-left: 38px; }
+    .mc-btn { padding: 7px 16px; border: 2px solid #d1d5db; border-radius: 8px; background: #fff; cursor: pointer; font-size: 14px; font-weight: 600; color: #374151; transition: all .15s; }
+    .mc-btn:hover { border-color: #18344f; color: #18344f; background: #f8faff; }
+    .mc-btn.sel    { border-color: #6366f1; background: #ede9fe; color: #5b21b6; }
+    .mc-btn.ok     { border-color: #16a34a !important; background: #f0fdf4 !important; color: #15803d !important; font-weight: 800; }
+    .mc-btn.wrong  { border-color: #dc2626 !important; background: #fef2f2 !important; color: #b91c1c !important; }
+    .mc-btn.reveal { border-color: #16a34a !important; background: #f0fdf4 !important; color: #15803d !important; font-weight: 800; }
+    .mc-btn.empty-err { border-color: #f59e0b !important; }
+
+    /* EX 3 — CHAT DEBATE */
+    .debate-intro { background: #f0f4ff; border: 1.5px solid #bfdbfe; border-radius: 10px; padding: 13px 18px; margin-bottom: 22px; font-size: 14px; color: #374151; line-height: 1.6; }
+    .debate-intro strong { color: #18344f; }
+    .speakers { display: flex; gap: 24px; margin-bottom: 20px; }
+    .speaker-tag { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0; }
+    .avatar.alex  { background: #18344f; }
+    .avatar.maria { background: #7c3aed; }
+    .chat-list { display: flex; flex-direction: column; gap: 14px; }
+    .bubble-row { display: flex; gap: 10px; align-items: flex-start; }
+    .bubble-row.right { flex-direction: row-reverse; }
+    .bubble { max-width: 82%; background: #f0f4ff; border: 1.5px solid #bfdbfe; border-radius: 14px 14px 14px 4px; padding: 12px 16px; font-size: 14.5px; color: #1f2937; line-height: 1.6; position: relative; transition: border-color .2s, background .2s; }
+    .bubble-row.right .bubble { background: #faf5ff; border-color: #ddd6fe; border-radius: 14px 14px 4px 14px; }
+    .bubble.ok    { border-color: #16a34a !important; background: #f0fdf4 !important; }
+    .bubble.wrong { border-color: #dc2626 !important; background: #fef2f2 !important; }
+    .dbi { border: none; border-bottom: 2px solid #18344f; background: transparent; font-size: 14.5px; color: #18344f; font-weight: 700; min-width: 110px; padding: 1px 4px; outline: none; vertical-align: baseline; font-family: inherit; }
+    .dbi:focus { border-bottom-color: #6366f1; }
+    .dbi.ok    { border-bottom-color: #16a34a; color: #15803d; }
+    .dbi.wrong { border-bottom-color: #dc2626; color: #b91c1c; }
+    .dbi.empty-err { border-bottom-color: #f59e0b !important; }
+
+    /* EX 4 — error correction */
+    .err-word { text-decoration: underline; text-decoration-color: #dc2626; text-decoration-thickness: 2px; color: #dc2626; font-weight: 700; }
+    .corr-input { border: none; border-bottom: 2px solid #18344f; background: transparent; font-size: 15px; color: #18344f; font-weight: 700; min-width: 100px; padding: 1px 4px; outline: none; vertical-align: baseline; font-family: inherit; }
+    .corr-input:focus { border-bottom-color: #6366f1; }
+    .corr-input.ok    { border-bottom-color: #16a34a; color: #15803d; }
+    .corr-input.wrong { border-bottom-color: #dc2626; color: #b91c1c; }
+    .corr-input.empty-err { border-bottom-color: #f59e0b !important; }
+
+    /* EX 5 — open writing */
+    .writing-prompt { background: #f0f4ff; border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 18px 22px; margin-bottom: 20px; }
+    .writing-prompt p { font-size: 14.5px; color: #1f2937; line-height: 1.65; margin: 0; }
+    .writing-prompt ul { margin: 10px 0 0 18px; }
+    .writing-prompt li { font-size: 14px; color: #374151; line-height: 1.6; }
+    .writing-area { width: 100%; min-height: 160px; border: 2px solid #d1d5db; border-radius: 12px; padding: 16px 18px; font-size: 15px; color: #1f2937; font-family: inherit; line-height: 1.7; outline: none; resize: vertical; transition: border-color .2s; }
+    .writing-area:focus { border-color: #18344f; }
+    .writing-area.empty-err { border-color: #f59e0b !important; }
+    .wc { font-size: 12.5px; color: #9ca3af; margin-top: 8px; text-align: right; }
+
+    /* CHECK / SCORE */
+    .check-row { display: flex; align-items: center; gap: 16px; margin-top: 22px; padding-top: 18px; border-top: 1.5px dashed #e5e7eb; flex-wrap: wrap; }
+    .check-btn { display: flex; align-items: center; gap: 8px; padding: 10px 24px; background: #18344f; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all .2s; flex-shrink: 0; font-family: inherit; }
+    .check-btn:hover { background: #122b40; transform: translateY(-1px); }
+    .check-btn.done { background: #16a34a; cursor: default; transform: none; }
+    .score-badge { font-size: 14.5px; font-weight: 800; color: #18344f; background: #f0f4ff; border: 1.5px solid #bfdbfe; padding: 6px 16px; border-radius: 20px; display: none; }
+    .score-badge.visible { display: inline-block; }
+    .score-badge.perfect { background: #f0fdf4; border-color: #6ee7b7; color: #15803d; }
+    .score-badge.bad     { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+    .reset-btn { background: none; border: none; color: #9ca3af; font-size: 13px; cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit; }
+    .reset-btn:hover { color: #374151; }
+
+    /* SEND SECTION */
+    .send-card { border: 2px solid #18344f; }
+    .send-card h2 { font-size: 19px; color: #18344f; margin-bottom: 8px; }
+    .send-card p  { color: #6b7280; font-size: 14.5px; margin-bottom: 22px; line-height: 1.55; }
+    .send-btn { width: 100%; padding: 15px; background: #18344f; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; transition: all .2s; font-family: inherit; letter-spacing: .3px; }
+    .send-btn:hover:not(:disabled) { background: #122b40; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(24,52,79,.3); }
+    .send-btn:disabled { background: #9ca3af; cursor: not-allowed; transform: none; box-shadow: none; }
+    .validation-msg { margin-top: 14px; background: #fef9c3; border: 1.5px solid #fcd34d; border-radius: 10px; padding: 12px 16px; font-size: 13.5px; color: #713f12; line-height: 1.6; display: none; }
+    .validation-msg.visible { display: block; }
+    .val-list { margin: 6px 0 0 16px; }
+    .val-list li { margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="lesson-title">Smarter Investing — Homework</div>
+  <div class="header-sub">5 Exercises</div>
+</header>
+
+<main class="main">
+
+  <!-- NAME -->
+  <div class="card name-card">
+    <h2>Your Name</h2>
+    <input class="name-input" id="studentName" type="text" placeholder="Write your full name here…" oninput="clearNameError()">
+  </div>
+
+  <!-- EX 1 · VOCABULARY — MULTIPLE CHOICE -->
+  <div class="card" id="card1">
+    <span class="badge vocab">Vocabulary — Exercise 1</span>
+    <h1>Choose the Right Word</h1>
+    <p class="subtitle">Select the best word to complete each sentence.</p>
+    <div class="ex-list" id="ex1list">
+      <div class="ex-row mc-wrap" data-ans="1">
+        <div class="mc-stem"><span class="ex-n">1.</span><span>A government bond is safer than crypto, but its _______ is much lower — around 3–4% per year.</span></div>
+        <div class="mc-opts">
+          <button class="mc-btn" onclick="pickMC(this)">volatility</button>
+          <button class="mc-btn" onclick="pickMC(this)">yield</button>
+          <button class="mc-btn" onclick="pickMC(this)">liquidity</button>
+        </div>
+      </div>
+      <div class="ex-row mc-wrap" data-ans="2">
+        <div class="mc-stem"><span class="ex-n">2.</span><span>After Bitcoin tripled, he sold some and bought more bonds — this _______ brought him back to his original 60/40 plan.</span></div>
+        <div class="mc-opts">
+          <button class="mc-btn" onclick="pickMC(this)">compound interest</button>
+          <button class="mc-btn" onclick="pickMC(this)">bear market</button>
+          <button class="mc-btn" onclick="pickMC(this)">rebalancing</button>
+        </div>
+      </div>
+      <div class="ex-row mc-wrap" data-ans="0">
+        <div class="mc-stem"><span class="ex-n">3.</span><span>She invested in stocks, bonds, property, and crypto — good _______ means one bad sector can't ruin everything.</span></div>
+        <div class="mc-opts">
+          <button class="mc-btn" onclick="pickMC(this)">diversification</button>
+          <button class="mc-btn" onclick="pickMC(this)">volatility</button>
+          <button class="mc-btn" onclick="pickMC(this)">yield</button>
+        </div>
+      </div>
+      <div class="ex-row mc-wrap" data-ans="0">
+        <div class="mc-stem"><span class="ex-n">4.</span><span>In 2022, crypto fell more than 65% — a classic _______ that shocked even experienced investors.</span></div>
+        <div class="mc-opts">
+          <button class="mc-btn" onclick="pickMC(this)">bear market</button>
+          <button class="mc-btn" onclick="pickMC(this)">ETF</button>
+          <button class="mc-btn" onclick="pickMC(this)">liquidity</button>
+        </div>
+      </div>
+      <div class="ex-row mc-wrap" data-ans="2">
+        <div class="mc-stem"><span class="ex-n">5.</span><span>She didn't want to manage a crypto wallet, so she bought a Bitcoin _______ and held it in her regular brokerage account.</span></div>
+        <div class="mc-opts">
+          <button class="mc-btn" onclick="pickMC(this)">rebalancing</button>
+          <button class="mc-btn" onclick="pickMC(this)">compound interest</button>
+          <button class="mc-btn" onclick="pickMC(this)">ETF</button>
+        </div>
+      </div>
+    </div>
+    <div class="check-row">
+      <button class="check-btn" id="checkEx1" onclick="checkMC('ex1list','checkEx1','scoreEx1','resetEx1')">✓ Check Answers</button>
+      <div class="score-badge" id="scoreEx1"></div>
+      <button class="reset-btn" id="resetEx1" style="display:none" onclick="resetMC('ex1list','checkEx1','scoreEx1','resetEx1')">Reset</button>
+    </div>
+  </div>
+
+  <!-- EX 2 · VOCABULARY — FILL IN THE GAPS -->
+  <div class="card" id="card2">
+    <span class="badge vocab">Vocabulary — Exercise 2</span>
+    <h1>Fill in the Gaps</h1>
+    <p class="subtitle">Complete the sentences using the correct word from the box.</p>
+    <div class="word-bank">
+      <h4>Word Bank</h4>
+      <div class="wb-tags">
+        <span class="wb-tag">volatility</span><span class="wb-tag">liquidity</span>
+        <span class="wb-tag">compound interest</span><span class="wb-tag">ETF</span>
+        <span class="wb-tag">diversification</span><span class="wb-tag">bear market</span>
+        <span class="wb-tag">yield</span><span class="wb-tag">rebalancing</span>
+      </div>
+    </div>
+    <div class="ex-list" id="ex2list">
+      <div class="ex-row">
+        <span class="ex-n">1.</span>
+        <span>If you need cash fast, you want an investment with high <input class="bi" type="text" data-ans="liquidity" style="min-width:100px"> — something you can sell at any time without losing value.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">2.</span>
+        <span>Bitcoin's <input class="bi" type="text" data-ans="volatility" style="min-width:110px"> scares many investors. Its price can fall 30% in a single week and recover the next.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">3.</span>
+        <span>Instead of picking individual stocks, he bought an S&P 500 <input class="bi" type="text" data-ans="etf" style="min-width:50px"> — a simple, low-cost way to invest in 500 companies at once.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">4.</span>
+        <span>When a <input class="bi" type="text" data-ans="bear market" style="min-width:115px"> begins, even strong companies lose value. But experienced investors see it as a buying opportunity.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">5.</span>
+        <span>She keeps money in stocks, bonds, gold, and crypto — good <input class="bi" type="text" data-ans="diversification" style="min-width:130px"> means one bad year in one sector won't destroy her savings.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">6.</span>
+        <span>That savings account has a <input class="bi" type="text" data-ans="yield" style="min-width:60px"> of only 1.5% per year — not enough to beat inflation.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">7.</span>
+        <span>Starting at 22 means <input class="bi" type="text" data-ans="compound interest" style="min-width:165px"> does the heavy lifting — your money earns interest on interest for 40 years.</span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">8.</span>
+        <span>Every three months he checks his portfolio and does some <input class="bi" type="text" data-ans="rebalancing" style="min-width:120px"> to keep his 70/30 stock-to-bond ratio on track.</span>
+      </div>
+    </div>
+    <div class="check-row">
+      <button class="check-btn" id="checkEx2" onclick="checkInputs('ex2list','checkEx2','scoreEx2','resetEx2')">✓ Check Answers</button>
+      <div class="score-badge" id="scoreEx2"></div>
+      <button class="reset-btn" id="resetEx2" style="display:none" onclick="resetInputs('ex2list','checkEx2','scoreEx2','resetEx2')">Reset</button>
+    </div>
+  </div>
+
+  <!-- EX 3 · GRAMMAR — CHAT DEBATE -->
+  <div class="card" id="card3">
+    <span class="badge grammar">Grammar — Exercise 3</span>
+    <h1>Complete the Debate 💬</h1>
+    <p class="subtitle">Alex loves crypto. Maria prefers traditional investing. Complete their conversation using the <strong>comparative or superlative</strong> form of the adjective in brackets.</p>
+    <div class="speakers">
+      <div class="speaker-tag"><div class="avatar alex">A</div> Alex — crypto fan</div>
+      <div class="speaker-tag"><div class="avatar maria">M</div> Maria — traditional investor</div>
+    </div>
+    <div class="chat-list" id="ex3list">
+
+      <div class="bubble-row">
+        <div class="avatar alex">A</div>
+        <div class="bubble" data-bi="0">
+          "Look at my returns! Crypto is <input class="dbi" type="text" data-ans="the most profitable" style="min-width:175px"> investment I've ever made." <span style="color:#9ca3af;font-size:12.5px;font-style:italic">(profitable)</span>
+        </div>
+      </div>
+
+      <div class="bubble-row right">
+        <div class="avatar maria">M</div>
+        <div class="bubble" data-bi="1">
+          "But the swings! Crypto is <input class="dbi" type="text" data-ans="riskier" style="min-width:90px"> than any traditional asset — your portfolio could crash overnight." <span style="color:#9ca3af;font-size:12.5px;font-style:italic">(risky)</span>
+        </div>
+      </div>
+
+      <div class="bubble-row">
+        <div class="avatar alex">A</div>
+        <div class="bubble" data-bi="2">
+          "ETFs are boring. Bitcoin gives you <input class="dbi" type="text" data-ans="higher" style="min-width:80px"> returns than any index fund. Check the last decade." <span style="color:#9ca3af;font-size:12.5px;font-style:italic">(high)</span>
+        </div>
+      </div>
+
+      <div class="bubble-row right">
+        <div class="avatar maria">M</div>
+        <div class="bubble" data-bi="3">
+          "A diversified portfolio is <input class="dbi" type="text" data-ans="more reliable" style="min-width:135px"> than one asset. I sleep better at night knowing I'm not all-in on one thing." <span style="color:#9ca3af;font-size:12.5px;font-style:italic">(reliable)</span>
+        </div>
+      </div>
+
+      <div class="bubble-row">
+        <div class="avatar alex">A</div>
+        <div class="bubble" data-bi="4">
+          "Gold has had <input class="dbi" type="text" data-ans="worse" style="min-width:80px"> performance than Bitcoin over the last ten years. The data is clear." <span style="color:#9ca3af;font-size:12.5px;font-style:italic">(bad)</span>
+        </div>
+      </div>
+
+      <div class="bubble-row right">
+        <div class="avatar maria">M</div>
+        <div class="bubble" data-bi="5">
+          "And <input class="dbi" type="text" data-ans="the most important" style="min-width:175px"> rule? Never invest money you can't afford to lose. Crypto fails that test for most people." <span style="color:#9ca3af;font-size:12.5px;font-style:italic">(important)</span>
+        </div>
+      </div>
+
+    </div>
+    <div class="check-row">
+      <button class="check-btn" id="checkEx3" onclick="checkDebate()">✓ Check Answers</button>
+      <div class="score-badge" id="scoreEx3"></div>
+      <button class="reset-btn" id="resetEx3" style="display:none" onclick="resetDebate()">Reset</button>
+    </div>
+  </div>
+
+  <!-- EX 4 · GRAMMAR — ERROR CORRECTION -->
+  <div class="card" id="card4">
+    <span class="badge grammar">Grammar — Exercise 4</span>
+    <h1>Correct the Mistake</h1>
+    <p class="subtitle">Each sentence has <strong>one grammar mistake</strong> (underlined in red). Write the correct word or phrase in the box.</p>
+    <div class="ex-list" id="ex4list">
+      <div class="ex-row">
+        <span class="ex-n">1.</span>
+        <span>Bitcoin is <span class="err-word">more riskier</span> than government bonds. → <input class="corr-input" type="text" data-ans1="riskier" data-ans2="more risky" placeholder="correction…"></span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">2.</span>
+        <span>That was <span class="err-word">the most worst</span> year for crypto in history. → <input class="corr-input" type="text" data-ans1="the worst" data-ans2="worst" placeholder="correction…"></span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">3.</span>
+        <span>ETFs are <span class="err-word">more cheaper</span> to manage than active funds. → <input class="corr-input" type="text" data-ans1="cheaper" data-ans2="less expensive" placeholder="correction…"></span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">4.</span>
+        <span>She made <span class="err-word">the most best</span> choice when she diversified early. → <input class="corr-input" type="text" data-ans1="the best" data-ans2="best" placeholder="correction…"></span>
+      </div>
+      <div class="ex-row">
+        <span class="ex-n">5.</span>
+        <span>Starting early is <span class="err-word">more better</span> than waiting until you have a lot of money. → <input class="corr-input" type="text" data-ans1="better" data-ans2="" placeholder="correction…"></span>
+      </div>
+    </div>
+    <div class="check-row">
+      <button class="check-btn" id="checkEx4" onclick="checkCorrections()">✓ Check Answers</button>
+      <div class="score-badge" id="scoreEx4"></div>
+      <button class="reset-btn" id="resetEx4" style="display:none" onclick="resetCorrections()">Reset</button>
+    </div>
+  </div>
+
+  <!-- EX 5 · OPEN WRITING -->
+  <div class="card" id="card5">
+    <span class="badge writing">Writing — Exercise 5</span>
+    <h1>My Investment Approach</h1>
+    <div class="writing-prompt">
+      <p>Write <strong>5–8 sentences</strong> about your personal approach to investing. Answer these questions in your text:</p>
+      <ul>
+        <li>What type of investments do you prefer, and why?</li>
+        <li>How do you manage risk — do you believe in diversification?</li>
+        <li>What do you think is the most important rule for any investor?</li>
+      </ul>
+      <p style="margin-top:10px;font-size:13.5px;color:#6b7280;">Use <strong>at least 2 vocabulary words</strong> from the lesson and <strong>at least 1 comparative</strong> + <strong>1 superlative</strong>.</p>
+    </div>
+    <textarea class="writing-area" id="writingArea" placeholder="Start writing here…" oninput="updateWC()"></textarea>
+    <div class="wc" id="wcDisplay">0 words</div>
+  </div>
+
+  <!-- SEND SECTION -->
+  <div class="card send-card">
+    <h2>📤 Send to Teacher</h2>
+    <p>When you've finished all exercises, click the button below to send your homework. Your answers will open in your email app, ready to send.</p>
+    <button class="send-btn" id="sendBtn" onclick="sendHomework()">Send Homework to Teacher</button>
+    <div class="validation-msg" id="validationMsg">
+      <strong>Please complete the following before sending:</strong>
+      <ul class="val-list" id="valList"></ul>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  /* ── HELPERS ── */
+  function normalise(s) { return s.trim().toLowerCase().replace(/\s+/g,' '); }
+
+  function showScore(id, correct, total) {
+    const el = document.getElementById(id);
+    el.textContent = correct + ' / ' + total + ' correct';
+    el.classList.add('visible');
+    el.classList.remove('perfect','bad');
+    if (correct === total) el.classList.add('perfect');
+    else if (correct < total / 2) el.classList.add('bad');
+  }
+
+  function finishCheck(btnId, scoreId, resetId, correct, total, resetFn) {
+    const btn = document.getElementById(btnId);
+    btn.classList.add('done'); btn.textContent = '✓ Checked'; btn.onclick = null;
+    showScore(scoreId, correct, total);
+    const rb = document.getElementById(resetId);
+    rb.style.display = 'inline-block'; rb.onclick = resetFn;
+  }
+
+  function resetCheck(btnId, scoreId, resetId, checkFn) {
+    const btn = document.getElementById(btnId);
+    btn.classList.remove('done'); btn.textContent = '✓ Check Answers'; btn.onclick = checkFn;
+    document.getElementById(scoreId).classList.remove('visible','perfect','bad');
+    document.getElementById(resetId).style.display = 'none';
+  }
+
+  /* ── EX 3 · CHAT DEBATE ── */
+  function checkDebate() {
+    const inputs = document.querySelectorAll('#ex3list .dbi');
+    let correct = 0;
+    inputs.forEach(inp => {
+      const ans = normalise(inp.dataset.ans), val = normalise(inp.value);
+      // also accept "more risky" as alt for "riskier"
+      const alts = { 'riskier': 'more risky', 'more risky': 'riskier' };
+      const bubble = inp.closest('.bubble');
+      bubble.querySelectorAll('.reveal-ans').forEach(s => s.remove());
+      inp.classList.remove('ok','wrong','empty-err');
+      bubble.classList.remove('ok','wrong');
+      const isOk = val === ans || (alts[ans] && val === alts[ans]);
+      if (isOk) { inp.classList.add('ok'); bubble.classList.add('ok'); correct++; }
+      else {
+        inp.classList.add('wrong'); bubble.classList.add('wrong');
+        const sp = document.createElement('span');
+        sp.className = 'reveal-ans'; sp.textContent = '→ ' + inp.dataset.ans;
+        inp.after(sp);
+      }
+    });
+    finishCheck('checkEx3','scoreEx3','resetEx3', correct, inputs.length, resetDebate);
+  }
+
+  function resetDebate() {
+    document.querySelectorAll('#ex3list .dbi').forEach(inp => {
+      inp.value = ''; inp.classList.remove('ok','wrong','empty-err');
+      inp.closest('.bubble').querySelectorAll('.reveal-ans').forEach(s => s.remove());
+      inp.closest('.bubble').classList.remove('ok','wrong');
+    });
+    resetCheck('checkEx3','scoreEx3','resetEx3', checkDebate);
+  }
+
+  /* ── EX 2 & (fill-in) · INPUTS ── */
+  function checkInputs(listId, btnId, scoreId, resetId) {
+    const inputs = document.querySelectorAll('#' + listId + ' .bi');
+    let correct = 0;
+    inputs.forEach(inp => {
+      const ans = normalise(inp.dataset.ans), val = normalise(inp.value);
+      const row = inp.closest('.ex-row');
+      row.querySelectorAll('.reveal-ans').forEach(s => s.remove());
+      inp.classList.remove('ok','wrong','empty-err'); row.classList.remove('ok','wrong');
+      if (val === ans) { inp.classList.add('ok'); row.classList.add('ok'); correct++; }
+      else {
+        inp.classList.add('wrong'); row.classList.add('wrong');
+        const sp = document.createElement('span');
+        sp.className = 'reveal-ans'; sp.textContent = '→ ' + inp.dataset.ans;
+        inp.after(sp);
+      }
+    });
+    finishCheck(btnId, scoreId, resetId, correct, inputs.length, () => resetInputs(listId, btnId, scoreId, resetId));
+  }
+
+  function resetInputs(listId, btnId, scoreId, resetId) {
+    document.querySelectorAll('#' + listId + ' .bi').forEach(inp => {
+      inp.value = ''; inp.classList.remove('ok','wrong','empty-err');
+      inp.closest('.ex-row').querySelectorAll('.reveal-ans').forEach(s => s.remove());
+      inp.closest('.ex-row').classList.remove('ok','wrong');
+    });
+    resetCheck(btnId, scoreId, resetId, () => checkInputs(listId, btnId, scoreId, resetId));
+  }
+
+  /* ── EX 2 · MC ── */
+  function pickMC(btn) {
+    btn.closest('.mc-opts').querySelectorAll('.mc-btn').forEach(b => b.classList.remove('sel','ok','wrong','reveal','empty-err'));
+    btn.classList.add('sel');
+  }
+
+  function checkMC(listId, btnId, scoreId, resetId) {
+    const rows = document.querySelectorAll('#' + listId + ' .ex-row[data-ans]');
+    let correct = 0;
+    rows.forEach(row => {
+      const ci = parseInt(row.dataset.ans);
+      const btns = row.querySelectorAll('.mc-btn');
+      let si = -1;
+      btns.forEach((b, i) => { if (b.classList.contains('sel')) si = i; });
+      btns.forEach((b, i) => {
+        b.classList.remove('sel','ok','wrong','reveal','empty-err');
+        if (i === ci) b.classList.add('reveal');
+        else if (i === si && si !== ci) b.classList.add('wrong');
+      });
+      row.classList.remove('ok','wrong');
+      if (si === ci) { correct++; row.classList.add('ok'); } else row.classList.add('wrong');
+    });
+    finishCheck(btnId, scoreId, resetId, correct, rows.length, () => resetMC(listId, btnId, scoreId, resetId));
+  }
+
+  function resetMC(listId, btnId, scoreId, resetId) {
+    document.querySelectorAll('#' + listId + ' .mc-btn').forEach(b => b.classList.remove('sel','ok','wrong','reveal','empty-err'));
+    document.querySelectorAll('#' + listId + ' .ex-row[data-ans]').forEach(r => r.classList.remove('ok','wrong'));
+    resetCheck(btnId, scoreId, resetId, () => checkMC(listId, btnId, scoreId, resetId));
+  }
+
+  /* ── EX 4 · ERROR CORRECTION ── */
+  function checkCorrections() {
+    const inputs = document.querySelectorAll('#ex4list .corr-input');
+    let correct = 0;
+    inputs.forEach(inp => {
+      const ans1 = normalise(inp.dataset.ans1);
+      const ans2 = normalise(inp.dataset.ans2);
+      const val  = normalise(inp.value);
+      const row  = inp.closest('.ex-row');
+      inp.classList.remove('ok','wrong','empty-err'); row.classList.remove('ok','wrong');
+      row.querySelectorAll('.reveal-ans').forEach(s => s.remove());
+      if (val === ans1 || (ans2 && val === ans2)) {
+        inp.classList.add('ok'); row.classList.add('ok'); correct++;
+      } else {
+        inp.classList.add('wrong'); row.classList.add('wrong');
+        const sp = document.createElement('span');
+        sp.className = 'reveal-ans'; sp.textContent = '→ ' + inp.dataset.ans1;
+        inp.after(sp);
+      }
+    });
+    finishCheck('checkEx4','scoreEx4','resetEx4', correct, inputs.length, resetCorrections);
+  }
+
+  function resetCorrections() {
+    document.querySelectorAll('#ex4list .corr-input').forEach(inp => {
+      inp.value = ''; inp.classList.remove('ok','wrong','empty-err');
+      inp.closest('.ex-row').querySelectorAll('.reveal-ans').forEach(s => s.remove());
+      inp.closest('.ex-row').classList.remove('ok','wrong');
+    });
+    resetCheck('checkEx4','scoreEx4','resetEx4', checkCorrections);
+  }
+
+  /* ── EX 5 · WORD COUNT ── */
+  function updateWC() {
+    const text = document.getElementById('writingArea').value.trim();
+    const count = text === '' ? 0 : text.split(/\s+/).length;
+    document.getElementById('wcDisplay').textContent = count + ' word' + (count !== 1 ? 's' : '');
+    document.getElementById('writingArea').classList.remove('empty-err');
+  }
+
+  /* ── NAME ── */
+  function clearNameError() {
+    document.getElementById('studentName').classList.remove('error');
+  }
+
+  /* ── VALIDATION ── */
+  function validate() {
+    const issues = [];
+    const name = document.getElementById('studentName').value.trim();
+    if (!name) {
+      issues.push('Write your name at the top of the page.');
+      document.getElementById('studentName').classList.add('error');
+    }
+
+    // Ex 1 — all MC selected
+    const ex1rows = document.querySelectorAll('#ex1list .ex-row[data-ans]');
+    let ex1missing = false;
+    ex1rows.forEach(row => {
+      const hasSel = [...row.querySelectorAll('.mc-btn')].some(b => b.classList.contains('sel') || b.classList.contains('ok') || b.classList.contains('wrong') || b.classList.contains('reveal'));
+      if (!hasSel) { ex1missing = true; row.querySelectorAll('.mc-btn').forEach(b => b.classList.add('empty-err')); }
+    });
+    if (ex1missing) issues.push('Exercise 1 — select an answer for every question.');
+
+    // Ex 2 — all inputs filled
+    const ex2inputs = document.querySelectorAll('#ex2list .bi');
+    if ([...ex2inputs].some(i => i.value.trim() === '')) {
+      issues.push('Exercise 2 — fill in all the gaps.');
+      ex2inputs.forEach(i => { if (i.value.trim() === '') i.classList.add('empty-err'); });
+    }
+
+    // Ex 3 — all debate inputs filled
+    const ex3inputs = document.querySelectorAll('#ex3list .dbi');
+    if ([...ex3inputs].some(i => i.value.trim() === '')) {
+      issues.push('Exercise 3 — complete all the chat bubbles.');
+      ex3inputs.forEach(i => { if (i.value.trim() === '') i.classList.add('empty-err'); });
+    }
+
+    // Ex 4 — all correction inputs filled
+    const ex4inputs = document.querySelectorAll('#ex4list .corr-input');
+    if ([...ex4inputs].some(i => i.value.trim() === '')) {
+      issues.push('Exercise 4 — write a correction for every sentence.');
+      ex4inputs.forEach(i => { if (i.value.trim() === '') i.classList.add('empty-err'); });
+    }
+
+    // Ex 5 — textarea not empty
+    const writing = document.getElementById('writingArea').value.trim();
+    const wc = writing === '' ? 0 : writing.split(/\s+/).length;
+    if (wc < 20) {
+      issues.push('Exercise 5 — write at least a few sentences about your investment approach.');
+      document.getElementById('writingArea').classList.add('empty-err');
+    }
+
+    return issues;
+  }
+
+  /* ── SEND ── */
+  function sendHomework() {
+    const issues = validate();
+    const msgEl  = document.getElementById('validationMsg');
+    const listEl = document.getElementById('valList');
+
+    if (issues.length > 0) {
+      listEl.innerHTML = issues.map(i => '<li>' + i + '</li>').join('');
+      msgEl.classList.add('visible');
+      msgEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+
+    msgEl.classList.remove('visible');
+    const name = document.getElementById('studentName').value.trim();
+
+    // Build email body
+    let body = 'HOMEWORK — Smarter Investing\n';
+    body += 'Student: ' + name + '\n';
+    body += '='.repeat(40) + '\n\n';
+
+    // Ex 1 — MC
+    body += 'EXERCISE 1 — Multiple Choice (Vocabulary)\n';
+    document.querySelectorAll('#ex1list .ex-row[data-ans]').forEach((row, i) => {
+      const chosen = [...row.querySelectorAll('.mc-btn')].find(b => b.classList.contains('sel') || b.classList.contains('ok') || b.classList.contains('wrong'));
+      body += (i + 1) + '. ' + (chosen ? chosen.textContent.trim() : '[no answer]') + '\n';
+    });
+
+    // Ex 2 — fill-in
+    body += '\nEXERCISE 2 — Fill in the Gaps (Vocabulary)\n';
+    document.querySelectorAll('#ex2list .bi').forEach((inp, i) => {
+      body += (i + 1) + '. ' + (inp.value.trim() || '[no answer]') + '\n';
+    });
+
+    // Ex 3 — debate
+    body += '\nEXERCISE 3 — Complete the Debate (Grammar)\n';
+    const debateLabels = ['Alex 1','Maria 1','Alex 2','Maria 2','Alex 3','Maria 3'];
+    document.querySelectorAll('#ex3list .dbi').forEach((inp, i) => {
+      body += debateLabels[i] + ': ' + (inp.value.trim() || '[no answer]') + '\n';
+    });
+
+    body += '\nEXERCISE 4 — Error Correction\n';
+    document.querySelectorAll('#ex4list .corr-input').forEach((inp, i) => {
+      body += (i + 1) + '. ' + (inp.value.trim() || '[no answer]') + '\n';
+    });
+
+    body += '\nEXERCISE 5 — My Investment Approach\n';
+    body += document.getElementById('writingArea').value.trim() + '\n';
+
+    const subject = encodeURIComponent('Homework: Smarter Investing — ' + name);
+    const encodedBody = encodeURIComponent(body);
+    window.location.href = 'mailto:dariia.mlnk@gmail.com?subject=' + subject + '&body=' + encodedBody;
+  }
+</script>
+</body>
+</html>
