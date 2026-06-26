@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer Holiday Plans! 🌞</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', 'Arial Rounded MT Bold', sans-serif;
+    background: #fffde7;
+    color: #3d2c1e;
+    font-size: 17px;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(255,235,59,.18) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(100,200,255,.15) 0%, transparent 50%);
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    border: 8px dashed rgba(255,183,77,.35);
+    z-index: 999;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg,#ffca28 0%,#ff8f00 100%);
+    padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 4px 0 rgba(0,0,0,.12);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .hdr-left { display: flex; align-items: center; gap: 10px; }
+  .hdr-icon { font-size: 1.9rem; animation: spin 8s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hdr-title { font-size: 1.15rem; font-weight: 900; color: #fff; text-shadow: 2px 2px 0 rgba(0,0,0,.15); }
+  .hdr-sub { font-size: 0.78rem; color: rgba(255,255,255,.85); font-weight: 700; }
+  .score-cloud { background:#fff; color:#ff8f00; padding:6px 18px; border-radius:20px; font-size:.9rem; font-weight:900; box-shadow:0 2px 0 rgba(0,0,0,.1); }
+
+  /* NAV DOTS */
+  .nav-dots {
+    display: flex; gap: 8px; justify-content: center;
+    padding: 14px 8px 8px; flex-wrap: wrap;
+    background: rgba(255,255,255,.5);
+    border-bottom: 2px dashed #ffd54f;
+  }
+  .dot {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: #fff; border: 3px solid #ffd54f;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; cursor: pointer;
+    transition: all .2s; box-shadow: 0 2px 0 rgba(0,0,0,.08);
+  }
+  .dot:hover { transform: scale(1.15); border-color: #ff8f00; }
+  .dot.active { background:#ff8f00; border-color:#ff8f00; color:#fff; transform:scale(1.15); }
+  .dot.done { background:#a5d6a7; border-color:#66bb6a; }
+
+  /* PAGES */
+  .page { display: none; max-width: 800px; margin: 0 auto; padding: 24px 18px 110px; }
+  .page.active { display: block; }
+
+  /* PAGE BADGE */
+  .page-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff; border: 3px solid #ffd54f; border-radius: 30px;
+    padding: 4px 16px; font-size: .8rem; font-weight: 800;
+    color: #ff8f00; letter-spacing: .04em; margin-bottom: 12px;
+    text-transform: uppercase; box-shadow: 2px 2px 0 rgba(0,0,0,.08);
+  }
+  .page-badge.speaking { background:#e3f2fd; border-color:#64b5f6; color:#1565c0; }
+  .page-badge.grammar  { background:#e8f5e9; border-color:#66bb6a;  color:#2e7d32; }
+  .page-badge.practice { background:#fce4ec; border-color:#f48fb1;  color:#ad1457; }
+  .page-badge.match    { background:#f3e5f5; border-color:#ce93d8;  color:#6a1b9a; }
+  .page-badge.read     { background:#e3f2fd; border-color:#64b5f6;  color:#0d47a1; }
+  .page-badge.error    { background:#fff3e0; border-color:#ffb74d;  color:#e65100; }
+  .page-badge.talk     { background:#fce4ec; border-color:#f06292;  color:#880e4f; }
+
+  h1 { font-size: 1.85rem; font-weight: 900; color: #e65100; margin-bottom: 8px; line-height: 1.2; }
+  .intro { font-size: 1rem; color: #5d4037; line-height: 1.7; margin-bottom: 18px; font-weight: 600; }
+
+  /* SPEECH BUBBLE */
+  .bubble {
+    background: #fff; border: 3px solid #ffd54f; border-radius: 20px;
+    padding: 16px 20px; margin-bottom: 14px; position: relative;
+    box-shadow: 4px 4px 0 rgba(0,0,0,.08); font-size: .97rem;
+    line-height: 1.75; font-weight: 600;
+  }
+  .bubble.blue  { border-color:#64b5f6; }
+  .bubble.green { border-color:#66bb6a; }
+  .bubble.pink  { border-color:#f48fb1; }
+
+  /* WARM-UP CARDS */
+  .wu-card {
+    background: #fff; border: 3px solid #ffd54f; border-radius: 20px;
+    padding: 18px 20px; margin-bottom: 12px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,.08);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .wu-icon { font-size: 1.9rem; flex-shrink: 0; }
+  .wu-q  { font-size: 1.02rem; font-weight: 700; line-height: 1.6; }
+  .wu-hint { font-size: .83rem; color: #999; margin-top: 3px; font-weight: 600; }
+
+  /* GRAMMAR CARD */
+  .gram-hero {
+    background: linear-gradient(135deg,#e8f5e9,#f1f8e9);
+    border: 3px solid #66bb6a; border-radius: 20px;
+    padding: 22px 24px; margin-bottom: 18px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,.08);
+  }
+  .gram-section-title { font-size: .82rem; font-weight: 900; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px; }
+  .gram-formula {
+    background: #fff; border: 2px dashed #66bb6a; border-radius: 12px;
+    padding: 12px 16px; font-size: 1.08rem; font-weight: 900;
+    color: #2e7d32; margin: 10px 0; text-align: center; letter-spacing: .03em;
+  }
+  .gram-formula span { color: #e65100; }
+  .gram-examples { list-style: none; padding: 0; }
+  .gram-examples li {
+    padding: 7px 0; border-bottom: 1px dashed #c8e6c9;
+    font-size: .95rem; font-weight: 700; display: flex; align-items: flex-start; gap: 8px;
+  }
+  .gram-examples li:last-child { border-bottom: none; }
+  .eng { color: #1565c0; }
+  .neg-box { background:#fff3e0; border:2px dashed #ffb74d; border-radius:12px; padding:12px 16px; font-size:.93rem; font-weight:700; margin-top:12px; color:#bf360c; }
+  .q-box   { background:#e3f2fd; border:2px dashed #64b5f6;  border-radius:12px; padding:12px 16px; font-size:.93rem; font-weight:700; margin-top:10px; color:#0d47a1; }
+  .gram-neg-hero {
+    background: linear-gradient(135deg,#fff3e0,#fff8e1);
+    border: 3px solid #ffb74d; border-radius: 20px;
+    padding: 22px 24px; margin-bottom: 14px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,.08);
+  }
+
+  /* MCQ */
+  .mcq-item {
+    background: #fff; border: 3px solid #ffd54f; border-radius: 16px;
+    padding: 16px 18px; margin-bottom: 12px;
+    box-shadow: 4px 4px 0 rgba(0,0,0,.07);
+  }
+  .mcq-sent { font-size: 1rem; font-weight: 700; color: #3d2c1e; margin-bottom: 10px; line-height: 1.6; }
+  .mcq-opts { display: flex; gap: 9px; flex-wrap: wrap; }
+  .mcq-btn {
+    padding: 8px 20px; border: 3px solid #ffd54f; border-radius: 30px;
+    background: #fffde7; cursor: pointer; font-size: .95rem;
+    font-family: 'Nunito',sans-serif; font-weight: 800; color: #3d2c1e;
+    transition: all .15s; box-shadow: 3px 3px 0 rgba(0,0,0,.08);
+  }
+  .mcq-btn:hover  { background:#fff9c4; transform:translateY(-2px); }
+  .mcq-btn.sel    { background:#fff9c4; border-color:#ff8f00; color:#e65100; }
+  .mcq-btn.cor    { background:#e8f5e9; border-color:#66bb6a; color:#2e7d32; }
+  .mcq-btn.wrg    { background:#ffebee; border-color:#e57373; color:#c62828; }
+  .mcq-fb { font-size:.88rem; margin-top:7px; font-weight:800; display:none; }
+  .mcq-fb.show { display:block; }
+  .mcq-fb.ok  { color:#2e7d32; }
+  .mcq-fb.err { color:#c62828; }
+
+  /* CHECK BUTTON */
+  .check-btn {
+    display: block; margin: 20px auto 0;
+    padding: 12px 36px;
+    background: linear-gradient(135deg,#ff8f00,#ffca28);
+    color: #fff; border: none; border-radius: 30px;
+    font-size: 1rem; font-family: 'Nunito',sans-serif; font-weight: 900;
+    cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,.15);
+    transition: all .15s; letter-spacing: .04em;
+  }
+  .check-btn:hover  { transform:translateY(-2px); box-shadow:0 6px 0 rgba(0,0,0,.15); }
+  .check-btn:active { transform:translateY(1px);  box-shadow:0 2px 0 rgba(0,0,0,.15); }
+  .check-btn:disabled { background:#ddd; color:#aaa; cursor:default; transform:none; box-shadow:none; }
+
+  /* MATCH */
+  .match-wrap { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+  @media(max-width:560px){ .match-wrap{grid-template-columns:1fr;} }
+  .match-col-title { font-size:.83rem; font-weight:900; text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; }
+  .match-col-title.left  { color:#1565c0; }
+  .match-col-title.right { color:#ad1457; }
+  .match-pic-item, .match-sent-item {
+    background:#fff; border:3px solid #e0e0e0; border-radius:14px;
+    padding:12px 14px; margin-bottom:9px; cursor:pointer;
+    font-size:.93rem; font-weight:700; transition:all .18s;
+    box-shadow:3px 3px 0 rgba(0,0,0,.07);
+    min-height:56px; display:flex; align-items:center; gap:8px;
+  }
+  .match-pic-item { border-color:#64b5f6; color:#0d47a1; justify-content:center; flex-direction:column; text-align:center; }
+  .match-sent-item { border-color:#f48fb1; color:#3d2c1e; }
+  .match-pic-item:hover, .match-sent-item:hover { transform:translateY(-2px); }
+  .match-pic-item.sel  { background:#e3f2fd; border-color:#1565c0; transform:scale(1.04); }
+  .match-sent-item.sel { background:#fce4ec; border-color:#ad1457; transform:scale(1.04); }
+  .match-pic-item.matched, .match-sent-item.matched { background:#e8f5e9; border-color:#66bb6a; cursor:default; transform:none; }
+  .match-pic-item.flash, .match-sent-item.flash { background:#ffebee; border-color:#e57373; }
+  .match-emoji { font-size:1.9rem; line-height:1; }
+  .match-fb { text-align:center; font-size:1rem; font-weight:800; margin-top:4px; min-height:26px; color:#2e7d32; }
+
+  /* TYPE-IT (fill-in typed) */
+  .typeit-item {
+    background:#fff; border:3px solid #ce93d8; border-radius:16px;
+    padding:16px 18px; margin-bottom:12px;
+    box-shadow:4px 4px 0 rgba(0,0,0,.07);
+  }
+  .typeit-sent { font-size:1rem; font-weight:700; margin-bottom:10px; line-height:1.7; }
+  .typeit-input {
+    border:none; border-bottom:3px dashed #ce93d8; background:transparent;
+    font-family:'Nunito',sans-serif; font-size:1rem; font-weight:800;
+    color:#3d2c1e; padding:4px 6px; min-width:200px; outline:none;
+    transition:border-color .18s;
+  }
+  .typeit-input:focus { border-bottom-color:#9c27b0; }
+  .typeit-input.cor { border-bottom-color:#66bb6a; color:#2e7d32; background:#f1f8e9; border-radius:6px; padding:4px 10px; }
+  .typeit-input.wrg { border-bottom-color:#e57373; color:#c62828; }
+  .typeit-fb { font-size:.87rem; font-weight:800; margin-top:6px; display:none; }
+  .typeit-fb.show { display:block; }
+  .typeit-fb.ok  { color:#2e7d32; }
+  .typeit-fb.err { color:#888; }
+
+  /* WRITE-IT */
+  .write-item {
+    background:#fff; border:3px solid #ce93d8; border-radius:16px;
+    padding:16px 18px; margin-bottom:12px;
+    box-shadow:4px 4px 0 rgba(0,0,0,.07);
+  }
+  .write-pr { font-size:.97rem; font-weight:700; margin-bottom:10px; line-height:1.55; }
+  .write-input {
+    width:100%; border:none; border-bottom:3px dashed #ce93d8; background:transparent;
+    font-family:'Nunito',sans-serif; font-size:1rem; font-weight:700;
+    color:#3d2c1e; padding:6px 4px; outline:none; transition:border-color .18s;
+  }
+  .write-input:focus { border-bottom-color:#9c27b0; }
+  .write-input.cor { border-bottom-color:#66bb6a; color:#2e7d32; background:#f1f8e9; border-radius:6px; padding:6px 10px; }
+  .write-input.wrg { border-bottom-color:#e57373; }
+  .write-fb { font-size:.87rem; font-weight:800; margin-top:6px; display:none; }
+  .write-fb.show { display:block; }
+  .write-fb.ok  { color:#2e7d32; }
+  .write-fb.err { color:#888; }
+
+  /* ERROR CORRECTION */
+  .err-item {
+    background:#fff; border:3px solid #ffb74d; border-radius:16px;
+    padding:16px 18px; margin-bottom:12px;
+    box-shadow:4px 4px 0 rgba(0,0,0,.07);
+  }
+  .err-sent { font-size:1.02rem; font-weight:700; margin-bottom:10px; line-height:1.6; }
+  .err-wrong { background:#ffebee; color:#c62828; border-radius:6px; padding:2px 8px; border-bottom:3px solid #e57373; font-weight:900; }
+  .err-opts { display:flex; gap:9px; flex-wrap:wrap; }
+  .err-btn {
+    padding:7px 18px; border:3px solid #ffb74d; border-radius:30px;
+    background:#fff8e1; cursor:pointer; font-size:.95rem;
+    font-family:'Nunito',sans-serif; font-weight:800; color:#3d2c1e;
+    transition:all .15s; box-shadow:3px 3px 0 rgba(0,0,0,.07);
+  }
+  .err-btn:hover { background:#fff3e0; transform:translateY(-2px); }
+  .err-btn.sel { background:#fff3e0; border-color:#ff8f00; color:#e65100; }
+  .err-btn.cor { background:#e8f5e9; border-color:#66bb6a; color:#2e7d32; }
+  .err-btn.wrg { background:#ffebee; border-color:#e57373; color:#c62828; }
+  .err-fb { font-size:.87rem; font-weight:800; margin-top:6px; display:none; }
+  .err-fb.show { display:block; }
+  .err-fb.ok  { color:#2e7d32; }
+  .err-fb.err { color:#c62828; }
+
+  /* READING */
+  .postcard {
+    background:#fff; border:3px solid #64b5f6; border-radius:20px;
+    padding:22px 24px; margin-bottom:20px;
+    box-shadow:6px 6px 0 rgba(0,0,0,.09);
+    font-size:.97rem; line-height:1.85; font-weight:600;
+    position:relative;
+  }
+  .postcard::before {
+    content:'📮 Diary Entry';
+    display:block; font-size:.75rem; font-weight:900;
+    text-transform:uppercase; letter-spacing:.1em;
+    color:#1565c0; margin-bottom:12px;
+  }
+  .postcard strong { color:#e65100; }
+
+  /* DIALOGUE */
+  .dialogue-wrap { margin-bottom:20px; }
+  .d-line {
+    display:flex; align-items:flex-start; gap:10px;
+    margin-bottom:14px;
+  }
+  .d-name {
+    font-size:.8rem; font-weight:900; text-transform:uppercase;
+    letter-spacing:.06em; white-space:nowrap; padding-top:4px; min-width:56px;
+  }
+  .d-name.a { color:#1565c0; }
+  .d-name.b { color:#ad1457; }
+  .d-bubble {
+    background:#fff; border:3px solid #e0e0e0; border-radius:16px;
+    padding:10px 16px; font-size:.97rem; font-weight:700; line-height:1.65;
+    flex:1; box-shadow:3px 3px 0 rgba(0,0,0,.07);
+  }
+  .d-bubble.a-bub { border-color:#64b5f6; }
+  .d-bubble.b-bub { border-color:#f48fb1; }
+  .word-bank {
+    background:#fffde7; border:3px dashed #ffd54f; border-radius:16px;
+    padding:14px 18px; margin-bottom:18px; font-size:.95rem; font-weight:700;
+  }
+  .wb-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .wb-chip {
+    background:#fff9c4; border:2px solid #ffd54f; border-radius:20px;
+    padding:4px 14px; font-size:.88rem; font-weight:800; color:#e65100;
+  }
+  .d-input {
+    border:none; border-bottom:3px dashed #ffd54f; background:transparent;
+    font-family:'Nunito',sans-serif; font-size:.97rem; font-weight:800;
+    color:#3d2c1e; padding:2px 6px; outline:none; transition:border-color .18s;
+    min-width:130px;
+  }
+  .d-input:focus { border-bottom-color:#ff8f00; }
+  .d-input.cor { border-bottom-color:#66bb6a; color:#2e7d32; }
+  .d-input.wrg { border-bottom-color:#e57373; color:#c62828; }
+
+  /* SPEAKING CARDS */
+  .speak-deck { position:relative; margin-bottom:10px; }
+  .speak-card {
+    display:none; background:#fff; border:4px solid #64b5f6; border-radius:24px;
+    padding:28px; text-align:center; box-shadow:6px 6px 0 rgba(0,0,0,.1);
+    flex-direction:column; align-items:center; justify-content:center; min-height:240px;
+  }
+  .speak-card.on { display:flex; }
+  .speak-emoji { font-size:3.2rem; margin-bottom:12px; animation:bounce 1.5s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .speak-q { font-size:1.12rem; font-weight:900; color:#0d47a1; line-height:1.6; margin-bottom:8px; }
+  .speak-hint { font-size:.86rem; font-weight:700; color:#888; font-style:italic; }
+  .speak-starters { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:12px; }
+  .sp-starter { background:#e3f2fd; color:#0d47a1; border-radius:20px; padding:4px 13px; font-size:.82rem; font-weight:800; }
+  .sp2-card { border-color:#f48fb1; }
+  .sp2-card .speak-q { color:#880e4f; }
+  .sp2-card .sp-starter { background:#fce4ec; color:#880e4f; }
+  .card-nav { display:flex; align-items:center; justify-content:space-between; margin-top:14px; }
+  .card-nav-btn {
+    background:#fff; border:3px solid #ffd54f; border-radius:30px;
+    padding:7px 20px; cursor:pointer; font-size:.9rem; font-weight:900;
+    font-family:'Nunito',sans-serif; color:#ff8f00; transition:all .15s;
+  }
+  .card-nav-btn:hover { background:#fff9c4; }
+  .card-nav-btn:disabled { opacity:.35; cursor:default; }
+  .card-ctr { font-size:.86rem; color:#aaa; font-weight:800; }
+  .cdots { display:flex; gap:7px; justify-content:center; margin-top:10px; }
+  .cdot { width:9px; height:9px; border-radius:50%; background:#ffd54f; transition:background .2s; }
+  .cdot.on { background:#ff8f00; }
+
+  /* RESULTS */
+  .result-hero {
+    background:linear-gradient(135deg,#fffde7,#fff9c4);
+    border:4px solid #ffd54f; border-radius:24px;
+    padding:34px 26px; text-align:center;
+    box-shadow:6px 6px 0 rgba(0,0,0,.1); margin-bottom:20px;
+  }
+  .result-star { font-size:3.2rem; margin-bottom:8px; }
+  .result-score { font-size:3rem; font-weight:900; color:#e65100; line-height:1; margin:10px 0 4px; }
+  .result-lbl { font-size:1rem; color:#888; font-weight:800; }
+  .result-bar-wrap { height:18px; background:#f0f0f0; border-radius:10px; margin:18px 0 6px; overflow:hidden; border:2px solid #ffd54f; }
+  .result-bar { height:100%; background:linear-gradient(90deg,#ff8f00,#ffca28,#66bb6a); border-radius:10px; width:0; transition:width 1.4s ease; }
+  .result-msg { font-size:1rem; font-weight:800; color:#5d4037; margin-top:12px; line-height:1.7; }
+  .recap-card { background:#fff; border:3px solid #64b5f6; border-radius:16px; padding:20px 22px; box-shadow:4px 4px 0 rgba(0,0,0,.07); margin-bottom:12px; }
+  .recap-card h3 { font-size:.95rem; color:#1565c0; margin-bottom:8px; font-weight:900; text-transform:uppercase; letter-spacing:.05em; }
+  .recap-card li { font-size:.93rem; font-weight:700; color:#5d4037; line-height:1.9; margin-left:20px; }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position:fixed; bottom:0; left:0; right:0;
+    background:#fff; border-top:4px dashed #ffd54f;
+    padding:11px 22px; display:flex; justify-content:space-between; align-items:center;
+    box-shadow:0 -4px 20px rgba(0,0,0,.08); z-index:90;
+  }
+  .nav-btn {
+    padding:9px 26px; background:linear-gradient(135deg,#ff8f00,#ffca28);
+    color:#fff; border:none; border-radius:30px; font-size:.97rem;
+    font-family:'Nunito',sans-serif; font-weight:900; cursor:pointer;
+    box-shadow:0 3px 0 rgba(0,0,0,.15); transition:all .15s;
+  }
+  .nav-btn:hover { transform:translateY(-2px); box-shadow:0 5px 0 rgba(0,0,0,.15); }
+  .nav-btn:disabled { background:#e0e0e0; color:#bbb; cursor:default; transform:none; box-shadow:none; }
+  .nav-info { font-size:.83rem; color:#aaa; font-weight:800; text-align:center; }
+
+  /* ── NEW GAMES ───────────────────────── */
+  .page-badge.memory    { background:#fff8e1; border-color:#ffca28; color:#f57f17; }
+  .page-badge.riddle    { background:#f3e5f5; border-color:#ce93d8; color:#6a1b9a; }
+  .page-badge.adventure { background:#e8f5e9; border-color:#66bb6a; color:#2e7d32; }
+
+  /* MEMORY CARDS */
+  .mem-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+  @media(max-width:500px){ .mem-grid{grid-template-columns:repeat(2,1fr);} }
+  .mem-card { height:100px; perspective:600px; cursor:pointer; }
+  .mem-inner { width:100%; height:100%; transform-style:preserve-3d; transition:transform .45s cubic-bezier(.4,0,.2,1); position:relative; }
+  .mem-card.flipped .mem-inner, .mem-card.matched .mem-inner { transform:rotateY(180deg); }
+  .mem-face { position:absolute; inset:0; border-radius:14px; display:flex; align-items:center; justify-content:center; backface-visibility:hidden; }
+  .mem-frt { background:linear-gradient(135deg,#ff8f00,#ffca28); border:3px solid #ff8f00; font-size:1.9rem; color:#fff; font-weight:900; box-shadow:3px 3px 0 rgba(0,0,0,.1); }
+  .mem-bk  { background:#fff; border:3px solid #ffd54f; transform:rotateY(180deg); font-size:.8rem; font-weight:800; padding:8px; text-align:center; color:#3d2c1e; line-height:1.35; box-shadow:3px 3px 0 rgba(0,0,0,.08); }
+  .mem-card.matched .mem-bk { border-color:#66bb6a; background:#e8f5e9; }
+  .mem-card.bad-flash .mem-bk { border-color:#e57373; background:#ffebee; }
+  .mem-score { text-align:center; font-size:1rem; font-weight:900; color:#2e7d32; min-height:28px; margin-bottom:10px; }
+
+  /* RIDDLES */
+  .riddle-card { background:#fff; border:3px solid #ce93d8; border-radius:20px; padding:20px 22px; margin-bottom:14px; box-shadow:4px 4px 0 rgba(0,0,0,.08); }
+  .riddle-q { font-size:1rem; font-weight:700; line-height:1.65; margin-bottom:12px; }
+  .riddle-opts { display:flex; gap:9px; flex-wrap:wrap; }
+  .riddle-btn { padding:8px 18px; border:3px solid #ce93d8; border-radius:30px; background:#f3e5f5; cursor:pointer; font-size:.93rem; font-family:'Nunito',sans-serif; font-weight:800; color:#3d2c1e; transition:all .15s; box-shadow:2px 2px 0 rgba(0,0,0,.07); }
+  .riddle-btn:hover { background:#e1bee7; transform:translateY(-2px); }
+  .riddle-btn.cor { background:#e8f5e9; border-color:#66bb6a; color:#2e7d32; }
+  .riddle-btn.wrg { background:#ffebee; border-color:#e57373; color:#c62828; }
+  .riddle-fb { font-size:.88rem; font-weight:800; margin-top:8px; display:none; }
+  .riddle-fb.show { display:block; }
+  .riddle-fb.ok  { color:#2e7d32; }
+  .riddle-fb.err { color:#c62828; }
+  .riddle-bonus { font-size:.88rem; font-weight:800; color:#1565c0; margin-top:4px; display:none; font-style:italic; }
+  .riddle-bonus.show { display:block; }
+
+  /* ADVENTURE */
+  .adv-scene { background:#fff; border:3px solid #64b5f6; border-radius:20px; padding:22px 24px; margin-bottom:16px; box-shadow:5px 5px 0 rgba(0,0,0,.09); }
+  .adv-scene-txt { font-size:1.02rem; font-weight:700; line-height:1.78; margin-bottom:16px; }
+  .adv-choice-wrap { display:flex; flex-direction:column; gap:10px; }
+  .adv-btn { padding:13px 20px; border:3px solid #64b5f6; border-radius:16px; background:#e3f2fd; cursor:pointer; font-size:.97rem; font-family:'Nunito',sans-serif; font-weight:800; color:#0d47a1; text-align:left; transition:all .18s; box-shadow:3px 3px 0 rgba(0,0,0,.07); }
+  .adv-btn:hover { transform:translateY(-2px); background:#bbdefb; }
+  .adv-restart { display:block; margin:16px auto 0; padding:10px 28px; background:linear-gradient(135deg,#ff8f00,#ffca28); color:#fff; border:none; border-radius:30px; font-size:.95rem; font-family:'Nunito',sans-serif; font-weight:900; cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,.12); transition:all .15s; }
+  .adv-restart:hover { transform:translateY(-2px); }
+  .adv-step { font-size:.75rem; font-weight:900; text-transform:uppercase; letter-spacing:.07em; color:#888; margin-bottom:10px; }
+  .adv-end-tag { display:inline-block; background:#e8f5e9; border:2px solid #66bb6a; color:#2e7d32; border-radius:20px; padding:4px 14px; font-size:.82rem; font-weight:900; margin-bottom:10px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="hdr-left">
+    <span class="hdr-icon">☀️</span>
+    <div>
+      <div class="hdr-title">Summer Holiday Plans!</div>
+      <div class="hdr-sub">be going to · Future plans</div>
+    </div>
+  </div>
+  <div class="score-cloud" id="scoreBadge">⭐ 0 pts</div>
+</div>
+<div class="nav-dots" id="navDots"></div>
+
+<!-- ═══ PAGE 0 · WARM-UP ═══ -->
+<div class="page active" id="page-0">
+  <div class="page-badge speaking">💬 Warm-up · Let's talk!</div>
+  <h1>Hello, summer! ☀️🌊</h1>
+  <p class="intro">Look at these questions and talk with your teacher. There are no wrong answers!</p>
+  <div class="wu-card"><div class="wu-icon">🏖️</div><div><div class="wu-q">Do you like summer? What is your favourite thing about it?</div><div class="wu-hint">Think of: the weather, swimming, ice cream, playing outside…</div></div></div>
+  <div class="wu-card"><div class="wu-icon">🌍</div><div><div class="wu-q">Where do you usually go on holiday? Do you travel with your family?</div><div class="wu-hint">The sea? The mountains? Do you stay at home?</div></div></div>
+  <div class="wu-card"><div class="wu-icon">🍦</div><div><div class="wu-q">What is your favourite summer food? Why do you like it?</div><div class="wu-hint">Ice cream, watermelon, barbecue…</div></div></div>
+  <div class="wu-card"><div class="wu-icon">🎉</div><div><div class="wu-q">What is ONE thing you really want to do this summer?</div><div class="wu-hint">Dream big! Anything goes! 😄</div></div></div>
+</div>
+
+<!-- ═══ PAGE 1 · GRAMMAR: POSITIVE ═══ -->
+<div class="page" id="page-1">
+  <div class="page-badge grammar">📖 Grammar · Positive</div>
+  <h1>I am going to… ✨</h1>
+  <p class="intro">We use <strong style="color:#e65100">be going to</strong> when we have a plan or intention for the future!</p>
+  <div class="gram-hero">
+    <div class="gram-section-title" style="color:#2e7d32">✦ Positive sentences</div>
+    <div class="gram-formula">Subject + <span>am / is / are</span> + going to + <span>verb</span></div>
+    <ul class="gram-examples">
+      <li>👧 <span class="eng">I <strong>am going to</strong> swim in the sea.</span></li>
+      <li>👦 <span class="eng">He <strong>is going to</strong> eat an ice cream.</span></li>
+      <li>👧👦 <span class="eng">We <strong>are going to</strong> visit the beach.</span></li>
+      <li>🐶 <span class="eng">The dog <strong>is going to</strong> sleep in the sun.</span></li>
+    </ul>
+  </div>
+  <div class="bubble">💡 <strong>Remember the rule!</strong><br>
+    <span style="color:#e65100;font-weight:900">I</span> → am &nbsp;·&nbsp;
+    <span style="color:#e65100;font-weight:900">he / she / it / name</span> → is &nbsp;·&nbsp;
+    <span style="color:#e65100;font-weight:900">you / we / they</span> → are
+  </div>
+</div>
+
+<!-- ═══ PAGE 2 · GRAMMAR: NEGATIVE + QUESTIONS ═══ -->
+<div class="page" id="page-2">
+  <div class="page-badge grammar">📖 Grammar · Negative &amp; Questions</div>
+  <h1>Not going to? Are you going to…? 🤔</h1>
+  <p class="intro">Now let's look at how to say something is NOT going to happen, and how to ask questions!</p>
+  <div class="gram-neg-hero">
+    <div class="gram-section-title" style="color:#bf360c">🚫 Negative sentences</div>
+    <div class="gram-formula" style="border-color:#ffb74d;color:#bf360c;">Subject + <span>am / is / are</span> + <span>NOT</span> + going to + verb</div>
+    <ul class="gram-examples">
+      <li>👧 <span class="eng">I <strong>am not going to</strong> watch TV today.</span></li>
+      <li>👦 <span class="eng">He <strong>is not going to</strong> play football.</span></li>
+      <li>👧👦 <span class="eng">They <strong>are not going to</strong> stay at home.</span></li>
+    </ul>
+    <div style="font-size:.85rem;font-weight:800;color:#888;margin-top:8px;">💬 Short forms: <em>I am not = I'm not &nbsp;·&nbsp; is not = isn't &nbsp;·&nbsp; are not = aren't</em></div>
+  </div>
+  <div class="gram-hero" style="margin-bottom:0">
+    <div class="gram-section-title" style="color:#2e7d32">❓ Questions</div>
+    <div class="gram-formula"><span>Am / Is / Are</span> + subject + going to + verb + ?</div>
+    <ul class="gram-examples">
+      <li>❓ <span class="eng"><strong>Are</strong> you going to swim?</span></li>
+      <li>❓ <span class="eng"><strong>Is</strong> she going to travel?</span></li>
+      <li>❓ <span class="eng"><strong>Are</strong> they going to visit us?</span></li>
+    </ul>
+    <div style="font-size:.9rem;font-weight:800;color:#3d2c1e;margin-top:10px;">
+      ✅ Short answers: <span class="eng">Yes, I <strong>am</strong>. / No, he <strong>isn't</strong>. / Yes, they <strong>are</strong>.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 3 · MCQ: POSITIVE ═══ -->
+<div class="page" id="page-3">
+  <div class="page-badge practice">✏️ Practice · am / is / are</div>
+  <h1>Pick the right word! 🎯</h1>
+  <p class="intro">Choose <strong>am</strong>, <strong>is</strong>, or <strong>are</strong> to complete each sentence. Think about the subject!</p>
+  <div id="mcq3-items"></div>
+  <button class="check-btn" id="mcq3-check" onclick="checkMCQ3()">Check my answers! ✓</button>
+</div>
+
+<!-- ═══ PAGE 4 · MCQ: NEGATIVE + QUESTIONS ═══ -->
+<div class="page" id="page-4">
+  <div class="page-badge practice">✏️ Practice · Negative &amp; Questions</div>
+  <h1>Negative or question? 🙅❓</h1>
+  <p class="intro">Choose the correct word to make a negative sentence or a question.</p>
+  <div id="mcq4-items"></div>
+  <button class="check-btn" id="mcq4-check" onclick="checkMCQ4()">Check my answers! ✓</button>
+</div>
+
+<!-- ═══ PAGE 5 · MATCH ═══ -->
+<div class="page" id="page-5">
+  <div class="page-badge match">🔗 Match It!</div>
+  <h1>Match the pictures! 🖼️</h1>
+  <p class="intro">Click a picture on the left, then click the matching sentence on the right. Can you find all 5 pairs?</p>
+  <div class="match-wrap">
+    <div><div class="match-col-title left">🖼 Pictures</div><div id="match-pics"></div></div>
+    <div><div class="match-col-title right">📝 Sentences</div><div id="match-sents"></div></div>
+  </div>
+  <div class="match-fb" id="match-fb"></div>
+</div>
+
+<!-- ═══ PAGE 6 · TYPE IT (fill in full form) ═══ -->
+<div class="page" id="page-6">
+  <div class="page-badge practice">⌨️ Type It!</div>
+  <h1>Complete the sentence! 💜</h1>
+  <p class="intro">Fill in the blank with the correct <strong>going to</strong> form. Use the verb in brackets.</p>
+  <div class="bubble pink" style="margin-bottom:18px;">
+    ✏️ <strong>Example:</strong> She ___ <em>(visit)</em> her grandma → <strong style="color:#1565c0">She is going to visit her grandma.</strong>
+  </div>
+  <div id="typeit6-items"></div>
+  <button class="check-btn" id="typeit6-check" onclick="checkTypeit6()">Check my answers! ✓</button>
+</div>
+
+<!-- ═══ PAGE 7 · WRITE SENTENCES ═══ -->
+<div class="page" id="page-7">
+  <div class="page-badge practice">✍️ Write It!</div>
+  <h1>Make a sentence! 🌟</h1>
+  <p class="intro">Use the words in the box to write a <em>going to</em> sentence. Write the FULL sentence!</p>
+  <div class="bubble green" style="margin-bottom:18px;">
+    ✏️ <strong>Example:</strong> <em>she / not / eat / carrots</em> → <strong style="color:#1565c0">She is not going to eat carrots.</strong>
+  </div>
+  <div id="write7-items"></div>
+  <button class="check-btn" id="write7-check" onclick="checkWrite7()">Check my sentences! ✓</button>
+</div>
+
+<!-- ═══ PAGE 8 · FIX THE MISTAKE ═══ -->
+<div class="page" id="page-8">
+  <div class="page-badge error">🔍 Fix the Mistake!</div>
+  <h1>Spot the mistake! 🐛</h1>
+  <p class="intro">Each sentence has ONE mistake. The wrong word is shown in red. Choose the correct word to fix it!</p>
+  <div id="err8-items"></div>
+  <button class="check-btn" id="err8-check" onclick="checkErr8()">Check my corrections! ✓</button>
+</div>
+
+<!-- ═══ PAGE 9 · READING ═══ -->
+<div class="page" id="page-9">
+  <div class="page-badge read">📚 Read &amp; Answer!</div>
+  <h1>Emma's diary! 📖</h1>
+  <p class="intro">Read Emma's diary entry, then answer the questions below.</p>
+  <div class="postcard">
+    This summer is going to be <strong>so much fun!</strong> On Monday, I am going to visit my grandparents in the countryside. My grandma is going to make strawberry jam and I am going to help her. My brother Tom is <strong>not</strong> going to come with us because he is going to work at a cafe in the city. On Friday, we are going to have a big party for my grandpa's birthday. My mum is going to bake a chocolate cake. I <strong>cannot wait!</strong>
+    <br><br><em>— Emma ☀️</em>
+  </div>
+  <div id="read9-items"></div>
+  <button class="check-btn" id="read9-check" onclick="checkRead9()">Check my answers! ✓</button>
+</div>
+
+<!-- ═══ PAGE 10 · DIALOGUE COMPLETION ═══ -->
+<div class="page" id="page-10">
+  <div class="page-badge talk">💬 Complete the Chat!</div>
+  <h1>Fill in the conversation! 🗨️</h1>
+  <p class="intro">Sophie and Anna are talking about their summer plans. Fill in the gaps using the word bank!</p>
+  <div class="word-bank">
+    <strong>Word bank 📦</strong>
+    <div class="wb-chips" id="wb-chips"></div>
+  </div>
+  <div class="dialogue-wrap" id="dialogue-wrap"></div>
+  <button class="check-btn" id="dial10-check" onclick="checkDial10()">Check my answers! ✓</button>
+</div>
+
+<!-- ═══ PAGE 11 · SPEAKING 1 ═══ -->
+<div class="page" id="page-11">
+  <div class="page-badge speaking">🗣️ Speaking · Your Plans!</div>
+  <h1>Your summer plans! ☀️</h1>
+  <p class="intro">Answer each question using <strong style="color:#e65100">I am going to…</strong> or <strong style="color:#e65100">I am not going to…</strong></p>
+  <div class="speak-deck">
+    <div id="sp1-cards"></div>
+    <div class="card-nav">
+      <button class="card-nav-btn" id="sp1-prev" onclick="moveSp(1,-1)">← Back</button>
+      <span class="card-ctr" id="sp1-ctr">1 / 6</span>
+      <button class="card-nav-btn" id="sp1-next" onclick="moveSp(1,1)">Next →</button>
+    </div>
+    <div class="cdots" id="sp1-dots"></div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 12 · SPEAKING 2 ═══ -->
+<div class="page" id="page-12">
+  <div class="page-badge talk">🗣️ Speaking · Challenge!</div>
+  <h1>More questions! 🌈</h1>
+  <p class="intro">These questions are a bit harder. Answer in full sentences and try to say MORE than one sentence!</p>
+  <div class="speak-deck">
+    <div id="sp2-cards"></div>
+    <div class="card-nav">
+      <button class="card-nav-btn" id="sp2-prev" onclick="moveSp(2,-1)">← Back</button>
+      <span class="card-ctr" id="sp2-ctr">1 / 6</span>
+      <button class="card-nav-btn" id="sp2-next" onclick="moveSp(2,1)">Next →</button>
+    </div>
+    <div class="cdots" id="sp2-dots"></div>
+  </div>
+</div>
+
+
+<!-- ═══ PAGE 13 · MEMORY CARDS ═══ -->
+<div class="page" id="page-13">
+  <div class="page-badge memory">🃏 Memory Game!</div>
+  <h1>Find the pairs! 🧠</h1>
+  <p class="intro">Click a card to flip it. Find the matching pair — a picture card and its going to sentence. Can you find all 4 pairs?</p>
+  <div class="mem-score" id="mem-score">🃏 0 / 4 pairs found</div>
+  <div class="mem-grid" id="mem-grid"></div>
+</div>
+
+<!-- ═══ PAGE 14 · RIDDLES ═══ -->
+<div class="page" id="page-14">
+  <div class="page-badge riddle">🔮 Summer Riddles!</div>
+  <h1>Can you guess? 🤔</h1>
+  <p class="intro">Read each riddle and choose the correct answer. Each answer hides a <strong style="color:#e65100">going to</strong> sentence — find it!</p>
+  <div id="riddle14-items"></div>
+</div>
+
+<!-- ═══ PAGE 15 · CHOOSE YOUR ADVENTURE ═══ -->
+<div class="page" id="page-15">
+  <div class="page-badge adventure">🎭 Story Adventure!</div>
+  <h1>What is Sofia going to do? 🌟</h1>
+  <p class="intro">Read the story and <strong>you decide</strong> what Sofia is going to do next! There are 6 scenes and TWO paths to explore. Click a choice and see what happens! 🎭</p>
+  <div id="adv15-wrap"></div>
+</div>
+
+<!-- ═══ PAGE 16 · RESULTS ═══ -->
+<div class="page" id="page-16">
+  <div class="page-badge grammar">🏆 Finished!</div>
+  <h1>Amazing work! 🎉</h1>
+  <p class="intro">You did a fantastic job today! Let's see how you did.</p>
+  <div class="result-hero">
+    <div class="result-star" id="resultStar">⭐</div>
+    <div class="result-score" id="resultScore">0</div>
+    <div class="result-lbl" id="resultLbl">points</div>
+    <div class="result-bar-wrap"><div class="result-bar" id="resultBar"></div></div>
+    <div class="result-msg" id="resultMsg"></div>
+  </div>
+  <div class="recap-card">
+    <h3>🌈 What we learned today</h3>
+    <ul>
+      <li>☀️ Talking about summer holidays and plans</li>
+      <li>📖 be going to = I have a plan for the future!</li>
+      <li>✏️ am / is / are — choosing the right one</li>
+      <li>🚫 Negative form: am / is / are NOT going to</li>
+      <li>❓ Questions: Are you going to…? Is she going to…?</li>
+      <li>🔗 Matching pictures to going to sentences</li>
+      <li>⌨️ Writing the full going to form</li>
+      <li>🔍 Finding and correcting mistakes</li>
+      <li>📚 Reading and understanding a diary</li>
+      <li>💬 Completing a real conversation</li>
+      <li>🃏 Playing a memory card game</li>
+      <li>🔮 Solving summer riddles</li>
+      <li>🎭 Choosing your own adventure story</li>
+    </ul>
+  </div>
+  <div class="bubble blue">
+    <strong>Great sentence to remember:</strong><br>
+    <span style="color:#1565c0;font-size:1.05rem">"I <strong>am going to</strong> have the best summer EVER!" 🌟</span>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <button class="nav-btn" id="btnPrev" onclick="goTo(cur-1)" disabled>← Back</button>
+  <div class="nav-info" id="navInfo">Page 1 of 14</div>
+  <button class="nav-btn" id="btnNext" onclick="goTo(cur+1)">Next ➜</button>
+</div>
+
+<script>
+// ─── CORE ───────────────────────────────────────────
+var TOTAL = 17;
+var LABELS = ['Warm-up','Grammar +','Grammar -/?','Practice +','Practice -/?','Match','Type it','Write it','Fix it','Reading','Dialogue','Speaking 1','Speaking 2','Memory!','Riddles','Adventure','Results'];
+var EMOJIS = ['🌞','📖','🤔','🎯','🙅','🔗','⌨️','✍️','🔍','📚','💬','🗣️','🌈','🃏','🔮','🎭','🏆'];
+var cur = 0;
+var pts = 0, maxPts = 0;
+var done = {};
+var inited = {};
+
+function buildDots() {
+  var c = document.getElementById('navDots');
+  for (var i = 0; i < TOTAL; i++) {
+    (function(idx) {
+      var d = document.createElement('div');
+      d.className = 'dot' + (idx === 0 ? ' active' : '');
+      d.textContent = EMOJIS[idx];
+      d.title = LABELS[idx];
+      d.onclick = function() { goTo(idx); };
+      c.appendChild(d);
+    })(i);
+  }
+}
+
+function goTo(n) {
+  if (n < 0 || n >= TOTAL) return;
+  document.getElementById('page-' + cur).classList.remove('active');
+  var dots = document.querySelectorAll('.dot');
+  if (done[cur]) dots[cur].classList.add('done');
+  dots[cur].classList.remove('active');
+  cur = n;
+  document.getElementById('page-' + cur).classList.add('active');
+  dots[cur].classList.add('active');
+  document.getElementById('btnPrev').disabled = cur === 0;
+  document.getElementById('btnNext').disabled = cur === TOTAL - 1;
+  document.getElementById('navInfo').textContent = 'Page ' + (cur+1) + ' of ' + TOTAL + ' — ' + LABELS[cur];
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  lazyInit(cur);
+}
+
+function earn(p, m) {
+  pts += p; maxPts += m;
+  document.getElementById('scoreBadge').textContent = '⭐ ' + pts + ' pts';
+}
+
+function norm(s) {
+  return s.trim().toLowerCase().replace(/[.!?,]+$/, '').replace(/\s+/g, ' ');
+}
+
+function lazyInit(pg) {
+  if (inited[pg]) return;
+  inited[pg] = true;
+  if (pg === 3)  initMCQ3();
+  if (pg === 4)  initMCQ4();
+  if (pg === 5)  initMatch();
+  if (pg === 6)  initTypeit6();
+  if (pg === 7)  initWrite7();
+  if (pg === 8)  initErr8();
+  if (pg === 9)  initRead9();
+  if (pg === 10) initDial10();
+  if (pg === 11) initSp(1);
+  if (pg === 12) initSp(2);
+  if (pg === 13) initMemory13();
+  if (pg === 14) initRiddles14();
+  if (pg === 15) initAdventure15();
+  if (pg === 16) showResults();
+}
+
+// ─── PAGE 3 · MCQ POSITIVE ──────────────────────────
+var MCQ3 = [
+  { s: 'I ___ going to swim in the sea!', opts: ['am','is','are'], ans: 0 },
+  { s: 'Tom ___ going to eat a big ice cream.', opts: ['am','is','are'], ans: 1 },
+  { s: 'My mum and I ___ going to visit the beach.', opts: ['am','is','are'], ans: 2 },
+  { s: '___ you going to play on the sand?', opts: ['Am','Is','Are'], ans: 2 },
+  { s: 'The dog ___ going to sleep in the sun.', opts: ['am','is','are'], ans: 1 },
+  { s: 'We ___ going to have a picnic tomorrow.', opts: ['am','is','are'], ans: 2 }
+];
+var mcq3st = {};
+
+function initMCQ3() {
+  var c = document.getElementById('mcq3-items');
+  MCQ3.forEach(function(q, i) {
+    mcq3st[i] = -1;
+    var div = document.createElement('div');
+    div.className = 'mcq-item';
+    var sh = q.s.replace('___', '<span style="color:#ff8f00;font-weight:900;font-size:1.1rem;">___</span>');
+    var oh = q.opts.map(function(o, j) {
+      return '<button class="mcq-btn" id="m3-' + i + '-' + j + '" onclick="selMCQ3(' + i + ',' + j + ')">' + o + '</button>';
+    }).join('');
+    div.innerHTML = '<div class="mcq-sent">' + (i+1) + '. ' + sh + '</div><div class="mcq-opts">' + oh + '</div><div class="mcq-fb" id="m3-fb-' + i + '"></div>';
+    c.appendChild(div);
+  });
+}
+
+function selMCQ3(qi, oi) {
+  if (document.getElementById('mcq3-check').disabled) return;
+  mcq3st[qi] = oi;
+  MCQ3[qi].opts.forEach(function(_, j) {
+    document.getElementById('m3-' + qi + '-' + j).className = 'mcq-btn' + (j === oi ? ' sel' : '');
+  });
+}
+
+function checkMCQ3() {
+  var ok = 0;
+  MCQ3.forEach(function(q, i) {
+    var ch = mcq3st[i];
+    var fb = document.getElementById('m3-fb-' + i);
+    q.opts.forEach(function(_, j) {
+      var b = document.getElementById('m3-' + i + '-' + j);
+      b.classList.remove('sel','cor','wrg');
+      if (j === q.ans) b.classList.add('cor');
+      else if (j === ch && ch !== q.ans) b.classList.add('wrg');
+    });
+    if (ch === q.ans) { ok++; fb.textContent = '🌟 Yes!'; fb.className = 'mcq-fb show ok'; }
+    else { fb.textContent = '💪 Answer: ' + q.opts[q.ans]; fb.className = 'mcq-fb show err'; }
+  });
+  earn(ok, MCQ3.length);
+  done[3] = true;
+  document.getElementById('mcq3-check').disabled = true;
+  document.getElementById('mcq3-check').textContent = '🌟 ' + ok + ' / ' + MCQ3.length + ' correct!';
+}
+
+// ─── PAGE 4 · MCQ NEGATIVE + QUESTIONS ─────────────
+var MCQ4 = [
+  { s: 'She ___ going to travel this summer. (negative)', opts: ['am not','is not','are not'], ans: 1 },
+  { s: '___ they going to swim in the sea? (question)', opts: ['Is','Are','Am'], ans: 1 },
+  { s: 'I ___ going to eat vegetables! (negative)', opts: ['am not','is not','are not'], ans: 0 },
+  { s: '___ your mum going to cook dinner? (question)', opts: ['Is','Are','Am'], ans: 0 },
+  { s: 'We ___ going to stay at home. (negative)', opts: ['am not','is not','are not'], ans: 2 },
+  { s: '___ Emma going to visit her grandma? (question)', opts: ['Is','Are','Am'], ans: 0 }
+];
+var mcq4st = {};
+
+function initMCQ4() {
+  var c = document.getElementById('mcq4-items');
+  MCQ4.forEach(function(q, i) {
+    mcq4st[i] = -1;
+    var div = document.createElement('div');
+    div.className = 'mcq-item';
+    var sh = q.s.replace('___', '<span style="color:#ff8f00;font-weight:900;font-size:1.1rem;">___</span>');
+    var oh = q.opts.map(function(o, j) {
+      return '<button class="mcq-btn" id="m4-' + i + '-' + j + '" onclick="selMCQ4(' + i + ',' + j + ')">' + o + '</button>';
+    }).join('');
+    div.innerHTML = '<div class="mcq-sent">' + (i+1) + '. ' + sh + '</div><div class="mcq-opts">' + oh + '</div><div class="mcq-fb" id="m4-fb-' + i + '"></div>';
+    c.appendChild(div);
+  });
+}
+
+function selMCQ4(qi, oi) {
+  if (document.getElementById('mcq4-check').disabled) return;
+  mcq4st[qi] = oi;
+  MCQ4[qi].opts.forEach(function(_, j) {
+    document.getElementById('m4-' + qi + '-' + j).className = 'mcq-btn' + (j === oi ? ' sel' : '');
+  });
+}
+
+function checkMCQ4() {
+  var ok = 0;
+  MCQ4.forEach(function(q, i) {
+    var ch = mcq4st[i];
+    var fb = document.getElementById('m4-fb-' + i);
+    q.opts.forEach(function(_, j) {
+      var b = document.getElementById('m4-' + i + '-' + j);
+      b.classList.remove('sel','cor','wrg');
+      if (j === q.ans) b.classList.add('cor');
+      else if (j === ch && ch !== q.ans) b.classList.add('wrg');
+    });
+    if (ch === q.ans) { ok++; fb.textContent = '🌟 Perfect!'; fb.className = 'mcq-fb show ok'; }
+    else { fb.textContent = '💪 Answer: ' + q.opts[q.ans]; fb.className = 'mcq-fb show err'; }
+  });
+  earn(ok, MCQ4.length);
+  done[4] = true;
+  document.getElementById('mcq4-check').disabled = true;
+  document.getElementById('mcq4-check').textContent = '🌟 ' + ok + ' / ' + MCQ4.length + ' correct!';
+}
+
+// ─── PAGE 5 · MATCH ─────────────────────────────────
+var MATCH_D = [
+  { pic: '🏊', lbl: 'swimming',   sent: 'She is going to swim in the pool.',   id: 'A' },
+  { pic: '🍦', lbl: 'ice cream',  sent: 'He is going to eat an ice cream.',    id: 'B' },
+  { pic: '✈️', lbl: 'aeroplane',  sent: 'They are going to fly to Spain.',     id: 'C' },
+  { pic: '⛺',       lbl: 'camping',    sent: 'We are going to sleep in a tent.',    id: 'D' },
+  { pic: '🎡', lbl: 'funfair',    sent: 'I am going to ride the big wheel!',  id: 'E' }
+];
+var mpSel = null, msSel = null, matched = new Set();
+
+function initMatch() {
+  var pC = document.getElementById('match-pics');
+  var sC = document.getElementById('match-sents');
+  var shuffled = MATCH_D.slice().sort(function() { return Math.random() - 0.5; });
+  MATCH_D.forEach(function(d) {
+    var p = document.createElement('div');
+    p.className = 'match-pic-item'; p.id = 'mp-' + d.id;
+    p.innerHTML = '<div class="match-emoji">' + d.pic + '</div><div style="font-size:.8rem;font-weight:800">' + d.lbl + '</div>';
+    p.onclick = function() { selectMPic(d.id); };
+    pC.appendChild(p);
+  });
+  shuffled.forEach(function(d) {
+    var s = document.createElement('div');
+    s.className = 'match-sent-item'; s.id = 'ms-' + d.id;
+    s.textContent = d.sent;
+    s.onclick = function() { selectMSent(d.id); };
+    sC.appendChild(s);
+  });
+}
+
+function selectMPic(id) {
+  if (matched.has(id)) return;
+  if (mpSel) document.getElementById('mp-' + mpSel).classList.remove('sel');
+  mpSel = id;
+  document.getElementById('mp-' + id).classList.add('sel');
+  tryMatchPair();
+}
+
+function selectMSent(id) {
+  if (matched.has(id)) return;
+  if (msSel) document.getElementById('ms-' + msSel).classList.remove('sel');
+  msSel = id;
+  document.getElementById('ms-' + id).classList.add('sel');
+  tryMatchPair();
+}
+
+function tryMatchPair() {
+  if (!mpSel || !msSel) return;
+  if (mpSel === msSel) {
+    document.getElementById('mp-' + mpSel).className = 'match-pic-item matched';
+    document.getElementById('ms-' + msSel).className = 'match-sent-item matched';
+    matched.add(mpSel);
+    earn(1, 0);
+    mpSel = null; msSel = null;
+    if (matched.size === MATCH_D.length) {
+      document.getElementById('match-fb').textContent = '🎉 Amazing! You matched them all!';
+      earn(0, MATCH_D.length); done[5] = true;
+    } else {
+      document.getElementById('match-fb').textContent = '✓ Great match! Keep going…';
+    }
+  } else {
+    var p = document.getElementById('mp-' + mpSel);
+    var s = document.getElementById('ms-' + msSel);
+    p.classList.add('flash'); s.classList.add('flash');
+    setTimeout(function() {
+      p.classList.remove('flash','sel');
+      s.classList.remove('flash','sel');
+      mpSel = null; msSel = null;
+      document.getElementById('match-fb').textContent = '💪 Not quite — try again!';
+    }, 700);
+  }
+}
+
+// ─── PAGE 6 · TYPE IT ───────────────────────────────
+var TI6 = [
+  { pre: '1. Lily ', post: ' to the beach. (go)', ans: 'is going to go', alt: [] },
+  { pre: '2. I ', post: ' watermelon. (eat)', ans: 'am going to eat', alt: [] },
+  { pre: '3. My parents ', post: ' to Greece. (travel)', ans: 'are going to travel', alt: [] },
+  { pre: '4. The dog ', post: ' in the garden. (sleep)', ans: 'is going to sleep', alt: [] },
+  { pre: '5. We ', post: ' volleyball on the beach. (play)', ans: 'are going to play', alt: [] }
+];
+
+function initTypeit6() {
+  var c = document.getElementById('typeit6-items');
+  TI6.forEach(function(q, i) {
+    var div = document.createElement('div');
+    div.className = 'typeit-item';
+    div.innerHTML = '<div class="typeit-sent">' + q.pre +
+      '<input class="typeit-input" id="ti6-' + i + '" placeholder="…" autocomplete="off" spellcheck="false">' +
+      q.post + '</div><div class="typeit-fb" id="ti6-fb-' + i + '"></div>';
+    c.appendChild(div);
+  });
+}
+
+function checkTypeit6() {
+  var ok = 0;
+  TI6.forEach(function(q, i) {
+    var inp = document.getElementById('ti6-' + i);
+    var val = norm(inp.value);
+    var correct = val === norm(q.ans) || q.alt.some(function(a) { return val === norm(a); });
+    inp.className = 'typeit-input ' + (correct ? 'cor' : 'wrg');
+    inp.readOnly = true;
+    var fb = document.getElementById('ti6-fb-' + i);
+    if (correct) { ok++; fb.textContent = '🌟 Well done!'; fb.className = 'typeit-fb show ok'; }
+    else { fb.innerHTML = '💪 Answer: <strong style="color:#1565c0">' + q.ans + '</strong>'; fb.className = 'typeit-fb show err'; }
+  });
+  earn(ok, TI6.length);
+  done[6] = true;
+  document.getElementById('typeit6-check').disabled = true;
+  document.getElementById('typeit6-check').textContent = '🌟 ' + ok + ' / ' + TI6.length + ' correct!';
+}
+
+// ─── PAGE 7 · WRITE IT ──────────────────────────────
+var W7 = [
+  { icon: '👧', pr: 'she / visit / her grandma', hint: 'She is going to…', ans: 'she is going to visit her grandma', alt: [] },
+  { icon: '👦', pr: 'he / not / play / football today', hint: 'He is not going to…', ans: 'he is not going to play football today', alt: ['he is not going to play football'] },
+  { icon: '👨‍👩‍👧', pr: 'they / travel / to Italy', hint: 'They are going to…', ans: 'they are going to travel to italy', alt: [] },
+  { icon: '🐱', pr: 'the cat / not / sleep / inside', hint: 'The cat is not going to…', ans: 'the cat is not going to sleep inside', alt: [] },
+  { icon: '👧', pr: 'I / eat / watermelon', hint: 'I am going to…', ans: 'i am going to eat watermelon', alt: [] }
+];
+
+function initWrite7() {
+  var c = document.getElementById('write7-items');
+  W7.forEach(function(q, i) {
+    var div = document.createElement('div');
+    div.className = 'write-item';
+    div.innerHTML = '<div class="write-pr">' + q.icon +
+      ' Words: <strong style="color:#9c27b0">' + q.pr + '</strong>' +
+      '<br><span style="font-size:.82rem;color:#aaa;font-weight:600">' + q.hint + '</span></div>' +
+      '<input class="write-input" id="wi7-' + i + '" placeholder="Write your sentence here…" autocomplete="off" spellcheck="false">' +
+      '<div class="write-fb" id="wi7-fb-' + i + '"></div>';
+    c.appendChild(div);
+  });
+}
+
+function checkWrite7() {
+  var ok = 0;
+  W7.forEach(function(q, i) {
+    var inp = document.getElementById('wi7-' + i);
+    var val = norm(inp.value);
+    var correct = val === norm(q.ans) || q.alt.some(function(a) { return val === norm(a); });
+    inp.className = 'write-input ' + (correct ? 'cor' : 'wrg');
+    inp.readOnly = true;
+    var fb = document.getElementById('wi7-fb-' + i);
+    var pretty = q.ans.charAt(0).toUpperCase() + q.ans.slice(1) + '.';
+    if (correct) { ok++; fb.textContent = '🌟 Well done!'; fb.className = 'write-fb show ok'; }
+    else { fb.innerHTML = '💪 Check: <span style="color:#1565c0;font-weight:900">' + pretty + '</span>'; fb.className = 'write-fb show err'; }
+  });
+  earn(ok, W7.length);
+  done[7] = true;
+  document.getElementById('write7-check').disabled = true;
+  document.getElementById('write7-check').textContent = '🌟 ' + ok + ' / ' + W7.length + ' correct!';
+}
+
+// ─── PAGE 8 · FIX THE MISTAKE ───────────────────────
+var ERR8 = [
+  { sent: 'She <w>are</w> going to swim in the pool.',     opts: ['am','is','are'],  ans: 1 },
+  { sent: 'I <w>is</w> going to eat ice cream.',           opts: ['am','is','are'],  ans: 0 },
+  { sent: 'They <w>is</w> going to travel tomorrow.',      opts: ['am','is','are'],  ans: 2 },
+  { sent: 'We <w>am</w> going to visit the castle.',       opts: ['am','is','are'],  ans: 2 },
+  { sent: '<w>Is</w> you going to swim today?',            opts: ['Am','Is','Are'],  ans: 2 },
+  { sent: 'He is going to <w>goes</w> to the beach.',      opts: ['go','going','goes'], ans: 0 }
+];
+var err8st = {};
+
+function initErr8() {
+  var c = document.getElementById('err8-items');
+  ERR8.forEach(function(q, i) {
+    err8st[i] = -1;
+    var div = document.createElement('div');
+    div.className = 'err-item';
+    var sentHtml = q.sent.replace(/<w>(.*?)<\/w>/g, '<span class="err-wrong">$1</span>');
+    var oh = q.opts.map(function(o, j) {
+      return '<button class="err-btn" id="e8-' + i + '-' + j + '" onclick="selErr8(' + i + ',' + j + ')">' + o + '</button>';
+    }).join('');
+    div.innerHTML = '<div class="err-sent">' + (i+1) + '. ' + sentHtml + '</div><div class="err-opts">' + oh + '</div><div class="err-fb" id="e8-fb-' + i + '"></div>';
+    c.appendChild(div);
+  });
+}
+
+function selErr8(qi, oi) {
+  if (document.getElementById('err8-check').disabled) return;
+  err8st[qi] = oi;
+  ERR8[qi].opts.forEach(function(_, j) {
+    document.getElementById('e8-' + qi + '-' + j).className = 'err-btn' + (j === oi ? ' sel' : '');
+  });
+}
+
+function checkErr8() {
+  var ok = 0;
+  ERR8.forEach(function(q, i) {
+    var ch = err8st[i];
+    var fb = document.getElementById('e8-fb-' + i);
+    q.opts.forEach(function(_, j) {
+      var b = document.getElementById('e8-' + i + '-' + j);
+      b.classList.remove('sel','cor','wrg');
+      if (j === q.ans) b.classList.add('cor');
+      else if (j === ch && ch !== q.ans) b.classList.add('wrg');
+    });
+    if (ch === q.ans) { ok++; fb.textContent = '🌟 Great detective work!'; fb.className = 'err-fb show ok'; }
+    else { fb.textContent = '💪 The correct word is: ' + q.opts[q.ans]; fb.className = 'err-fb show err'; }
+  });
+  earn(ok, ERR8.length);
+  done[8] = true;
+  document.getElementById('err8-check').disabled = true;
+  document.getElementById('err8-check').textContent = '🌟 ' + ok + ' / ' + ERR8.length + ' correct!';
+}
+
+// ─── PAGE 9 · READING ───────────────────────────────
+var R9 = [
+  { q: '1. Where is Emma going to visit?',
+    opts: ['Her grandparents in the countryside','The beach in Spain','A big city','A theme park'],
+    ans: 0 },
+  { q: '2. What is Emma going to help her grandma with?',
+    opts: ['Baking a cake','Making strawberry jam','Cooking pasta','Painting the house'],
+    ans: 1 },
+  { q: '3. Why is Tom NOT going to come?',
+    opts: ['He is going to work at a cafe','He is going on holiday','He is sick','He has school'],
+    ans: 0 },
+  { q: '4. What is Emma\'s mum going to bake?',
+    opts: ['A strawberry cake','A pizza','A chocolate cake','Biscuits'],
+    ans: 2 },
+  { q: '5. What are they going to do on Friday?',
+    opts: ['Go swimming','Have a party for grandpa','Travel to the city','Visit a museum'],
+    ans: 1 }
+];
+var r9st = {};
+
+function initRead9() {
+  var c = document.getElementById('read9-items');
+  R9.forEach(function(q, i) {
+    r9st[i] = -1;
+    var div = document.createElement('div');
+    div.className = 'mcq-item';
+    var oh = q.opts.map(function(o, j) {
+      return '<button class="mcq-btn" id="r9-' + i + '-' + j + '" onclick="selR9(' + i + ',' + j + ')">' + o + '</button>';
+    }).join('');
+    div.innerHTML = '<div class="mcq-sent">' + q.q + '</div><div class="mcq-opts">' + oh + '</div><div class="mcq-fb" id="r9-fb-' + i + '"></div>';
+    c.appendChild(div);
+  });
+}
+
+function selR9(qi, oi) {
+  if (document.getElementById('read9-check').disabled) return;
+  r9st[qi] = oi;
+  R9[qi].opts.forEach(function(_, j) {
+    document.getElementById('r9-' + qi + '-' + j).className = 'mcq-btn' + (j === oi ? ' sel' : '');
+  });
+}
+
+function checkRead9() {
+  var ok = 0;
+  R9.forEach(function(q, i) {
+    var ch = r9st[i];
+    var fb = document.getElementById('r9-fb-' + i);
+    q.opts.forEach(function(_, j) {
+      var b = document.getElementById('r9-' + i + '-' + j);
+      b.classList.remove('sel','cor','wrg');
+      if (j === q.ans) b.classList.add('cor');
+      else if (j === ch && ch !== q.ans) b.classList.add('wrg');
+    });
+    if (ch === q.ans) { ok++; fb.textContent = '🌟 Correct!'; fb.className = 'mcq-fb show ok'; }
+    else { fb.textContent = '💪 Answer: ' + q.opts[q.ans]; fb.className = 'mcq-fb show err'; }
+  });
+  earn(ok, R9.length);
+  done[9] = true;
+  document.getElementById('read9-check').disabled = true;
+  document.getElementById('read9-check').textContent = '🌟 ' + ok + ' / ' + R9.length + ' correct!';
+}
+
+// ─── PAGE 10 · DIALOGUE ─────────────────────────────
+var WB = ['going to','Are','are going to','am going to','do','learn'];
+
+var DIAL_LINES = [
+  { spk: 'A', name: 'Sophie', cls: 'a', bub: 'a-bub', text: 'Hi Anna! What are you going to do this summer?' },
+  { spk: 'B', name: 'Anna',   cls: 'b', bub: 'b-bub', text: 'I am [0] visit my cousins in Italy!', gap: 0, ans: 'going to' },
+  { spk: 'A', name: 'Sophie', cls: 'a', bub: 'a-bub', text: 'Amazing! [1] you going to swim in the sea?', gap: 1, ans: 'Are' },
+  { spk: 'B', name: 'Anna',   cls: 'b', bub: 'b-bub', text: 'Yes! And we [2] go to a water park too!', gap: 2, ans: 'are going to' },
+  { spk: 'A', name: 'Sophie', cls: 'a', bub: 'a-bub', text: 'I [3] stay at home this summer.', gap: 3, ans: 'am going to' },
+  { spk: 'B', name: 'Anna',   cls: 'b', bub: 'b-bub', text: 'Oh no! What are you going to [4]?', gap: 4, ans: 'do' },
+  { spk: 'A', name: 'Sophie', cls: 'a', bub: 'a-bub', text: 'I am going to [5] how to draw!', gap: 5, ans: 'learn' }
+];
+
+function initDial10() {
+  // word bank chips
+  var wbc = document.getElementById('wb-chips');
+  WB.forEach(function(w) {
+    var sp = document.createElement('span');
+    sp.className = 'wb-chip';
+    sp.textContent = w;
+    wbc.appendChild(sp);
+  });
+
+  var dw = document.getElementById('dialogue-wrap');
+  DIAL_LINES.forEach(function(line) {
+    var row = document.createElement('div');
+    row.className = 'd-line';
+    var nameDiv = document.createElement('div');
+    nameDiv.className = 'd-name ' + line.cls;
+    nameDiv.textContent = line.name + ':';
+    var bub = document.createElement('div');
+    bub.className = 'd-bubble ' + line.bub;
+    if (line.gap !== undefined) {
+      var txt = line.text.replace('[' + line.gap + ']',
+        '<input class="d-input" id="dl-' + line.gap + '" placeholder="…" autocomplete="off" spellcheck="false">');
+      bub.innerHTML = txt;
+    } else {
+      bub.textContent = line.text;
+    }
+    row.appendChild(nameDiv);
+    row.appendChild(bub);
+    dw.appendChild(row);
+  });
+}
+
+function checkDial10() {
+  var ok = 0;
+  var gapLines = DIAL_LINES.filter(function(l) { return l.gap !== undefined; });
+  gapLines.forEach(function(line) {
+    var inp = document.getElementById('dl-' + line.gap);
+    var val = norm(inp.value);
+    var correct = val === norm(line.ans);
+    inp.className = 'd-input ' + (correct ? 'cor' : 'wrg');
+    inp.readOnly = true;
+    if (correct) ok++;
+    else inp.title = 'Answer: ' + line.ans;
+  });
+  earn(ok, gapLines.length);
+  done[10] = true;
+  document.getElementById('dial10-check').disabled = true;
+  document.getElementById('dial10-check').textContent = '🌟 ' + ok + ' / ' + gapLines.length + ' correct!';
+}
+
+// ─── PAGES 11 & 12 · SPEAKING ───────────────────────
+var SP1_D = [
+  { e:'🏄', q:'Are you going to go to the beach this summer?',                hint:'Yes, I am going to… / No, I am not going to…',       starts:['Yes, I am going to…','No, I am not going to…'] },
+  { e:'🍦', q:'What are you going to eat on holiday?',                          hint:'Think of your favourite summer food!',                         starts:['I am going to eat…','We are going to eat…'] },
+  { e:'👯', q:'Are you going to play with your friends this summer?',           hint:'What are you going to do together?',                           starts:['Yes! We are going to…','My friend and I are going to…'] },
+  { e:'📚', q:'Are you going to read any books this summer?',                   hint:'Do you have a favourite book?',                                starts:['I am going to read…','I am not going to read because…'] },
+  { e:'✈️', q:'Are you going to travel anywhere? Where?',                       hint:'A city, a country, or maybe you stay home!',                  starts:['We are going to go to…','I am going to stay…'] },
+  { e:'🌟', q:'What is the most exciting thing you are going to do this summer?', hint:'Tell me everything! 😄',                          starts:['The most exciting thing is…','I am going to…'] }
+];
+
+var SP2_D = [
+  { e:'😎', q:'Tell me THREE things you are going to do this summer.',          hint:'Try to say three sentences!',                                 starts:['First, I am going to…','Then, I am going to…','Finally, I am going to…'] },
+  { e:'💡', q:'Your friend wants to stay at home all summer. What are you going to say?', hint:'Tell them your summer plans to make them excited!', starts:['You should come! We are going to…','I am going to… It is going to be so fun!'] },
+  { e:'🌈', q:'Describe the PERFECT summer day. What is going to happen from morning to night?', hint:'Use going to for each part of the day!',     starts:['In the morning, I am going to…','In the afternoon, we are going to…','In the evening, I am going to…'] },
+  { e:'🚫', q:'What are you NOT going to do this summer? Give two examples and say why.',  hint:'Use the negative form: I am not going to…',    starts:['I am not going to… because…','I am definitely not going to…'] },
+  { e:'🤔', q:'Is your teacher going to have a nice summer? Ask her three questions!',     hint:'Use: Are you going to…? Is your… going to…?', starts:['Are you going to…?','Is your family going to…?'] },
+  { e:'📝', q:'Imagine you are Emma from the diary. Tell me about YOUR summer plans!',     hint:'Use her plans from the story, but say them as you!',  starts:['I am going to visit…','My family is going to…','I am not going to…'] }
+];
+
+var spCur = { 1: 0, 2: 0 };
+
+function initSp(n) {
+  var data = n === 1 ? SP1_D : SP2_D;
+  var cid = 'sp' + n + '-cards';
+  var did = 'sp' + n + '-dots';
+  var c = document.getElementById(cid);
+  var dc = document.getElementById(did);
+  data.forEach(function(d, i) {
+    var card = document.createElement('div');
+    card.className = 'speak-card' + (n === 2 ? ' sp2-card' : '') + (i === 0 ? ' on' : '');
+    card.id = 'sp' + n + '-card-' + i;
+    var sh = d.starts.map(function(s) { return '<span class="sp-starter">' + s + '</span>'; }).join('');
+    card.innerHTML = '<div class="speak-emoji">' + d.e + '</div><div class="speak-q">' + d.q + '</div><div class="speak-hint">' + d.hint + '</div><div class="speak-starters">' + sh + '</div>';
+    c.appendChild(card);
+    var dot = document.createElement('div');
+    dot.className = 'cdot' + (i === 0 ? ' on' : '');
+    dot.id = 'sp' + n + '-dot-' + i;
+    dc.appendChild(dot);
+  });
+  updateSp(n);
+}
+
+function moveSp(n, dir) {
+  var data = n === 1 ? SP1_D : SP2_D;
+  spCur[n] = Math.max(0, Math.min(data.length - 1, spCur[n] + dir));
+  updateSp(n);
+}
+
+function updateSp(n) {
+  var data = n === 1 ? SP1_D : SP2_D;
+  data.forEach(function(_, i) {
+    document.getElementById('sp' + n + '-card-' + i).className = 'speak-card' + (n === 2 ? ' sp2-card' : '') + (i === spCur[n] ? ' on' : '');
+    document.getElementById('sp' + n + '-dot-' + i).className = 'cdot' + (i === spCur[n] ? ' on' : '');
+  });
+  document.getElementById('sp' + n + '-prev').disabled = spCur[n] === 0;
+  document.getElementById('sp' + n + '-next').disabled = spCur[n] === data.length - 1;
+  document.getElementById('sp' + n + '-ctr').textContent = (spCur[n] + 1) + ' / ' + data.length;
+}
+
+// ─── PAGE 13 · RESULTS ──────────────────────────────
+function showResults() {
+  done[16] = true;
+  var pct = maxPts > 0 ? Math.round((pts / maxPts) * 100) : 0;
+  document.getElementById('resultScore').textContent = pts;
+  document.getElementById('resultLbl').textContent = 'points out of ' + maxPts;
+  var star, msg;
+  if (pct >= 90) { star = '🌟🌟🌟'; msg = 'AMAZING! You are a going to superstar! Have a wonderful summer! 🎉'; }
+  else if (pct >= 70) { star = '🌟🌟'; msg = 'Very well done! You understand going to really well! Keep practising! 😄'; }
+  else if (pct >= 50) { star = '🌟'; msg = 'Good job! Practise a bit more and you will be amazing! 💪'; }
+  else { star = '☀️'; msg = 'Keep going! Every great learner starts somewhere. You can do it! 😊'; }
+  document.getElementById('resultStar').textContent = star;
+  document.getElementById('resultMsg').textContent = msg;
+  setTimeout(function() { document.getElementById('resultBar').style.width = pct + '%'; }, 400);
+  document.querySelectorAll('.dot').forEach(function(d, i) {
+    if (i < 16) d.classList.add('done');
+    if (i === 16) { d.classList.remove('done'); d.classList.add('active'); }
+  });
+}
+
+
+// ─── PAGE 13 · MEMORY GAME ───────────────────────────
+var MEM_PAIRS = [
+  { id: 0, pic: '🏖️', lbl: 'beach',     sent: 'She is going to build a sandcastle.' },
+  { id: 1, pic: '🍦', lbl: 'ice cream', sent: 'He is going to eat an ice cream.' },
+  { id: 2, pic: '🚣', lbl: 'rowing',    sent: 'They are going to sail on the lake.' },
+  { id: 3, pic: '⛺', lbl: 'camping',   sent: 'We are going to sleep in a tent.' }
+];
+var memFlipped = [];
+var memMatched = 0;
+var memLocked = false;
+
+function initMemory13() {
+  var cards = [];
+  MEM_PAIRS.forEach(function(p) {
+    cards.push({ pairId: p.id, type: 'pic',  content: p.pic + '<br><span style="font-size:.7rem">' + p.lbl + '</span>' });
+    cards.push({ pairId: p.id, type: 'sent', content: p.sent });
+  });
+  for (var i = cards.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = cards[i]; cards[i] = cards[j]; cards[j] = tmp;
+  }
+  var grid = document.getElementById('mem-grid');
+  grid.innerHTML = '';
+  memFlipped = []; memMatched = 0; memLocked = false;
+  cards.forEach(function(card, idx) {
+    var div = document.createElement('div');
+    div.className = 'mem-card';
+    div.id = 'mc-' + idx;
+    div.setAttribute('data-pair', card.pairId);
+    div.setAttribute('data-type', card.type);
+    div.innerHTML = '<div class="mem-inner"><div class="mem-face mem-frt" style="font-size:2rem;font-weight:900;color:#fff;text-shadow:2px 2px 0 rgba(0,0,0,.2)">' + (idx+1) + '</div><div class="mem-face mem-bk">' + card.content + '</div></div>';
+    (function(i2){ div.onclick = function(){ flipMemCard(i2); }; })(idx);
+    grid.appendChild(div);
+  });
+  document.getElementById('mem-score').textContent = '\u{1F0CF} 0 / 4 pairs found';
+}
+
+function flipMemCard(idx) {
+  if (memLocked) return;
+  var card = document.getElementById('mc-' + idx);
+  if (!card || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  memFlipped.push(idx);
+  if (memFlipped.length === 2) { memLocked = true; setTimeout(checkMemPair, 700); }
+}
+
+function checkMemPair() {
+  var a = document.getElementById('mc-' + memFlipped[0]);
+  var b = document.getElementById('mc-' + memFlipped[1]);
+  var samePair = a.getAttribute('data-pair') === b.getAttribute('data-pair');
+  var sameType = a.getAttribute('data-type') === b.getAttribute('data-type');
+  if (samePair && !sameType) {
+    a.classList.add('matched'); b.classList.add('matched');
+    a.classList.remove('flipped'); b.classList.remove('flipped');
+    memMatched++;
+    earn(1, 0);
+    var scoreEl = document.getElementById('mem-score');
+    if (memMatched === 4) {
+      scoreEl.textContent = '🎉 Amazing! All 4 pairs found! 🌟';
+      earn(0, 4); done[13] = true;
+    } else {
+      scoreEl.textContent = '✅ ' + memMatched + ' / 4 pairs found — keep going!';
+    }
+  } else {
+    a.classList.add('bad-flash'); b.classList.add('bad-flash');
+    setTimeout(function() {
+      a.classList.remove('flipped','bad-flash');
+      b.classList.remove('flipped','bad-flash');
+    }, 500);
+  }
+  memFlipped = []; memLocked = false;
+}
+
+// ─── PAGE 14 · RIDDLES ───────────────────────────────
+var RIDDLES14 = [
+  { icon: '🌊', q: 'I have waves but no water. You put your towel on me and build things with me. What am I?',
+    opts: ['A cloud', 'A beach', 'A river'], ans: 1,
+    bonus: 'I am going to visit the beach this summer!' },
+  { icon: '🍦', q: 'I am cold, sweet, and you eat me when it is hot. I come in many flavours. What am I?',
+    opts: ['A snowflake', 'A cake', 'An ice cream'], ans: 2,
+    bonus: 'I am going to eat a big ice cream today!' },
+  { icon: '✈️', q: 'I can take you to another country. I am big and fly very high. I am not a bird. What am I?',
+    opts: ['An aeroplane', 'A boat', 'A kite'], ans: 0,
+    bonus: 'We are going to fly to another country!' },
+  { icon: '☀️', q: 'I shine every day in summer. I am hot and bright yellow. I make the beach warm. What am I?',
+    opts: ['The moon', 'The sun', 'A lamp'], ans: 1,
+    bonus: 'The sun is going to shine all week!' },
+  { icon: '🏊', q: 'You swim inside me when you do not want to go to the sea. I am blue and full of water. What am I?',
+    opts: ['A bathtub', 'A puddle', 'A swimming pool'], ans: 2,
+    bonus: 'She is going to swim in the pool tomorrow!' }
+];
+var rSt14 = {};
+
+function initRiddles14() {
+  var c = document.getElementById('riddle14-items');
+  RIDDLES14.forEach(function(r, i) {
+    rSt14[i] = -1;
+    var div = document.createElement('div');
+    div.className = 'riddle-card';
+    var oh = r.opts.map(function(o, j) {
+      return '<button class="riddle-btn" id="rd-' + i + '-' + j + '" onclick="pickRiddle14(' + i + ',' + j + ')">' + o + '</button>';
+    }).join('');
+    div.innerHTML =
+      '<div class="riddle-q">' + r.icon + ' <strong>Riddle ' + (i+1) + ':</strong> ' + r.q + '</div>' +
+      '<div class="riddle-opts">' + oh + '</div>' +
+      '<div class="riddle-fb" id="rd-fb-' + i + '"></div>' +
+      '<div class="riddle-bonus" id="rd-bonus-' + i + '">💬 Going to sentence: ' + r.bonus + '</div>';
+    c.appendChild(div);
+  });
+}
+
+function pickRiddle14(qi, oi) {
+  if (rSt14[qi] !== -1) return;
+  rSt14[qi] = oi;
+  var r = RIDDLES14[qi];
+  r.opts.forEach(function(_, j) {
+    var b = document.getElementById('rd-' + qi + '-' + j);
+    b.disabled = true;
+    if (j === r.ans) b.classList.add('cor');
+    else if (j === oi && oi !== r.ans) b.classList.add('wrg');
+  });
+  var fb = document.getElementById('rd-fb-' + qi);
+  var bonus = document.getElementById('rd-bonus-' + qi);
+  if (oi === r.ans) {
+    fb.textContent = '🌟 Yes! That is correct!'; fb.className = 'riddle-fb show ok';
+    earn(1, 0);
+  } else {
+    fb.textContent = '💪 Not quite! The answer is: ' + r.opts[r.ans]; fb.className = 'riddle-fb show err';
+  }
+  bonus.className = 'riddle-bonus show';
+  var allDone = RIDDLES14.every(function(_, i) { return rSt14[i] !== -1; });
+  if (allDone) { earn(0, RIDDLES14.length); done[14] = true; }
+}
+
+// ─── PAGE 15 · CHOOSE YOUR ADVENTURE ────────────────
+var ADV_TREE = {
+  // ── SCENE 1 ─────────────────────────────────────────
+  start: {
+    step: 'Scene 1 of 6', emoji: '\u{1F305}',
+    txt: 'It is the first day of summer holiday! Sofia wakes up and the sun is shining. She runs to the window and shouts: "Summer is here!" Her mum smiles. "So Sofia, what are you going to do today?"',
+    choices: [
+      { label: '\u{1F3D6}️ She is going to go to the beach with her dad!', next: 'beach_s2' },
+      { label: '\u{1F333} She is going to meet her friend Mia in the park!',     next: 'park_s2'  }
+    ]
+  },
+
+  // ── BEACH PATH ──────────────────────────────────────
+  beach_s2: {
+    step: 'Scene 2 of 6  ·  Beach \u{1F3D6}️', emoji: '\u{1F30A}',
+    txt: 'Sofia and her dad arrive at the beach. The sea is bright blue and the sand is warm. She can see an ice cream stand and the perfect blue waves. She has her swimming costume on and cannot decide what to do first!',
+    choices: [
+      { label: '\u{1F3CA} She is going to swim in the sea first!',    next: 'beach_s3a' },
+      { label: '\u{1F366} She is going to get an ice cream first!',   next: 'beach_s3b' }
+    ]
+  },
+  beach_s3a: {
+    step: 'Scene 3 of 6  ·  Beach \u{1F3D6}️', emoji: '\u{1F30A}',
+    txt: 'Sofia runs into the sea! The water is cold but amazing. She swims and laughs. Then she sees it — a HUGE wave coming towards her! What is Sofia going to do?',
+    choices: [
+      { label: '\u{1F30A} She is going to jump over the wave!',        next: 'beach_s4' },
+      { label: '\u{1F3C3} She is going to run back to the shore!',     next: 'beach_s4' }
+    ]
+  },
+  beach_s3b: {
+    step: 'Scene 3 of 6  ·  Beach \u{1F3D6}️', emoji: '\u{1F366}',
+    txt: 'Sofia gets a big strawberry ice cream. It is SO delicious! But it is very hot and the ice cream is melting fast. Drip... drip... drip... It is going to fall! What is Sofia going to do?',
+    choices: [
+      { label: '\u{1F60B} She is going to eat it faster!',                      next: 'beach_s4' },
+      { label: '\u{1F602} She is going to let it melt — it is funny!',          next: 'beach_s4' }
+    ]
+  },
+  beach_s4: {
+    step: 'Scene 4 of 6  ·  Beach \u{1F3D6}️', emoji: '\u{1F3D6}️',
+    txt: 'After all the excitement, Sofia sits on the warm sand. Her friend Tom calls her: "Sofia! I am going to come to the beach too! Are you going to wait for me?" Sofia thinks... what is she going to do while she waits?',
+    choices: [
+      { label: '\u{1F3F0} She is going to build a sandcastle!',            next: 'beach_s5a' },
+      { label: '\u{1F634} She is going to have a little nap in the sun!',  next: 'beach_s5b' }
+    ]
+  },
+  beach_s5a: {
+    step: 'Scene 5 of 6  ·  Beach \u{1F3D6}️', emoji: '\u{1F3F0}',
+    txt: 'Sofia is going to build the BIGGEST sandcastle ever! She uses her bucket and spade and works very hard. When Tom arrives he shouts: "WOW! That is the best sandcastle I have ever seen!" Together they are going to add a moat and a flag!',
+    choices: [
+      { label: '\u{1F305} It is getting late. They are going to watch the sunset!', next: 'beach_end' }
+    ]
+  },
+  beach_s5b: {
+    step: 'Scene 5 of 6  ·  Beach \u{1F3D6}️', emoji: '\u{1F634}',
+    txt: 'Sofia closes her eyes in the warm sun. She is going to have just a tiny sleep... but she sleeps for 20 minutes! When she wakes up, Tom is already there — he has drawn funny faces all around her in the sand!',
+    choices: [
+      { label: '\u{1F305} They are all going to watch the sunset together!', next: 'beach_end' }
+    ]
+  },
+  beach_end: {
+    step: 'Scene 6 of 6  ·  The End! \u{1F389}', emoji: '\u{1F31F}', end: true, choices: [],
+    txt: 'The sky turns pink and orange. Her dad says: "We are going to have fish and chips for dinner!" Sofia smiles the biggest smile. She is going to remember this day forever. The sea, the sand, the sun... it was the BEST beach day of her life! \u{1F30A}\u{1F366}\u{1F31F}'
+  },
+
+  // ── PARK PATH ───────────────────────────────────────
+  park_s2: {
+    step: 'Scene 2 of 6  ·  Park \u{1F333}', emoji: '\u{1F333}',
+    txt: 'Sofia skips to the park. The grass is green and the flowers are beautiful. She can hear music from the cafe nearby. But where is Mia? Sofia looks all around the park...',
+    choices: [
+      { label: '\u{1F6DD} She is going to go on the swings while she waits!', next: 'park_s3a' },
+      { label: '\u{1F4DE} She is going to call Mia to find her!',             next: 'park_s3b' }
+    ]
+  },
+  park_s3a: {
+    step: 'Scene 3 of 6  ·  Park \u{1F333}', emoji: '\u{1F6DD}',
+    txt: 'Sofia is on the swings, going higher and higher! "I am going to touch the clouds!" she laughs. Then she sees Mia running across the grass. Mia is waving and she has a big bag. What is inside?',
+    choices: [
+      { label: '\u{1F9FA} It is a picnic! They are going to eat in the park!',   next: 'park_s4' },
+      { label: '\u{1F3F8} It is badminton! They are going to play a game!',       next: 'park_s4' }
+    ]
+  },
+  park_s3b: {
+    step: 'Scene 3 of 6  ·  Park \u{1F333}', emoji: '\u{1F4DE}',
+    txt: '"I am going to be there in 2 minutes!" says Mia. "And I am going to bring a big surprise!" True to her word, Mia arrives in 2 minutes with a huge bag and a big smile. But what is inside?',
+    choices: [
+      { label: '\u{1F9FA} It is a picnic! They are going to eat in the park!',  next: 'park_s4' },
+      { label: '\u{1F3F8} It is badminton! They are going to play!',             next: 'park_s4' }
+    ]
+  },
+  park_s4: {
+    step: 'Scene 4 of 6  ·  Park \u{1F333}', emoji: '⛅',
+    txt: 'They are having so much fun! Then big grey clouds appear in the sky. BOOM! A roll of thunder. It is going to rain very soon! Sofia and Mia look at each other. What are they going to do?',
+    choices: [
+      { label: '☕ They are going to run to the park cafe!',     next: 'park_s5a' },
+      { label: '\u{1F327}️ They are going to dance in the rain!', next: 'park_s5b' }
+    ]
+  },
+  park_s5a: {
+    step: 'Scene 5 of 6  ·  Park \u{1F333}', emoji: '☕',
+    txt: 'Sofia and Mia run to the cosy cafe! They are going to have hot chocolate and watch the rain from the window. The cafe smells of cookies and coffee. They are going to tell each other funny stories until the rain stops.',
+    choices: [
+      { label: '\u{1F308} The rain stops! They are going to see a rainbow!', next: 'park_end' }
+    ]
+  },
+  park_s5b: {
+    step: 'Scene 5 of 6  ·  Park \u{1F333}', emoji: '\u{1F327}️',
+    txt: 'Sofia and Mia are going to dance in the rain! They jump in puddles and sing as loud as they can. They are completely wet and completely happy. A man with an umbrella stops to watch them and laughs. This story is going to be LEGENDARY at school!',
+    choices: [
+      { label: '\u{1F308} The rain stops! A beautiful rainbow appears!', next: 'park_end' }
+    ]
+  },
+  park_end: {
+    step: 'Scene 6 of 6  ·  The End! \u{1F389}', emoji: '\u{1F308}', end: true, choices: [],
+    txt: 'A beautiful rainbow stretches right over the park! Sofia and Mia hold hands and make a wish. "I am going to have the best summer ever!" says Sofia. "Me too!" says Mia. They are going to meet here again tomorrow — and every day of summer! \u{1F333}\u{1F308}⭐'
+  }
+};
+var advState = 'start';
+var advEarned = false;
+
+function initAdventure15() { advState = 'start'; advEarned = false; renderAdv(); }
+
+function renderAdv() {
+  var sc = ADV_TREE[advState];
+  var wrap = document.getElementById('adv15-wrap');
+  var chHtml = sc.choices.map(function(ch) {
+    return '<button class="adv-btn" onclick="pickAdv(\'' + ch.next + '\')">' + ch.label + '</button>';
+  }).join('');
+  var endTag  = sc.end ? '<div class="adv-end-tag">\u{1F389} ' + sc.step + '</div>' : '';
+  var restart = sc.end ? '<button class="adv-restart" onclick="initAdventure15()">\u{1F504} Play again!</button>' : '';
+  wrap.innerHTML =
+    '<div class="adv-scene">' +
+    '<div class="adv-step">' + sc.step + '</div>' +
+    '<div style="font-size:2.8rem;text-align:center;margin-bottom:12px">' + sc.emoji + '</div>' +
+    endTag +
+    '<div class="adv-scene-txt">' + sc.txt + '</div>' +
+    (chHtml ? '<div class="adv-choice-wrap">' + chHtml + '</div>' : '') +
+    restart +
+    '</div>';
+  if (sc.end && !advEarned) { earn(2, 2); done[15] = true; advEarned = true; }
+}
+
+function pickAdv(next) { advState = next; renderAdv(); }
+
+// ─── INIT ────────────────────────────────────────────
+buildDots();
+document.getElementById('navInfo').textContent = 'Page 1 of ' + TOTAL + ' — ' + LABELS[0];
+document.getElementById('btnPrev').disabled = true;
+lazyInit(0);
+</script>
+</body>
+</html>
